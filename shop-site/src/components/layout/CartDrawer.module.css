@@ -1,0 +1,124 @@
+.overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 199;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.overlayVisible { opacity: 1; pointer-events: all; }
+
+.drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 400px; max-width: 100vw;
+    background: #0f0f0f;
+    z-index: 200;
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    border-left: 1px solid rgba(255,255,255,0.06);
+}
+
+.drawerOpen { transform: translateX(0); }
+
+.header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.title {
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase; color: #fff;
+}
+
+.closeBtn {
+    background: none; border: none;
+    color: rgba(255,255,255,0.5); cursor: pointer; padding: 4px;
+    transition: color 0.2s;
+}
+.closeBtn:hover { color: #fff; }
+
+.items { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
+
+.empty {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 200px; gap: 1.5rem; text-align: center;
+}
+.empty p { color: rgba(255,255,255,0.35); font-size: 0.85rem; }
+
+.continueShopping {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.6);
+    cursor: pointer; padding: 0.6rem 1.2rem;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    transition: border-color 0.2s, color 0.2s;
+}
+.continueShopping:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+
+.item {
+    display: grid; grid-template-columns: 64px 1fr auto;
+    gap: 1rem; align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.itemImage { width: 64px; height: 64px; border-radius: 4px; overflow: hidden; background: #1a1a1a; }
+
+.itemImagePlaceholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; font-weight: 700;
+    color: rgba(255,255,255,0.2);
+}
+
+.itemInfo { display: flex; flex-direction: column; gap: 0.25rem; }
+.itemName { font-size: 0.8rem; font-weight: 500; color: #fff; }
+.itemSize { font-size: 0.68rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.08em; }
+.itemPrice { font-size: 0.82rem; color: rgba(255,255,255,0.6); }
+
+.itemControls { display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+
+.qty {
+    display: flex; align-items: center; gap: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 0.15rem 0.5rem; border-radius: 2px;
+}
+.qty button {
+    background: none; border: none;
+    color: rgba(255,255,255,0.5); cursor: pointer;
+    font-size: 1rem; line-height: 1; padding: 0 2px;
+    transition: color 0.2s;
+}
+.qty button:hover { color: #fff; }
+.qty span { font-size: 0.78rem; color: #fff; min-width: 14px; text-align: center; }
+
+.removeBtn {
+    background: none; border: none;
+    color: rgba(255,255,255,0.25); cursor: pointer; padding: 2px;
+    transition: color 0.2s;
+}
+.removeBtn:hover { color: #ff4444; }
+
+.footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; flex-direction: column; gap: 0.75rem;
+}
+
+.subtotal { display: flex; justify-content: space-between; align-items: center; }
+.subtotal span { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+.subtotalPrice { font-size: 1.1rem !important; font-weight: 600; color: #fff !important; letter-spacing: 0 !important; }
+
+.shippingNote { font-size: 0.65rem; color: rgba(255,255,255,0.25); text-align: center; margin: 0; }
+
+.checkoutBtn {
+    background: #fff; color: #000; border: none;
+    padding: 1rem; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+}
+.checkoutBtn:hover { background: #C9A84C; }

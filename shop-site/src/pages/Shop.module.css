@@ -1,0 +1,73 @@
+.page {
+    min-height: 100vh;
+    padding-top: 70px;
+    background: #080808;
+    color: #fff;
+}
+
+.hero {
+    padding: 5rem 2rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.heroInner { max-width: 600px; }
+
+.eyebrow {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); display: block; margin-bottom: 1rem;
+}
+
+.heroTitle {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin: 0;
+}
+
+.heroTitle em { font-style: italic; color: rgba(255,255,255,0.45); }
+
+.heroLine {
+    width: 100%; height: 1px;
+    background: rgba(255,255,255,0.06); margin-top: 3rem;
+}
+
+.catalog {
+    max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 6rem;
+}
+
+.catalogHeader {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap;
+}
+
+.filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.filterBtn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.45);
+    padding: 0.45rem 1rem; font-size: 0.7rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.filterBtn:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.8); }
+
+.filterActive { background: #fff; color: #000; border-color: #fff; }
+
+.count {
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.25); text-transform: uppercase;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.04);
+}
+
+@media (max-width: 480px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .heroTitle { font-size: 2.2rem; }
+}
