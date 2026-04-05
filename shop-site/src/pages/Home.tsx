@@ -28,9 +28,12 @@ export default function Home() {
                     <p className={styles.heroMotto}>Take part or stay out.</p>
                     <div className={styles.heroRule} aria-hidden="true" />
                     <div className={styles.heroCta}>
-                        <Link to="/drops" className={styles.ctaPrimary}>Drops →</Link>
-                        <span aria-hidden="true" style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.6rem' }}>·</span>
-                        <Link to="/kays" className={styles.ctaSecondary}>Kays</Link>
+                        <Link to="/drops" className={styles.ctaPrimary}>
+                            <span className={styles.ctaLabel}>Drops →</span>
+                        </Link>
+                        <Link to="/kays" className={styles.ctaSecondary}>
+                            <span className={styles.ctaLabel}>Kays</span>
+                        </Link>
                     </div>
                 </div>
 
