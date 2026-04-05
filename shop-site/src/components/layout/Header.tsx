@@ -8,6 +8,7 @@ export default function Header() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
+    const isHome = location.pathname === '/';
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 40);
@@ -30,7 +31,11 @@ export default function Header() {
                     </ul>
 
                     <Link to="/" className={styles.logoLink} aria-label="Bloynkay Home">
-                        <img src="/logo-oval.svg" alt="bloynkay" className={styles.logo} />
+                        <img
+                            src="/logo-oval.svg"
+                            alt="bloynkay"
+                            className={`${styles.logo} ${isHome && !scrolled ? styles.logoHidden : ''}`}
+                        />
                     </Link>
 
                     <ul className={styles.navRight}>

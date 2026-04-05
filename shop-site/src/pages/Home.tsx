@@ -8,47 +8,31 @@ const tickerText = [
 ];
 
 export default function Home() {
-    const liveDrop = drops.find((d) => d.status === 'live') ?? drops[0];
 
     return (
         <main className={styles.page}>
 
             {/* ── HERO ─────────────────────────────────────── */}
             <section className={styles.hero}>
-                {/* Immagine — oggetto centrato sul soggetto */}
                 <img
                     src="/images/image0.png"
                     alt=""
                     className={styles.heroImg}
                     aria-hidden="true"
                 />
-                {/* Gradient overlay */}
                 <div className={styles.heroOverlay} aria-hidden="true" />
 
-                {/* Logo in alto — piccolo brand mark */}
-                <div className={styles.heroTop}>
-                    <img src="/logo-oval.svg" alt="Bloynkay" className={styles.heroLogoTop} />
-                </div>
-
-                {/* Content in basso — stile caption TikTok */}
-                <div className={styles.heroContent}>
-                    <div className={styles.heroBrandRow}>
-                        <span className={styles.heroBrandName}>BLOYNKAY</span>
-                        {liveDrop && (
-                            <span className={styles.heroLiveChip}>
-                                <span className={styles.liveDotSmall} />
-                                Drop 01 — Live
-                            </span>
-                        )}
-                    </div>
-                    <p className={styles.heroTagline}>Take part or stay out.</p>
+                {/* Contenuto centrato — logo + motto + CTA */}
+                <div className={styles.heroCenter}>
+                    <img src="/logo-oval.svg" alt="Bloynkay" className={styles.heroCenterLogo} />
+                    <p className={styles.heroMotto}>Take part or stay out.</p>
                     <div className={styles.heroCta}>
                         <Link to="/drops" className={styles.ctaPrimary}>Drops →</Link>
-                        <Link to="/shop" className={styles.ctaSecondary}>Shop</Link>
+                        <Link to="/kays" className={styles.ctaSecondary}>Kays</Link>
                     </div>
                 </div>
 
-                {/* Monogramma BC in basso a destra — come nella foto */}
+                {/* Monogramma BC in basso a destra */}
                 <div className={styles.heroBc} aria-hidden="true">
                     <img src="/logo-b.svg" alt="" className={styles.heroBcImg} />
                 </div>
@@ -134,7 +118,6 @@ export default function Home() {
                             </div>
                         </div>
 
-                        {/* SVG Kays reali — 3D angled */}
                         <div className={styles.kaysCoins}>
                             <img
                                 src="/images/kay-oro-3d.svg"
@@ -150,7 +133,6 @@ export default function Home() {
 
                     </div>
 
-                    {/* Mini showcase fronte/retro */}
                     <div className={styles.kaysFaceShowcase}>
                         <div className={styles.kaysFaceCard}>
                             <img src="/images/kay-argento-front.svg" alt="Kay Argento — fronte" className={styles.kaysFaceImg}/>

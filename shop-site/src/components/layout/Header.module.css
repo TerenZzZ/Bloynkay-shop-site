@@ -63,6 +63,12 @@
 
 .logo:hover { opacity: 0.8; }
 
+.logoHidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
 .cartBtn {
     position: relative;
     background: none;

@@ -2,9 +2,9 @@
    HOME — Local design tokens
    ───────────────────────────────────────────── */
 .page {
-    --h-sky:         #87CEEB;
-    --h-sky-mid:     #6BBFD4;
-    --h-sky-deep:    #4E9FBF;
+    --h-sky:         #6BBFD4;
+    --h-sky-mid:     #4EA8C0;
+    --h-sky-deep:    #2D8FAD;
     --h-sky-light:   #C5E8F7;
     --h-ice:         #EEF7FC;
     --h-white:       #FFFFFF;
@@ -23,7 +23,7 @@
 }
 
 /* ─────────────────────────────────────────────
-   HERO — fullscreen, persona centrata
+   HERO — fullscreen, layout centrato minimal
    ───────────────────────────────────────────── */
 .hero {
     height: 100svh;
@@ -34,7 +34,6 @@
     flex-direction: column;
 }
 
-/* Foto hero — object-fit centra sulla persona */
 .heroImg {
     position: absolute;
     inset: 0;
@@ -45,99 +44,54 @@
     display: block;
 }
 
-/* Gradient overlay — trasparente in alto, scuro in basso (TikTok caption style) */
+/* Vignetta uniforme — preserva visibilità del cielo */
 .heroOverlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-            to bottom,
-            rgba(10, 15, 30, 0.15)  0%,
-            rgba(10, 15, 30, 0.00) 25%,
-            rgba(10, 15, 30, 0.00) 55%,
-            rgba(10, 15, 30, 0.65) 78%,
-            rgba(8,  12, 25, 0.90) 100%
-    );
+    background:
+            radial-gradient(ellipse at center, rgba(10, 20, 40, 0.0) 30%, rgba(10, 20, 40, 0.45) 100%),
+            linear-gradient(to bottom, rgba(10, 20, 40, 0.30) 0%, rgba(10, 20, 40, 0.05) 40%, rgba(10, 20, 40, 0.10) 70%, rgba(10, 20, 40, 0.40) 100%);
     pointer-events: none;
 }
 
-/* Logo piccolo in alto — brand mark */
-.heroTop {
+/* Contenuto centrato — logo + motto + bottoni */
+.heroCenter {
     position: absolute;
-    top: 1.5rem;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     z-index: 3;
-}
-
-.heroLogoTop {
-    height: 36px;
-    width: auto;
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
-}
-
-/* Content in basso — stile TikTok caption */
-.heroContent {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    padding: 2.5rem 3rem 3.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-}
-
-/* Brand name + live chip row */
-.heroBrandRow {
-    display: flex;
     align-items: center;
-    gap: 1.25rem;
-    flex-wrap: wrap;
+    text-align: center;
+    gap: 1.75rem;
+    width: 100%;
+    padding: 0 2rem;
 }
 
-.heroBrandName {
-    font-size: clamp(2.8rem, 9vw, 6.5rem);
-    font-weight: 900;
-    letter-spacing: -0.03em;
-    line-height: 0.95;
-    color: #ffffff;
-    text-transform: uppercase;
+.heroCenterLogo {
+    width: clamp(180px, 28vw, 300px);
+    height: auto;
+    filter: brightness(0) invert(1) drop-shadow(0 2px 20px rgba(0, 0, 0, 0.4));
 }
 
-.heroLiveChip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: #fff;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
+.heroMotto {
+    font-size: clamp(0.55rem, 1.1vw, 0.78rem);
+    letter-spacing: 0.45em;
     text-transform: uppercase;
-    padding: 0.35rem 0.85rem;
-    border-radius: 100px;
-    white-space: nowrap;
-    margin-bottom: 0.25rem;
-    align-self: flex-end;
-}
-
-.heroTagline {
-    font-size: clamp(0.6rem, 1.2vw, 0.8rem);
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 300;
     margin: 0;
+    margin-top: -0.5rem;
 }
 
 .heroCta {
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    margin-top: 0.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 /* CTA — celeste pill */
@@ -159,7 +113,7 @@
     transform: translateY(-2px);
 }
 
-/* CTA — ghost bianco su immagine */
+/* CTA — ghost bianco */
 .ctaSecondary {
     color: rgba(255, 255, 255, 0.82);
     text-decoration: none;
@@ -178,7 +132,7 @@
     color: #fff;
 }
 
-/* Monogramma BC — basso destra come nella foto */
+/* Monogramma BC — basso destra */
 .heroBc {
     position: absolute;
     bottom: 2rem;
@@ -212,15 +166,6 @@
     width: 28px;
     height: 1px;
     background: rgba(255, 255, 255, 0.18);
-}
-
-.liveDotSmall {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--h-green);
-    flex-shrink: 0;
-    animation: pulse 2s infinite;
 }
 
 /* ─────────────────────────────────────────────
@@ -353,13 +298,13 @@
     position: absolute;
     inset: 0;
     border-radius: 20px;
-    background: linear-gradient(135deg, rgba(135,206,235,0.06) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(107,191,212,0.06) 0%, transparent 60%);
     pointer-events: none;
 }
 
 .dropCard:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(107, 191, 212, 0.18);
+    box-shadow: 0 12px 40px rgba(78, 168, 192, 0.18);
     border-color: var(--h-sky-mid);
 }
 
@@ -455,7 +400,7 @@
     position: absolute;
     top: 0; right: 0;
     width: 60%; height: 100%;
-    background: linear-gradient(135deg, transparent 40%, rgba(135,206,235,0.07) 100%);
+    background: linear-gradient(135deg, transparent 40%, rgba(107,191,212,0.07) 100%);
     pointer-events: none;
 }
 
@@ -531,7 +476,6 @@
 
 .kaysShopLink:hover { color: var(--h-ink); }
 
-/* Kays 3D coins — due SVG sovrapposti */
 .kaysCoins {
     position: relative;
     height: 280px;
@@ -561,7 +505,6 @@
 .kaysCoins:hover .kaySvgOro     { transform: rotate(10deg) translateX(30px) translateY(-28px); }
 .kaysCoins:hover .kaySvgArgento { transform: rotate(-8deg) translateX(-26px) translateY(24px); }
 
-/* Mini showcase 4 viste fronte/retro */
 .kaysFaceShowcase {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -586,7 +529,7 @@
 
 .kaysFaceCard:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(107, 191, 212, 0.14);
+    box-shadow: 0 8px 24px rgba(78, 168, 192, 0.14);
 }
 
 .kaysFaceImg {
@@ -628,15 +571,14 @@
 @media (max-width: 680px) {
     .dropsGrid { grid-template-columns: 1fr; }
     .kaysCoins { display: none; }
-    .heroContent { padding: 2rem 1.5rem 2.5rem; }
-    .heroBrandName { font-size: clamp(2.2rem, 11vw, 3.5rem); }
     .dropCard { padding: 1.5rem; }
     .heroScroll { display: none; }
+    .heroCenterLogo { width: clamp(140px, 55vw, 220px); }
 }
 
 @media (max-width: 480px) {
-    .heroCta { flex-direction: column; width: 100%; }
-    .ctaPrimary, .ctaSecondary { text-align: center; width: 100%; justify-content: center; }
+    .heroCta { flex-direction: column; width: 100%; max-width: 280px; }
+    .ctaPrimary, .ctaSecondary { text-align: center; width: 100%; }
     .dropsPreview, .kaysPreview { padding: 4rem 0; }
     .kaysFaceShowcase { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
 }
