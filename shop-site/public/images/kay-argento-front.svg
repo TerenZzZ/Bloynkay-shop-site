@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200">
+    <defs>
+        <radialGradient id="sf" cx="38%" cy="32%" r="68%">
+            <stop offset="0%"   stop-color="#d8d8d8"/>
+            <stop offset="30%"  stop-color="#b2b2b2"/>
+            <stop offset="65%"  stop-color="#888"/>
+            <stop offset="100%" stop-color="#5a5a5a"/>
+        </radialGradient>
+        <linearGradient id="sr" x1="15%" y1="10%" x2="85%" y2="90%">
+            <stop offset="0%"   stop-color="#e8e8e8"/>
+            <stop offset="45%"  stop-color="#9a9a9a"/>
+            <stop offset="100%" stop-color="#404040"/>
+        </linearGradient>
+        <linearGradient id="st" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stop-color="#f2f2f2"/>
+            <stop offset="100%" stop-color="#a0a0a0"/>
+        </linearGradient>
+        <filter id="snd" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.72 0.72" numOctaves="4" seed="3" result="n"/>
+            <feColorMatrix type="saturate" values="0" in="n" result="g"/>
+            <feBlend in="SourceGraphic" in2="g" mode="multiply" result="b"/>
+            <feComposite in="b" in2="SourceGraphic" operator="in"/>
+        </filter>
+        <filter id="shd" x="-8%" y="-8%" width="120%" height="135%">
+            <feDropShadow dx="3" dy="12" stdDeviation="14" flood-color="#000" flood-opacity="0.5"/>
+        </filter>
+        <clipPath id="fc"><ellipse cx="160" cy="100" rx="142" ry="83"/></clipPath>
+    </defs>
+
+    <!-- shadow -->
+    <ellipse cx="163" cy="112" rx="150" ry="88" fill="rgba(0,0,0,0.28)" filter="url(#shd)"/>
+
+    <!-- outer rim -->
+    <ellipse cx="160" cy="100" rx="154" ry="95" fill="url(#sr)"/>
+    <!-- rim inner edge shadow -->
+    <ellipse cx="160" cy="100" rx="143" ry="84" fill="#3a3a3a" opacity="0.25"/>
+    <!-- face -->
+    <ellipse cx="160" cy="100" rx="142" ry="83" fill="url(#sf)" filter="url(#snd)"/>
+
+    <!-- inner engraved ring -->
+    <ellipse cx="160" cy="100" rx="134" ry="75" fill="none" stroke="#4a4a4a" stroke-width="1.2" opacity="0.7"/>
+    <ellipse cx="160" cy="100" rx="135.5" ry="76.5" fill="none" stroke="#ccc" stroke-width="0.6" opacity="0.45"/>
+
+    <!-- oval decorative frame around text -->
+    <ellipse cx="160" cy="102" rx="112" ry="54" fill="none" stroke="#707070" stroke-width="0.8" opacity="0.5"/>
+
+    <!-- text shadow (recessed) -->
+    <text x="162" y="120" text-anchor="middle"
+          font-family="'Arial Black','Helvetica Neue',Arial,sans-serif"
+          font-size="50" font-style="italic" font-weight="900"
+          fill="#303030" opacity="0.9" letter-spacing="-2">bloynkay</text>
+    <!-- text raised highlight -->
+    <text x="159.5" y="117.5" text-anchor="middle"
+          font-family="'Arial Black','Helvetica Neue',Arial,sans-serif"
+          font-size="50" font-style="italic" font-weight="900"
+          fill="url(#st)" letter-spacing="-2">bloynkay</text>
+
+    <!-- top-left specular glint on rim -->
+    <ellipse cx="160" cy="100" rx="154" ry="95" fill="none"
+             stroke="white" stroke-width="3" opacity="0.12"
+             stroke-dasharray="180 400"/>
+</svg>

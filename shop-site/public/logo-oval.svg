@@ -1,5 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" width="400" height="160">
-    <ellipse cx="200" cy="80" rx="195" ry="75" fill="none" stroke="black" stroke-width="8"/>
-    <ellipse cx="200" cy="80" rx="178" ry="60" fill="none" stroke="black" stroke-width="3"/>
-    <text x="200" y="100" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-style="italic" font-weight="bold" fill="black" letter-spacing="-1">bloynkay</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200" width="500" height="200">
+    <!-- Outer swoosh strokes — due archi asimmetrici come nel logo reale -->
+    <!-- Arco superiore (lungo, dal basso-sx al alto-dx) -->
+    <path d="M 28,148 C 10,80 60,14 200,8 C 340,2 470,30 488,80"
+          fill="none" stroke="black" stroke-width="14" stroke-linecap="round"/>
+    <!-- Arco inferiore (complementare) -->
+    <path d="M 488,80 C 500,118 460,180 310,190 C 160,200 30,180 28,148"
+          fill="none" stroke="black" stroke-width="14" stroke-linecap="round"/>
+
+    <!-- Whoosh decorativa interna sopra -->
+    <path d="M 48,130 C 40,76 88,28 220,22 C 352,16 452,46 468,90"
+          fill="none" stroke="black" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+
+    <!-- "bloynkay" testo bold italic centrato -->
+    <text x="252" y="132"
+          text-anchor="middle"
+          font-family="'Arial Black','Impact','Helvetica Neue',Arial,sans-serif"
+          font-size="88"
+          font-style="italic"
+          font-weight="900"
+          fill="black"
+          letter-spacing="-3">bloynkay</text>
 </svg>
