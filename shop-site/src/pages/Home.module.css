@@ -44,7 +44,7 @@
     display: block;
 }
 
-/* Vignetta uniforme — preserva visibilità del cielo */
+/* Vignetta uniforme — preserva la visibilità del cielo */
 .heroOverlay {
     position: absolute;
     inset: 0;
@@ -54,7 +54,7 @@
     pointer-events: none;
 }
 
-/* Contenuto centrato — logo + motto + bottoni */
+/* Contenuto centrato — logo + rule + motto + rule + bottoni */
 .heroCenter {
     position: absolute;
     top: 50%;
@@ -65,7 +65,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 1.75rem;
+    gap: 1.4rem;
     width: 100%;
     padding: 0 2rem;
 }
@@ -76,14 +76,21 @@
     filter: brightness(0) invert(1) drop-shadow(0 2px 20px rgba(0, 0, 0, 0.4));
 }
 
+/* Thin rule — bracket architettonico */
+.heroRule {
+    width: 52px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.28);
+    flex-shrink: 0;
+}
+
 .heroMotto {
-    font-size: clamp(0.55rem, 1.1vw, 0.78rem);
-    letter-spacing: 0.45em;
+    font-size: clamp(0.72rem, 1.4vw, 1rem);
+    letter-spacing: 0.55em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.75);
-    font-weight: 300;
+    color: rgba(255, 255, 255, 0.82);
+    font-weight: 200;
     margin: 0;
-    margin-top: -0.5rem;
 }
 
 .heroCta {
@@ -94,41 +101,44 @@
     justify-content: center;
 }
 
-/* CTA — celeste pill */
+/* CTA — outline sky blue */
 .ctaPrimary {
-    background: var(--h-sky);
-    color: var(--h-ink);
+    background: transparent;
+    color: var(--h-sky);
     text-decoration: none;
-    padding: 0.8rem 2rem;
+    padding: 0.85rem 2.2rem;
     border-radius: 100px;
+    border: 1.5px solid var(--h-sky);
     font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    transition: background 0.2s ease, transform 0.15s ease;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .ctaPrimary:hover {
-    background: var(--h-sky-mid);
+    background: var(--h-sky);
+    color: var(--h-ink);
     transform: translateY(-2px);
 }
 
-/* CTA — ghost bianco */
+/* CTA — outline bianco */
 .ctaSecondary {
+    background: transparent;
     color: rgba(255, 255, 255, 0.82);
     text-decoration: none;
     font-size: 0.68rem;
-    letter-spacing: 0.14em;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    border: 1.5px solid rgba(255, 255, 255, 0.42);
-    padding: 0.78rem 1.75rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    padding: 0.85rem 2.2rem;
     border-radius: 100px;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .ctaSecondary:hover {
     border-color: rgba(255, 255, 255, 0.88);
-    background: rgba(255, 255, 255, 0.10);
     color: #fff;
 }
 

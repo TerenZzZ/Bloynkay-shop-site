@@ -8,7 +8,6 @@ export default function Header() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
-    const isHome = location.pathname === '/';
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 40);
@@ -34,7 +33,7 @@ export default function Header() {
                         <img
                             src="/logo-oval.svg"
                             alt="bloynkay"
-                            className={`${styles.logo} ${isHome && !scrolled ? styles.logoHidden : ''}`}
+                            className={styles.logo}
                         />
                     </Link>
 

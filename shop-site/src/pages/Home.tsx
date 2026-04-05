@@ -8,7 +8,6 @@ const tickerText = [
 ];
 
 export default function Home() {
-
     return (
         <main className={styles.page}>
 
@@ -25,7 +24,9 @@ export default function Home() {
                 {/* Contenuto centrato — logo + motto + CTA */}
                 <div className={styles.heroCenter}>
                     <img src="/logo-oval.svg" alt="Bloynkay" className={styles.heroCenterLogo} />
+                    <div className={styles.heroRule} aria-hidden="true" />
                     <p className={styles.heroMotto}>Take part or stay out.</p>
+                    <div className={styles.heroRule} aria-hidden="true" />
                     <div className={styles.heroCta}>
                         <Link to="/drops" className={styles.ctaPrimary}>Drops →</Link>
                         <Link to="/kays" className={styles.ctaSecondary}>Kays</Link>
