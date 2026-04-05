@@ -29,6 +29,7 @@ export default function Home() {
                     <div className={styles.heroRule} aria-hidden="true" />
                     <div className={styles.heroCta}>
                         <Link to="/drops" className={styles.ctaPrimary}>Drops →</Link>
+                        <span aria-hidden="true" style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.6rem' }}>·</span>
                         <Link to="/kays" className={styles.ctaSecondary}>Kays</Link>
                     </div>
                 </div>
