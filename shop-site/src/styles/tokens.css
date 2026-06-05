@@ -1,0 +1,69 @@
+:root {
+    /* Brand palette — pulled from Drop 01 colorways */
+    --color-bg: #0a0a0a;
+    --color-bg-elev: #141414;
+    --color-ink: #f5f1e8;          /* panna */
+    --color-ink-soft: rgba(245, 241, 232, 0.72);
+    --color-ink-mute: rgba(245, 241, 232, 0.48);
+    --color-line: rgba(245, 241, 232, 0.16);
+    --color-accent: #a8c5d6;       /* celeste */
+    --color-graphite: #4a4a4a;     /* colletto grigio */
+
+    /* Colorways — Drop 01 (toni attenuati, non saturi) */
+    --cw-nero-bg: #111113;
+    --cw-nero-fg: #f5f1e8;
+    --cw-nero-accent: #a8c5d6;
+    --cw-nero-line: rgba(245, 241, 232, 0.16);
+
+    --cw-celeste-bg: #2a3a48;
+    --cw-celeste-fg: #f1f5f8;
+    --cw-celeste-accent: #c8d4dc;
+    --cw-celeste-line: rgba(241, 245, 248, 0.18);
+
+    --cw-panna-bg: #ebe3d1;
+    --cw-panna-fg: #1a1a1a;
+    --cw-panna-accent: #b03a2e;
+    --cw-panna-line: rgba(26, 26, 26, 0.16);
+
+    /* Stitch */
+    --stitch-thickness-separator: 48px;
+    --stitch-thickness-frame: 14px;
+
+    /* Hero fine-tune */
+    --hero-video-x: 50%;
+    --hero-video-y: 50%;
+
+    /* Type scale */
+    --font-display: "Anton", "Archivo Black", system-ui, sans-serif;
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --fs-eyebrow: clamp(0.75rem, 0.7rem + 0.2vw, 0.85rem);
+    --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --fs-display: clamp(4rem, 3rem + 8vw, 11rem);
+    --fs-cta: 0.875rem;
+
+    /* Spacing */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-9: 96px;
+
+    /* Layout */
+    --container-px: clamp(20px, 4vw, 64px);
+    --nav-height: 72px;
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-fast: 180ms;
+    --dur-base: 320ms;
+    --dur-slow: 720ms;
+
+    /* Radii */
+    --radius-pill: 999px;
+    --radius-sm: 4px;
+}

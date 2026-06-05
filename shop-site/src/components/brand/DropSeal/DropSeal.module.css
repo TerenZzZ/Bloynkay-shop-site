@@ -1,0 +1,121 @@
+.seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Size variants */
+.sm {
+    width: 80px;
+    height: 80px;
+}
+
+.md {
+    width: 120px;
+    height: 120px;
+}
+
+.lg {
+    width: 160px;
+    height: 160px;
+}
+
+/* Shape variants */
+.circle .ring {
+    border-radius: 50%;
+    aspect-ratio: 1;
+}
+
+.oval {
+    width: auto;
+    padding: 0 var(--space-4);
+}
+
+.oval .ring {
+    border-radius: var(--radius-pill);
+    padding: var(--space-5) var(--space-6);
+}
+
+/* Ring structure */
+.ring {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border: 1px solid currentColor;
+    position: relative;
+}
+
+.ring::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid currentColor;
+    border-radius: inherit;
+    opacity: 0.4;
+}
+
+/* Content */
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-sans);
+    font-size: var(--fs-micro);
+    font-weight: 500;
+    letter-spacing: var(--tracking-micro);
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.oval .content {
+    flex-direction: row;
+    gap: var(--space-2);
+}
+
+.brand {
+    font-weight: 600;
+}
+
+.divider {
+    opacity: 0.4;
+    font-weight: 300;
+}
+
+.drop {
+    opacity: 0.72;
+}
+
+/* Tone variants */
+.light {
+    color: var(--color-ink);
+}
+
+.dark {
+    color: var(--color-bg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sm {
+        width: 64px;
+        height: 64px;
+    }
+
+    .md {
+        width: 96px;
+        height: 96px;
+    }
+
+    .lg {
+        width: 128px;
+        height: 128px;
+    }
+
+    .content {
+        font-size: calc(var(--fs-micro) * 0.9);
+    }
+}

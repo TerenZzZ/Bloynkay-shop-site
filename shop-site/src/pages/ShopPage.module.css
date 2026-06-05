@@ -1,0 +1,78 @@
+.page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    position: relative;
+    background-image: url('../assets/images/backgrounds/sfondo_shop_01.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Overlay leggero per uniformare il background */
+.page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(200, 215, 230, 0.08);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.main {
+    position: relative;
+    z-index: 1;
+    padding: 60px 28px 100px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+    }
+
+    .grid {
+        gap: 28px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main {
+        padding: 50px 24px 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        padding: 40px 20px 70px;
+    }
+
+    .grid {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main {
+        padding: 35px 18px 60px;
+    }
+}

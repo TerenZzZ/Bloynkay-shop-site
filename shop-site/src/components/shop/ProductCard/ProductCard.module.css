@@ -1,0 +1,130 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(149, 170, 232, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    background: rgba(149, 170, 232, 0.25);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 32px;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
+    mix-blend-mode: normal;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .image {
+    transform: scale(1.02);
+}
+
+.content {
+    padding: 24px 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: rgba(149, 170, 232, 0.14);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.name {
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.description {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #4a4a4a;
+    margin: 0;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.25);
+}
+
+.price {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #0a0a0a;
+    margin: 8px 0 12px 0;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.sizes {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.size {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 400;
+    color: #4a4a4a;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 20px 20px 24px;
+    }
+
+    .name {
+        font-size: 0.98rem;
+    }
+
+    .price {
+        font-size: 0.9rem;
+    }
+
+    .imageWrapper {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 640px) {
+    .content {
+        padding: 20px 20px 24px;
+    }
+
+    .imageWrapper {
+        padding: 24px;
+    }
+}

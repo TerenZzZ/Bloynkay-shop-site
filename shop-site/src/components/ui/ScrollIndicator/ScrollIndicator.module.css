@@ -1,0 +1,43 @@
+.indicator {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-ink-mute);
+}
+
+.label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+}
+
+.line {
+    position: relative;
+    width: 1px;
+    height: 56px;
+    background: var(--color-line);
+    overflow: hidden;
+}
+
+.line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-ink);
+    transform-origin: top;
+    animation: scroll-pulse 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes scroll-pulse {
+    0% {
+        transform: translateY(-100%);
+    }
+    60% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
