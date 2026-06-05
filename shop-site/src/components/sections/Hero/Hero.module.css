@@ -16,11 +16,11 @@
     z-index: 0;
 }
 
-.video {
+.heroImg {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: var(--hero-video-x) var(--hero-video-y);
+    object-position: center center;
     transform: scale(1.04);
     filter: saturate(1.05) contrast(1.04);
 }

@@ -5,17 +5,17 @@ const PILLARS = [
     {
         index: "01",
         title: "Materia",
-        body: "Cotone organico certificato, filato pettinato gauge 7. Tinto in fiocco con pigmenti reattivi a basso impatto.",
+        body: "Cotone piqué selezionato, tinto con i colori ufficiali delle federazioni nazionali. Ogni polo è un atto di precisione cromatica prima ancora di essere un capo.",
     },
     {
         index: "02",
-        title: "Costruzione",
-        body: "Lavorato in un piccolo maglificio sull'Appennino bolognese. Raglan morbido, polsini in costa stretta, fondo senza ricciatura.",
+        title: "Territorio",
+        body: "Sei nazioni, sei identità calcistiche, sei modi di vivere il gioco. Dal Maracanã a Wembley, dall'Olimpico all'Allianz Arena: ogni polo porta un campo sul petto.",
     },
     {
         index: "03",
         title: "Dettaglio",
-        body: "Un solo bottone al centro, un colore a contrasto, una patch ovale ricamata. Tre segnali ripetuti su tre capi.",
+        body: "Il ricamo sul petto, la patch Bloynkay sul colletto, i bordi cromatici. Tre segnali che raccontano chi sei prima ancora di toccare palla.",
     },
 ];
 
@@ -28,14 +28,14 @@ export function Manifesto() {
         >
             <div className={styles.inner}>
                 <Reveal className={styles.head}>
-                    <span className={styles.kicker}>Manifesto · Drop 01</span>
+                    <span className={styles.kicker}>Manifesto · Drop 02</span>
                     <h2 className={styles.headline}>
-                        Una nuova forma del <em className={styles.accent}>dettaglio</em>.
+                        Sei nazioni. Un solo <em className={styles.accent}>gesto</em>.
                     </h2>
                     <p className={styles.lead}>
-                        Drop 01 è una capsule di tre cardigan: stessa costruzione, stessa
-                        geometria, tre materie. Tre versioni di un solo gesto — un capo che
-                        si chiude con un bottone, e si distingue da quel bottone.
+                        Drop 02 è una capsule di sei polo: ogni capo porta i colori di una
+                        nazione del Mondiale, costruita con la stessa cura artigianale che
+                        definisce Bloynkay. Stessa costruzione, sei identità.
                     </p>
                 </Reveal>
 

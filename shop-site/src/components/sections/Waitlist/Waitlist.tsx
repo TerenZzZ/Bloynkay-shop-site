@@ -3,7 +3,7 @@ import { Countdown } from "../../ui/Countdown";
 import { Reveal } from "../../ui/Reveal";
 import styles from "./Waitlist.module.css";
 
-const LAUNCH_AT = "2026-06-05T18:00:00+02:00";
+const LAUNCH_AT = "2026-07-19T18:00:00+02:00";
 
 export function Waitlist() {
     const [status, setStatus] = useState<"idle" | "success">("idle");
@@ -23,13 +23,13 @@ export function Waitlist() {
         >
             <div className={styles.inner}>
                 <Reveal className={styles.head}>
-                    <span className={styles.kicker}>Lista d'attesa · Drop 01</span>
+                    <span className={styles.kicker}>Lista d'attesa · Drop 02</span>
                     <h2 className={styles.headline}>
-                        Tre capi.<br />
+                        Sei polo.<br />
                         <em className={styles.accent}>Una sola finestra.</em>
                     </h2>
                     <p className={styles.lead}>
-                        Drop 01 sbarca il <strong>5 giugno 2026</strong>, alle 18:00 ora di
+                        Drop 02 sbarca il <strong>19 luglio 2026</strong>, alle 18:00 ora di
                         Roma. Pezzi numerati, una sola produzione. Iscriviti per ricevere il
                         link 24 ore prima del lancio e l'accesso anticipato.
                     </p>
