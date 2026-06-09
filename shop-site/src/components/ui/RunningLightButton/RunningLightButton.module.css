@@ -1,0 +1,181 @@
+/* =====================================================================
+   RunningLightButton — bordo luminoso animato premium.
+
+   Filosofia visiva:
+     • Il COLORE della colorway è il protagonista. Il bianco è ridotto
+       a un hint impercettibile sulla punta della cometa (per dare la
+       sensazione del "leading edge" senza dominare la palette).
+     • Una bordatura permanente colorata definisce il bottone (carattere).
+     • L'alone neon esterno è del colore, soft e generoso.
+
+   Stack (dal basso verso l'alto):
+     1. box-shadow esterno tinto sulla colorway → lift
+     2. ::after  → halo neon colorato che insegue la testa
+     3. ::before → bordatura permanente + cometa colorata
+     4. label / arrow
+
+   Tecnica: due conic-gradient ruotati da @property --rlb-angle e
+   ritagliati alla forma pill con mask-composite "exclude".
+   ===================================================================== */
+
+@property --rlb-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.button {
+    /* === Tunables ==================================================== */
+    --rlb-color:        var(--color-ink);
+    --rlb-thickness:    2.6px;       /* ring leggermente più spesso */
+    --rlb-duration:     3.6s;
+    --rlb-halo-inset:   -6px;        /* halo più contenuto al bordo */
+    --rlb-halo-blur:    16px;
+    --rlb-halo-opacity: 0.32;        /* meno color-spill esterno */
+
+    /* Derivati colore — espressi una sola volta */
+    --rlb-border:  color-mix(in srgb, var(--rlb-color) 55%, transparent);
+    --rlb-tip:     color-mix(in srgb, var(--rlb-color) 88%, white);
+    --rlb-lift:    color-mix(in srgb, var(--rlb-color) 35%, transparent);
+
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 12px 30px -10px var(--rlb-lift);
+    transition: box-shadow var(--dur-base) var(--ease-out);
+}
+
+/* === Bordatura colorata + cometa che scorre =========================== */
+.button::before {
+    content: "";
+    position: absolute;
+    inset: calc(var(--rlb-thickness) * -1);
+    border-radius: inherit;
+    padding: var(--rlb-thickness);
+    pointer-events: none;
+    z-index: -1;
+    background:
+        conic-gradient(
+            from var(--rlb-angle),
+            /* — Fade in avanti (clockwise dalla testa) — */
+            var(--rlb-color) 0deg,
+            color-mix(in srgb, var(--rlb-color) 55%, transparent) 18deg,
+            color-mix(in srgb, var(--rlb-color) 15%, transparent) 42deg,
+            transparent 65deg,
+            /* — Arco "respiro" — */
+            transparent 230deg,
+            /* — Coda lunga del colore che cresce verso la testa — */
+            color-mix(in srgb, var(--rlb-color) 18%, transparent) 270deg,
+            color-mix(in srgb, var(--rlb-color) 45%, transparent) 310deg,
+            color-mix(in srgb, var(--rlb-color) 78%, transparent) 342deg,
+            var(--rlb-color) 354deg,
+            /* — Tip: micro-luminanza, 12% bianco max — */
+            var(--rlb-tip) 359deg,
+            var(--rlb-tip) 360deg
+        ),
+        var(--rlb-border);
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: rlb-spin var(--rlb-duration) linear infinite;
+}
+
+/* === Alone neon: ampio, diffuso, del colore prevalente ================ */
+.button::after {
+    content: "";
+    position: absolute;
+    inset: var(--rlb-halo-inset);
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: -2;
+    background: conic-gradient(
+        from var(--rlb-angle),
+        var(--rlb-color) 0deg,
+        color-mix(in srgb, var(--rlb-color) 55%, transparent) 28deg,
+        transparent 65deg,
+        transparent 295deg,
+        color-mix(in srgb, var(--rlb-color) 55%, transparent) 332deg,
+        var(--rlb-color) 360deg
+    );
+    filter: blur(var(--rlb-halo-blur));
+    opacity: var(--rlb-halo-opacity);
+    animation: rlb-spin var(--rlb-duration) linear infinite;
+}
+
+/* === Stati ============================================================ */
+.button:hover {
+    --rlb-duration:     2.4s;
+    --rlb-halo-opacity: 0.52;
+    --rlb-border:       color-mix(in srgb, var(--rlb-color) 70%, transparent);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 14px 30px -10px color-mix(in srgb, var(--rlb-color) 42%, transparent);
+}
+
+.button:active {
+    transform: translateY(0.5px);
+}
+
+.button:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--rlb-color) 85%, white);
+    outline-offset: 4px;
+}
+
+.label,
+.arrow {
+    position: relative;
+    z-index: 1;
+}
+
+.arrow {
+    display: inline-block;
+    transition: transform var(--dur-base) var(--ease-out);
+}
+
+.button:hover .arrow {
+    transform: translateX(4px);
+}
+
+/* === Palette per colorway — coerente con polo + sfondo sezione ======== */
+.brazil   { --rlb-color: #0caf3f; }   /* verde scuro brasiliano */
+.england  { --rlb-color: #2f7bff; }   /* blu elettrico */
+.france   { --rlb-color: #1668f5; }   /* blu Francia */
+.germany  { --rlb-color: #e83f2c; }   /* rosso Germania */
+.italy    { --rlb-color: #1668f5; }   /* blu (stesso Francia) */
+.portugal { --rlb-color: #f5a316; }   /* ambra Portogallo */
+
+@keyframes rlb-spin {
+    to { --rlb-angle: 360deg; }
+}
+
+/* === Accessibilità: riduzione movimento =============================== */
+@media (prefers-reduced-motion: reduce) {
+    .button::before,
+    .button::after {
+        animation: none;
+    }
+    .button::before {
+        background: var(--rlb-border);
+    }
+    .button::after {
+        background: var(--rlb-color);
+        opacity: 0.18;
+        filter: blur(calc(var(--rlb-halo-blur) * 0.6));
+    }
+}
+
+/* === Touch: niente accelerazione hover-induced ======================== */
+@media (hover: none) and (pointer: coarse) {
+    .button:hover {
+        --rlb-duration: 3.6s;
+    }
+}
