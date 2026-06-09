@@ -10,96 +10,57 @@
     align-items: center;
 }
 
-/* === Colorway palettes — Drop 02 World Cup Edition === */
-.brazil {
-    --cw-fg: #028122;
-    --cw-fg-soft: rgba(2, 129, 34, 0.72);
-    --cw-fg-mute: rgba(2, 129, 34, 0.50);
-    --cw-line: rgba(2, 129, 34, 0.20);
-    --cw-accent: #015c18;           /* verde scuro — hover CTA */
-    --cw-bg-base: #f5e400;
-    --cw-bg-deep: #d4c600;
-    --cw-bg-glow: rgba(3, 141, 56, 0.10);
-}
+/* === Backdrop a tre layer ===
+   1) .backdrop          → solo il gradiente di base. PURO e UNIFORME
+      orizzontalmente, in modo che il pixel finale della sezione sia
+      esattamente uguale al pixel iniziale della successiva → bordo
+      invisibile, niente "vuoto" scuro.
+   2) .backdrop::before  → radiali decorativi (depth + glow). Sono
+      "frenati" prima del bordo inferiore con una mask: non sporcano
+      la zona di handoff colore.
+   3) .backdrop::after   → noise grain, anch'esso mascherato ai bordi
+      per evitare differenze di texture al confine.
 
-.england {
-    --cw-fg: #243c9c;
-    --cw-fg-soft: rgba(36, 60, 156, 0.72);
-    --cw-fg-mute: rgba(36, 60, 156, 0.48);
-    --cw-line: rgba(36, 60, 156, 0.18);
-    --cw-accent: #c8102e;           /* rosso England — hover CTA */
-    --cw-bg-base: #f4eeea;
-    --cw-bg-deep: #e0d5ce;
-    --cw-bg-glow: rgba(42, 82, 160, 0.05);
-}
-
-.france {
-    --cw-fg: #dcdadb;
-    --cw-fg-soft: rgba(220, 218, 219, 0.75);
-    --cw-fg-mute: rgba(220, 218, 219, 0.50);
-    --cw-line: rgba(220, 218, 219, 0.22);
-    --cw-accent: #ed2939;           /* rosso tricolore — hover CTA */
-    --cw-bg-base: #002395;
-    --cw-bg-deep: #001260;
-    --cw-bg-glow: rgba(255, 246, 222, 0.06);
-}
-
-.germany {
-    --cw-fg: #1a1a1a;
-    --cw-fg-soft: rgba(26, 26, 26, 0.66);
-    --cw-fg-mute: rgba(26, 26, 26, 0.36);
-    --cw-line: rgba(26, 26, 26, 0.14);
-    --cw-accent: #dd0000;
-    --cw-bg-base: #f5f5f5;
-    --cw-bg-deep: #dcdcdc;
-    --cw-bg-glow: rgba(221, 0, 0, 0.04);
-}
-
-.italy {
-    --cw-fg: #f0f0f0;
-    --cw-fg-soft: rgba(240, 240, 240, 0.72);
-    --cw-fg-mute: rgba(240, 240, 240, 0.44);
-    --cw-line: rgba(240, 240, 240, 0.16);
-    --cw-accent: #f5e60b;
-    --cw-bg-base: #0066cc;
-    --cw-bg-deep: #004499;
-    --cw-bg-glow: rgba(245, 230, 11, 0.06);
-}
-
-.portugal {
-    --cw-fg: #f2c640;
-    --cw-fg-soft: rgba(242, 198, 64, 0.82);
-    --cw-fg-mute: rgba(242, 198, 64, 0.58);
-    --cw-line: rgba(242, 198, 64, 0.24);
-    --cw-accent: #f0f0f0;           /* bianco — hover CTA */
-    --cw-bg-base: #006600;
-    --cw-bg-deep: #004400;
-    --cw-bg-glow: rgba(247, 184, 1, 0.10);
-}
-
-/* === Backdrop a layer === */
+   Le custom property --cw-* arrivano via inline style dal componente
+   (vedi colorways.ts). Una sola implementazione, agnostica alla
+   colorway. */
 .backdrop {
+    /* === Fusione cromatica fra sezioni ===
+       La sezione è UNIFORME nella propria base color (no vignette
+       scura, no darkening locale). Solo gli ultimi --fuse pixel
+       virano DELICATAMENTE verso la base della sezione successiva,
+       creando una fusione di colori. Interpolazione `in oklab` per
+       una transizione percettivamente uniforme su pochi pixel.
+       Pixel finale = base della prossima → il primo pixel del
+       vicino è già esattamente lo stesso colore, niente linea netta. */
+    --fuse: 3%;
+
     position: absolute;
     inset: 0;
     z-index: -2;
-    background:
-            linear-gradient(180deg, var(--cw-bg-deep) 0%, transparent 18%),
-            radial-gradient(
-                    circle at 50% 50%,
-                    transparent 20%,
-                    color-mix(in srgb, var(--cw-bg-deep) 30%, transparent) 70%
-            ),
-            radial-gradient(
-                    120% 80% at 85% 20%,
-                    var(--cw-bg-glow) 0%,
-                    transparent 55%
-            ),
-            radial-gradient(
-                    90% 60% at 10% 100%,
-                    color-mix(in srgb, var(--cw-bg-deep) 70%, transparent) 0%,
-                    transparent 60%
-            ),
-            linear-gradient(180deg, var(--cw-bg-base) 0%, var(--cw-bg-deep) 100%);
+    background: linear-gradient(
+            in oklab 180deg,
+            var(--cw-bg-base) 0%,
+            var(--cw-bg-base) calc(100% - var(--fuse)),
+            var(--next-cw-bg-base, var(--cw-bg-base)) 100%
+    );
+}
+
+.backdrop::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Profondità soft — un singolo light centrale di soli 5% di bianco
+       che svanisce verso il bordo. Mantiene la sezione perfettamente
+       OMOGENEA nella propria identità cromatica: niente blob scuri
+       (era --cw-bg-deep), niente patch di colori complementari (era
+       --cw-bg-glow). Solo un filo di "respiro" centrale. */
+    background: radial-gradient(
+            ellipse 90% 65% at 50% 45%,
+            color-mix(in srgb, white 5%, transparent) 0%,
+            transparent 70%
+    );
 }
 
 .backdrop::after {
@@ -110,6 +71,23 @@
     opacity: 0.18;
     mix-blend-mode: overlay;
     pointer-events: none;
+    /* La grana svanisce minimamente ai bordi: due texture casuali che
+       si toccano avrebbero comunque un seam, basta un cuscinetto di
+       2% per ammorbidirlo senza assottigliare la sezione. */
+    -webkit-mask-image: linear-gradient(
+            180deg,
+            transparent 0,
+            #000 2%,
+            #000 98%,
+            transparent 100%
+    );
+    mask-image: linear-gradient(
+            180deg,
+            transparent 0,
+            #000 2%,
+            #000 98%,
+            transparent 100%
+    );
 }
 
 /* === Watermark logo === */
@@ -126,17 +104,13 @@
 }
 
 /* Sfondo scuro → watermark chiaro */
-.france .watermark,
-.italy .watermark,
-.portugal .watermark {
+.section[data-nav-theme="dark"] .watermark {
     filter: brightness(0) invert(1);
     opacity: 0.04;
 }
 
 /* Sfondo chiaro → watermark scuro */
-.brazil .watermark,
-.england .watermark,
-.germany .watermark {
+.section[data-nav-theme="light"] .watermark {
     filter: brightness(0);
     opacity: 0.05;
 }
@@ -419,15 +393,6 @@
     background: color-mix(in srgb, var(--cw-fg) 8%, transparent);
 }
 
-.arrow {
-    display: inline-block;
-    transition: transform var(--dur-base) var(--ease-out);
-}
-
-.cta:hover .arrow {
-    transform: translateX(4px);
-}
-
 /* === Responsive === */
 @media (max-width: 1080px) {
     .section {
@@ -495,15 +460,11 @@
         opacity: 0.7;
     }
 
-    .france .watermark,
-    .italy .watermark,
-    .portugal .watermark {
+    .section[data-nav-theme="dark"] .watermark {
         opacity: 0.03;
     }
 
-    .brazil .watermark,
-    .england .watermark,
-    .germany .watermark {
+    .section[data-nav-theme="light"] .watermark {
         opacity: 0.04;
     }
 }
@@ -612,8 +573,7 @@
 
 /* === Reduced motion === */
 @media (prefers-reduced-motion: reduce) {
-    .mediaEl,
-    .arrow {
+    .mediaEl {
         transition: none;
     }
     .mediaLink:hover .mediaEl {

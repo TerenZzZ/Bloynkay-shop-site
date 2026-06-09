@@ -1,7 +1,7 @@
 import { Button } from "../../ui/Button";
 import { Marquee } from "../../ui/Marquee";
 import { ScrollIndicator } from "../../ui/ScrollIndicator";
-import heroImage from "../../../assets/images/backgrounds/hero_page_01.png";
+import heroVideo from "../../../assets/videos/hero/hero-drop02.mp4";
 import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
 import styles from "./Hero.module.css";
 
@@ -25,10 +25,15 @@ export function Hero() {
     return (
         <section className={styles.hero} id="top" data-nav-theme="light">
             <div className={styles.media} aria-hidden="true">
-                <img
-                    src={heroImage}
-                    alt=""
-                    className={styles.heroImg}
+                <video
+                    className={styles.heroVideo}
+                    src={heroVideo}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    disablePictureInPicture
                 />
                 <div className={styles.vignette} />
                 <div className={styles.grain} />

@@ -29,9 +29,9 @@
     --stitch-thickness-separator: 48px;
     --stitch-thickness-frame: 14px;
 
-    /* Hero fine-tune */
+    /* Hero fine-tune — posizione del soggetto saliente nel video hero */
     --hero-video-x: 50%;
-    --hero-video-y: 50%;
+    --hero-video-y: 42%;
 
     /* Type scale */
     --font-display: "Anton", "Archivo Black", system-ui, sans-serif;

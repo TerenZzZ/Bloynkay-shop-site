@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import { Reveal } from "../../ui/Reveal";
+import { RunningLightButton } from "../../ui/RunningLightButton";
 import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
+import { COLORWAYS, colorwayCssVars, type Colorway } from "./colorways";
 import styles from "./ProductSection.module.css";
 
-export type Colorway = "brazil" | "england" | "france" | "germany" | "italy" | "portugal";
+export type { Colorway };
 
 export type ProductSectionProps = {
     colorway: Colorway;
+    /** Colorway della sezione successiva — abilita il blend di chiusura. */
+    nextColorway?: Colorway;
     position: number;
     total: number;
     name: string;
@@ -18,26 +22,9 @@ export type ProductSectionProps = {
     isFlipped?: boolean;
 };
 
-const colorwayClass: Record<Colorway, string> = {
-    brazil: styles.brazil,
-    england: styles.england,
-    france: styles.france,
-    germany: styles.germany,
-    italy: styles.italy,
-    portugal: styles.portugal,
-};
-
-const navTheme: Record<Colorway, "light" | "dark" | "medium"> = {
-    brazil: "light",
-    england: "light",
-    france: "dark",
-    germany: "light",
-    italy: "dark",
-    portugal: "dark",
-};
-
 export function ProductSection({
     colorway,
+    nextColorway,
     position,
     total,
     name,
@@ -51,8 +38,9 @@ export function ProductSection({
     return (
         <section
             id={`drop-02-${colorway}`}
-            data-nav-theme={navTheme[colorway]}
-            className={`${styles.section} ${colorwayClass[colorway]} ${isFlipped ? styles.flipped : ""}`}
+            data-nav-theme={COLORWAYS[colorway].navTheme}
+            className={`${styles.section} ${isFlipped ? styles.flipped : ""}`}
+            style={colorwayCssVars(colorway, nextColorway)}
         >
             <div className={styles.backdrop} aria-hidden="true" />
             <img
@@ -123,12 +111,12 @@ export function ProductSection({
                                 <button type="button" className={styles.ctaGhost}>
                                     Dettagli
                                 </button>
-                                <button type="button" className={styles.cta}>
-                                    <span>Aggiungi alla lista</span>
-                                    <span aria-hidden="true" className={styles.arrow}>
-                                        →
-                                    </span>
-                                </button>
+                                <RunningLightButton
+                                    colorway={colorway}
+                                    className={styles.cta}
+                                >
+                                    Aggiungi alla lista
+                                </RunningLightButton>
                             </div>
                         </div>
                     </Reveal>
