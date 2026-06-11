@@ -7,6 +7,9 @@
     isolation: isolate;
     color: var(--color-ink);
     background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ───────── Background media ───────── */
@@ -20,37 +23,30 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Centra orizzontalmente, biasing leggermente verso l'alto:
-       il soggetto saliente (stadio aereo, giocatore con maglia 12,
-       gallo gallico) sta sopra il centro geometrico — questo lo
-       tiene in vista senza che venga coperto dal contenuto in basso. */
     object-position: var(--hero-video-x) var(--hero-video-y);
     transform: scale(1.04);
-    filter: saturate(1.05) contrast(1.04);
+    filter: saturate(1.02) contrast(1.04) brightness(1.0);
     pointer-events: none;
     user-select: none;
 }
 
+/* Scurimento per far risaltare logo ed etichette */
 .vignette {
     position: absolute;
     inset: 0;
     background:
+            radial-gradient(
+                    110% 80% at 50% 48%,
+                    rgba(10, 10, 10, 0.5) 0%,
+                    rgba(10, 10, 10, 0.26) 46%,
+                    rgba(10, 10, 10, 0.12) 72%
+            ),
             linear-gradient(
                     180deg,
-                    rgba(10, 10, 10, 0.55) 0%,
-                    rgba(10, 10, 10, 0) 22%,
-                    rgba(10, 10, 10, 0) 58%,
-                    rgba(10, 10, 10, 0.9) 100%
-            ),
-            radial-gradient(
-                    120% 80% at 15% 85%,
-                    rgba(10, 10, 10, 0.55) 0%,
-                    rgba(10, 10, 10, 0) 60%
-            ),
-            radial-gradient(
-                    80% 60% at 88% 92%,
-                    rgba(10, 10, 10, 0.55) 0%,
-                    rgba(10, 10, 10, 0) 60%
+                    rgba(10, 10, 10, 0.42) 0%,
+                    rgba(10, 10, 10, 0.2) 30%,
+                    rgba(10, 10, 10, 0.24) 60%,
+                    rgba(10, 10, 10, 0.92) 100%
             );
     pointer-events: none;
 }
@@ -64,156 +60,96 @@
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 1   0 0 0 0 1   0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
-/* ───────── Decorative frame tags ───────── */
-.frame {
+/* ───────── Contenuto: logo centrale + CTA ancorate sotto ───────── */
+.content {
     position: absolute;
     inset: 0;
-    z-index: 5;
-    padding: calc(var(--nav-height) + var(--space-5)) var(--container-px)
-    var(--space-5);
-    display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-}
-
-.frameTag {
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--color-ink-mute);
-}
-
-/* ───────── Lower zone: editorial left + watermark right ───────── */
-.lower {
-    position: absolute;
-    left: var(--container-px);
-    right: var(--container-px);
-    bottom: clamp(120px, 18vh, 200px);
     z-index: 6;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: clamp(32px, 6vw, 96px);
-    pointer-events: none;
-}
-
-.content,
-.watermark {
-    pointer-events: auto;
-}
-
-/* === Left: editorial content === */
-.content {
-    flex: 1;
-    max-width: clamp(440px, 50vw, 620px);
-    display: flex;
     flex-direction: column;
-    gap: var(--space-4);
-    animation: rise var(--dur-slow) var(--ease-out) both;
-}
-
-.kicker {
-    display: inline-flex;
     align-items: center;
-    gap: var(--space-3);
-    width: fit-content;
-    font-size: var(--fs-eyebrow);
-    font-weight: 500;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--color-ink-soft);
-}
-
-.kickerDot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    box-shadow: 0 0 0 4px rgba(168, 197, 214, 0.18);
-    animation: pulse 2s var(--ease-in-out) infinite;
-    flex-shrink: 0;
-}
-
-/* Title block: white opener + italic celeste accent (same style as Waitlist) */
-.title {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-    line-height: 0.95;
-}
-
-.titleLead {
-    display: block;
-    font-family: var(--font-display);
-    font-size: clamp(1.8rem, 1.4rem + 2vw, 3.1rem);
-    color: var(--color-ink);
-    line-height: 0.95;
-    letter-spacing: -0.005em;
-    text-transform: uppercase;
-    font-style: normal;
-    font-weight: 400;
-}
-
-.titleAccent {
-    display: inline-block;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(2.8rem, 2.2rem + 4vw, 5.6rem);
-    color: var(--color-accent);
-    letter-spacing: -0.015em;
-    line-height: 0.92;
-    text-transform: uppercase;
-}
-
-.lead {
-    max-width: 46ch;
-    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.12rem);
-    line-height: 1.55;
-    color: var(--color-ink-soft);
-    font-weight: 300;
-    margin: 0;
-}
-
-.actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-3);
-}
-
-/* === Right: watermark stamp (pushed below content baseline) === */
-.watermark {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: var(--space-2);
-    max-width: clamp(110px, 12vw, 160px);
-    transform: translateY(clamp(32px, 6vh, 72px));
+    justify-content: flex-end;
+    padding: calc(var(--nav-height) + var(--space-6)) var(--container-px)
+            clamp(72px, 12vh, 128px);
     animation: rise var(--dur-slow) var(--ease-out) both;
-    animation-delay: 200ms;
 }
 
-.watermarkLogo {
-    display: block;
-    width: 100%;
-    height: auto;
-    opacity: 0.78;
-    filter: invert(1) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+/* Logo protagonista: grande filigrana fusa nel video.
+   Knob: opacity = intensità, brightness finale = luminosità. */
+.logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(88vw, 720px);
+    max-height: 78svh;
+    object-fit: contain;
+    transform: translate(-50%, -50%) scale(1.5);
+    transform-origin: center;
+    opacity: 0.85;
+    filter: brightness(0) invert(1) brightness(0.8);
+    mix-blend-mode: soft-light;
+    pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
 }
 
-.watermarkCaption {
-    font-size: 0.62rem;
+/* Gruppo azioni sopra la filigrana, ancorato in basso. */
+.cta {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-5);
+}
+
+/* Hairline d'accento: àncora visiva e simmetria centrale. */
+.divider {
+    width: 56px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(
+            90deg,
+            transparent,
+            var(--color-accent) 30%,
+            var(--color-accent) 70%,
+            transparent
+    );
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 260px;
+}
+
+.actions > * {
+    width: 100%;
+    justify-content: center;
+}
+
+.launch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.7rem;
     font-weight: 500;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--color-ink-mute);
-    text-align: right;
-    line-height: 1.4;
+}
+
+.launchDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
 }
 
 /* ───────── Bottom marquee ───────── */
@@ -237,82 +173,15 @@
     }
 }
 
-@keyframes pulse {
-    0%,
-    100% {
-        box-shadow: 0 0 0 4px rgba(168, 197, 214, 0.18);
-    }
-    50% {
-        box-shadow: 0 0 0 10px rgba(168, 197, 214, 0);
-    }
-}
-
 /* ───────── Responsive ───────── */
-@media (max-width: 1100px) {
-    .watermark {
-        max-width: clamp(100px, 14vw, 130px);
-        transform: translateY(clamp(24px, 5vh, 56px));
-    }
-}
-
-@media (max-width: 880px) {
-    .lower {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-6);
-        bottom: 180px;
-    }
-
-    .watermark {
-        order: -1;
-        align-items: flex-start;
-        max-width: 96px;
-        opacity: 0.95;
-        transform: none;
-    }
-
-    .watermarkCaption {
-        text-align: left;
-    }
-
-    .content {
-        max-width: 100%;
-    }
-
-    .frame {
-        padding-top: calc(var(--nav-height) + var(--space-3));
-    }
-}
-
 @media (max-width: 540px) {
-    .lower {
-        bottom: 150px;
-        gap: var(--space-5);
-    }
-
-    .frameTag:last-child {
-        display: none;
-    }
-
-    .lead {
-        font-size: 1rem;
-    }
-
-    .titleLead {
-        font-size: clamp(1.6rem, 7vw, 2.2rem);
-    }
-
-    .titleAccent {
-        font-size: clamp(2.6rem, 12vw, 4rem);
-    }
-
-    .watermark {
-        max-width: 84px;
+    .logo {
+        width: 92vw;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .kickerDot {
+    .content {
         animation: none;
     }
 }

@@ -1,16 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/Button";
 import { Marquee } from "../../ui/Marquee";
 import heroVideo from "../../../assets/videos/hero/hero-drop02.mp4";
-import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
+import logoBloynkay from "../../../assets/images/brand/bloykay_logo.svg";
 import styles from "./Hero.module.css";
+
+/* TODO: data di lancio da confermare con l'utente. */
+const LAUNCH_LABEL = "Prossimamente";
 
 const MARQUEE_ITEMS = [
     "Drop 02",
-    "World Cup Edition",
+    "Sei nazioni · Sei polo",
     "Brasile · Inghilterra",
     "Francia · Germania",
     "Italia · Portogallo",
-    "Giugno 2026",
     "Limited Release",
 ];
 
@@ -21,6 +24,8 @@ function scrollToId(id: string) {
 }
 
 export function Hero() {
+    const navigate = useNavigate();
+
     return (
         <section className={styles.hero} id="top" data-nav-theme="light">
             <div className={styles.media} aria-hidden="true">
@@ -38,52 +43,26 @@ export function Hero() {
                 <div className={styles.grain} />
             </div>
 
-            <div className={styles.frame}>
-                <span className={styles.frameTag}>N° 0002 / Bloynkay Atelier</span>
-                <span className={styles.frameTag}>Milano · 2026</span>
-            </div>
+            <div className={styles.content}>
+                <img src={logoBloynkay} alt="Bloynkay" className={styles.logo} />
 
-            <div className={styles.lower}>
-                <div className={styles.content}>
-                    <span className={styles.kicker}>
-                        <span className={styles.kickerDot} aria-hidden="true" />
-                        Drop 02 — World Cup Edition
-                    </span>
-
-                    <h1 className={styles.title}>
-                        <span className={styles.titleLead}>Il calcio che ami.</span>
-                        <em className={styles.titleAccent}>Drop-02</em>
-                    </h1>
-
-                    <p className={styles.lead}>
-                        Sei nazionali, sei polo. I colori che hai tifo sul petto,
-                        costruiti con la cura artigianale di Bloynkay. Un drop per
-                        chi vive il calcio come una questione di stile.
-                    </p>
+                <div className={styles.cta}>
+                    <span className={styles.divider} aria-hidden="true" />
 
                     <div className={styles.actions}>
                         <Button onClick={() => scrollToId("drop-02-brazil")}>
                             Scopri Drop 02
                         </Button>
-                        <Button
-                            variant="ghost"
-                            onClick={() => scrollToId("waitlist")}
-                        >
-                            Entra in lista
+                        <Button variant="ghost" onClick={() => navigate("/shop")}>
+                            Vedi lo shop
                         </Button>
                     </div>
-                </div>
 
-                <aside className={styles.watermark} aria-label="Bloynkay Atelier">
-                    <img
-                        src={logoBloynkay}
-                        alt="Bloynkay"
-                        className={styles.watermarkLogo}
-                    />
-                    <span className={styles.watermarkCaption}>
-                        Atelier · Milano · MMXXVI
+                    <span className={styles.launch}>
+                        <span className={styles.launchDot} aria-hidden="true" />
+                        Lancio · {LAUNCH_LABEL}
                     </span>
-                </aside>
+                </div>
             </div>
 
             <div className={styles.marquee}>

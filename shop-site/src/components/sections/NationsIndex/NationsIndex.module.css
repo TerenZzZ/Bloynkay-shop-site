@@ -1,0 +1,136 @@
+.section {
+    position: relative;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    padding: clamp(var(--space-8), 12vh, var(--space-9)) 0;
+    border-top: 1px solid var(--color-line);
+}
+
+.inner {
+    width: min(100%, var(--shop-max-w));
+    margin: 0 auto;
+    padding: 0 var(--container-px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-7);
+}
+
+.head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.kicker {
+    font-size: var(--fs-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.headline {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.4rem + 3vw, 3.4rem);
+    text-transform: uppercase;
+    line-height: 0.95;
+}
+
+/* ───────── Six-nations selector ─────────
+   Ogni pulsante porta il colore della nazionale e naviga verso la
+   relativa polo. */
+.nations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(var(--space-2), 1.4vw, var(--space-4));
+    width: 100%;
+}
+
+.nation {
+    --n-color: var(--color-accent);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 96px;
+    padding: 16px var(--space-5) 14px;
+    background: rgba(245, 241, 232, 0.04);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform var(--dur-base) var(--ease-out),
+            border-color var(--dur-base) var(--ease-out),
+            background var(--dur-base) var(--ease-out),
+            box-shadow var(--dur-base) var(--ease-out);
+}
+
+/* Barra colore nazionale: il segno d'identità del pulsante. */
+.nationBar {
+    width: 28px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--n-color);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--n-color) 60%, transparent);
+    transition: width var(--dur-base) var(--ease-out);
+}
+
+.nationCode {
+    font-family: var(--font-jersey);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    color: var(--color-ink);
+}
+
+.nationName {
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+    transition: color var(--dur-base) var(--ease-out);
+}
+
+.nation:hover,
+.nation:focus-visible {
+    transform: translateY(-4px);
+    outline: none;
+    border-color: var(--n-color);
+    background: color-mix(in srgb, var(--n-color) 14%, transparent);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45),
+            0 0 0 1px color-mix(in srgb, var(--n-color) 50%, transparent);
+}
+
+.nation:hover .nationBar,
+.nation:focus-visible .nationBar {
+    width: 44px;
+}
+
+.nation:hover .nationName,
+.nation:focus-visible .nationName {
+    color: var(--color-ink-soft);
+}
+
+@media (max-width: 540px) {
+    .nations {
+        gap: var(--space-2);
+    }
+
+    .nation {
+        min-width: 0;
+        flex: 1 1 28%;
+        padding: 14px var(--space-3) 12px;
+    }
+
+    .nationName {
+        display: none;
+    }
+}

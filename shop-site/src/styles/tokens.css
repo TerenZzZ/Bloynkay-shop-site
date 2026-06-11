@@ -35,6 +35,7 @@
 
     /* Type scale */
     --font-display: "Anton", "Archivo Black", system-ui, sans-serif;
+    --font-jersey: "Teko", "Anton", system-ui, sans-serif;  /* scoreboard / matchday */
     --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
     --fs-eyebrow: clamp(0.75rem, 0.7rem + 0.2vw, 0.85rem);
     --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
