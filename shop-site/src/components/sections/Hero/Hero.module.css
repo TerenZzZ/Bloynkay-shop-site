@@ -131,6 +131,18 @@
 .actions > * {
     width: 100%;
     justify-content: center;
+    opacity: 0.82;
+    transition:
+            opacity var(--dur-base) var(--ease-out),
+            box-shadow var(--dur-base) var(--ease-out);
+}
+
+/* Le CTA si illuminano al passaggio del cursore. */
+.actions > *:hover {
+    opacity: 1;
+    box-shadow:
+            0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent),
+            0 0 26px color-mix(in srgb, var(--color-accent) 45%, transparent);
 }
 
 .launch {

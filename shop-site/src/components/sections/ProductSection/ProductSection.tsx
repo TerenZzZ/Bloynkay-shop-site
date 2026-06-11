@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Reveal } from "../../ui/Reveal";
 import { RunningLightButton } from "../../ui/RunningLightButton";
-import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
+import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
 import { COLORWAYS, colorwayCssVars, type Colorway } from "./colorways";
 import styles from "./ProductSection.module.css";
 

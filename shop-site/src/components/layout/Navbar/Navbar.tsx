@@ -1,7 +1,7 @@
 import { type MouseEvent, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IconButton } from "../../ui/IconButton";
-import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
+import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
 import styles from "./Navbar.module.css";
 
 type Theme = "light" | "dark" | "medium";
