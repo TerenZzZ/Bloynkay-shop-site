@@ -337,6 +337,7 @@
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
+    text-decoration: none;
     border-radius: var(--radius-pill);
     cursor: pointer;
     border: 1px solid transparent;
@@ -378,6 +379,17 @@
     .grid {
         grid-template-columns: minmax(0, 1fr);
         gap: var(--space-6);
+    }
+
+    /* A colonna singola tutte le sezioni impilano uguale:
+       media in alto, info sotto — anche quelle "flipped". */
+    .flipped .mediaCol,
+    .flipped .infoCol {
+        grid-column: 1;
+    }
+
+    .flipped .infoCol {
+        grid-row: auto;
     }
 
     .mediaCol {

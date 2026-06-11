@@ -105,14 +105,14 @@ export function ProductSection({
                                 <span className={styles.price}>{price}</span>
                             </div>
                             <div className={styles.buttons}>
-                                <button type="button" className={styles.ctaGhost}>
-                                    Dettagli
-                                </button>
+                                <Link to="/shop" className={styles.ctaGhost}>
+                                    Vai allo shop
+                                </Link>
                                 <RunningLightButton
                                     colorway={colorway}
                                     className={styles.cta}
                                 >
-                                    Aggiungi alla lista
+                                    Aggiungi al carrello
                                 </RunningLightButton>
                             </div>
                         </div>
