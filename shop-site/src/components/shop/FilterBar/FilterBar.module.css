@@ -43,7 +43,7 @@
     color: #1a1a1a;
     cursor: pointer;
     transition: all 0.2s ease;
-    border-radius: 3px;
+    border-radius: 8px;
 }
 
 .filterButton:hover {

@@ -5,9 +5,7 @@ import type { CSSProperties } from "react";
    Aggiungere/modificare una nazionale = una sola voce in COLORWAYS.
 
    I valori vengono iniettati come custom property CSS direttamente sul
-   <section>, così il modulo CSS non duplica più i colori e l'eventuale
-   transizione fra due sezioni può leggere il colore della PROSSIMA
-   colorway tramite --next-cw-bg-deep / --next-cw-bg-base.
+   <section>, così il modulo CSS non duplica i colori.
    ===================================================================== */
 
 export type Colorway =
@@ -27,8 +25,6 @@ export type ColorwayTokens = {
     line: string;
     accent: string;
     bgBase: string;
-    bgDeep: string;
-    bgGlow: string;
     /** Tema usato dalla navbar e dal filtro del watermark. */
     navTheme: NavTheme;
 };
@@ -41,8 +37,6 @@ export const COLORWAYS: Record<Colorway, ColorwayTokens> = {
         line: "rgba(2, 129, 34, 0.20)",
         accent: "#015c18",
         bgBase: "#f5e400",
-        bgDeep: "#d4c600",
-        bgGlow: "rgba(3, 141, 56, 0.10)",
         navTheme: "light",
     },
     england: {
@@ -52,8 +46,6 @@ export const COLORWAYS: Record<Colorway, ColorwayTokens> = {
         line: "rgba(36, 60, 156, 0.18)",
         accent: "#c8102e",
         bgBase: "#f4eeea",
-        bgDeep: "#e0d5ce",
-        bgGlow: "rgba(42, 82, 160, 0.05)",
         navTheme: "light",
     },
     france: {
@@ -63,8 +55,6 @@ export const COLORWAYS: Record<Colorway, ColorwayTokens> = {
         line: "rgba(220, 218, 219, 0.22)",
         accent: "#ed2939",
         bgBase: "#002395",
-        bgDeep: "#001260",
-        bgGlow: "rgba(255, 246, 222, 0.06)",
         navTheme: "dark",
     },
     germany: {
@@ -74,8 +64,6 @@ export const COLORWAYS: Record<Colorway, ColorwayTokens> = {
         line: "rgba(26, 26, 26, 0.14)",
         accent: "#dd0000",
         bgBase: "#f5f5f5",
-        bgDeep: "#dcdcdc",
-        bgGlow: "rgba(221, 0, 0, 0.04)",
         navTheme: "light",
     },
     italy: {
@@ -85,8 +73,6 @@ export const COLORWAYS: Record<Colorway, ColorwayTokens> = {
         line: "rgba(240, 240, 240, 0.16)",
         accent: "#f5e60b",
         bgBase: "#0066cc",
-        bgDeep: "#004499",
-        bgGlow: "rgba(245, 230, 11, 0.06)",
         navTheme: "dark",
     },
     portugal: {
@@ -96,24 +82,13 @@ export const COLORWAYS: Record<Colorway, ColorwayTokens> = {
         line: "rgba(242, 198, 64, 0.24)",
         accent: "#f0f0f0",
         bgBase: "#006600",
-        bgDeep: "#004400",
-        bgGlow: "rgba(247, 184, 1, 0.10)",
         navTheme: "dark",
     },
 };
 
-/**
- * Costruisce l'insieme di custom property da iniettare sul <section>.
- * Se `next` è valorizzato espone anche le bg della prossima colorway:
- * il backdrop le usa per fondere il proprio fondo nel colore della
- * sezione successiva, evitando lo stacco netto fra una polo e l'altra.
- */
-export function colorwayCssVars(
-    name: Colorway,
-    next?: Colorway,
-): CSSProperties {
+/** Custom property da iniettare sul <section> per la colorway data. */
+export function colorwayCssVars(name: Colorway): CSSProperties {
     const c = COLORWAYS[name];
-    const n = next ? COLORWAYS[next] : undefined;
     return {
         "--cw-fg": c.fg,
         "--cw-fg-soft": c.fgSoft,
@@ -121,11 +96,5 @@ export function colorwayCssVars(
         "--cw-line": c.line,
         "--cw-accent": c.accent,
         "--cw-bg-base": c.bgBase,
-        "--cw-bg-deep": c.bgDeep,
-        "--cw-bg-glow": c.bgGlow,
-        ...(n && {
-            "--next-cw-bg-base": n.bgBase,
-            "--next-cw-bg-deep": n.bgDeep,
-        }),
     } as CSSProperties;
 }

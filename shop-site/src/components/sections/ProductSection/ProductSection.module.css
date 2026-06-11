@@ -11,39 +11,18 @@
 }
 
 /* === Backdrop a tre layer ===
-   1) .backdrop          → solo il gradiente di base. PURO e UNIFORME
-      orizzontalmente, in modo che il pixel finale della sezione sia
-      esattamente uguale al pixel iniziale della successiva → bordo
-      invisibile, niente "vuoto" scuro.
-   2) .backdrop::before  → radiali decorativi (depth + glow). Sono
-      "frenati" prima del bordo inferiore con una mask: non sporcano
-      la zona di handoff colore.
-   3) .backdrop::after   → noise grain, anch'esso mascherato ai bordi
-      per evitare differenze di texture al confine.
+   1) .backdrop          → fondo uniforme nella base color della sezione.
+   2) .backdrop::before  → light radiale centrale soft (respiro/depth).
+   3) .backdrop::after   → noise grain mascherato ai bordi.
 
    Le custom property --cw-* arrivano via inline style dal componente
    (vedi colorways.ts). Una sola implementazione, agnostica alla
    colorway. */
 .backdrop {
-    /* === Fusione cromatica fra sezioni ===
-       La sezione è UNIFORME nella propria base color (no vignette
-       scura, no darkening locale). Solo gli ultimi --fuse pixel
-       virano DELICATAMENTE verso la base della sezione successiva,
-       creando una fusione di colori. Interpolazione `in oklab` per
-       una transizione percettivamente uniforme su pochi pixel.
-       Pixel finale = base della prossima → il primo pixel del
-       vicino è già esattamente lo stesso colore, niente linea netta. */
-    --fuse: 3%;
-
     position: absolute;
     inset: 0;
     z-index: -2;
-    background: linear-gradient(
-            in oklab 180deg,
-            var(--cw-bg-base) 0%,
-            var(--cw-bg-base) calc(100% - var(--fuse)),
-            var(--next-cw-bg-base, var(--cw-bg-base)) 100%
-    );
+    background: var(--cw-bg-base);
 }
 
 .backdrop::before {
@@ -52,10 +31,7 @@
     inset: 0;
     pointer-events: none;
     /* Profondità soft — un singolo light centrale di soli 5% di bianco
-       che svanisce verso il bordo. Mantiene la sezione perfettamente
-       OMOGENEA nella propria identità cromatica: niente blob scuri
-       (era --cw-bg-deep), niente patch di colori complementari (era
-       --cw-bg-glow). Solo un filo di "respiro" centrale. */
+       che svanisce verso il bordo, mantenendo la sezione omogenea. */
     background: radial-gradient(
             ellipse 90% 65% at 50% 45%,
             color-mix(in srgb, white 5%, transparent) 0%,

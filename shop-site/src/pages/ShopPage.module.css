@@ -9,12 +9,13 @@
     background-attachment: fixed;
 }
 
-/* Overlay leggero per uniformare il background */
+/* Velo neutro appena percettibile per uniformare il campo e dare
+   contrasto ai riquadri, senza alterarne il verde. */
 .page::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: rgba(200, 215, 230, 0.08);
+    background: rgba(255, 255, 255, 0.05);
     pointer-events: none;
     z-index: 0;
 }
@@ -22,11 +23,11 @@
 .main {
     position: relative;
     z-index: 1;
-    padding: 60px 28px 100px;
+    padding: 60px var(--shop-inset) 100px;
 }
 
 .container {
-    max-width: 1400px;
+    max-width: var(--shop-max-w);
     margin: 0 auto;
     width: 100%;
 }
@@ -53,13 +54,13 @@
     }
 
     .main {
-        padding: 50px 24px 80px;
+        padding-block: 50px 80px;
     }
 }
 
 @media (max-width: 768px) {
     .main {
-        padding: 40px 20px 70px;
+        padding-block: 40px 70px;
     }
 
     .grid {
@@ -73,6 +74,6 @@
     }
 
     .main {
-        padding: 35px 18px 60px;
+        padding-block: 35px 60px;
     }
 }

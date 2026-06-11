@@ -1,1 +1,0 @@
-export { SerialStrip } from "./SerialStrip";

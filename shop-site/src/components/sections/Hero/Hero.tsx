@@ -1,6 +1,5 @@
 import { Button } from "../../ui/Button";
 import { Marquee } from "../../ui/Marquee";
-import { ScrollIndicator } from "../../ui/ScrollIndicator";
 import heroVideo from "../../../assets/videos/hero/hero-drop02.mp4";
 import logoBloynkay from "../../../assets/images/brand/bloynkay-logo.png";
 import styles from "./Hero.module.css";
@@ -85,10 +84,6 @@ export function Hero() {
                         Atelier · Milano · MMXXVI
                     </span>
                 </aside>
-            </div>
-
-            <div className={styles.scroll}>
-                <ScrollIndicator label="Scorri" />
             </div>
 
             <div className={styles.marquee}>

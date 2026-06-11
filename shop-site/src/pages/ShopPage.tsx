@@ -6,7 +6,6 @@ import poloFrance from "../assets/images/products/shop/france.png";
 import poloGermany from "../assets/images/products/shop/germany.png";
 import poloItaly from "../assets/images/products/shop/italyy.png";
 import poloPortugal from "../assets/images/products/shop/portugal.png";
-import bgClouds from "../assets/images/backgrounds/sfondo_shop_01.png";
 import styles from "./ShopPage.module.css";
 
 const PRODUCTS: Product[] = [
@@ -88,7 +87,6 @@ export function ShopPage() {
     return (
         <div className={styles.page}>
             <ShopHero
-                backgroundImage={bgClouds}
                 subtitle="Esplora la collezione Drop 02 — World Cup Edition. Sei nazionali, sei polo in piqué di cotone premium, costruite con la cura artigianale di Bloynkay."
             />
 

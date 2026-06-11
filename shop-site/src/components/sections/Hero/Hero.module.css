@@ -216,15 +216,6 @@
     line-height: 1.4;
 }
 
-/* ───────── Scroll indicator ───────── */
-.scroll {
-    position: absolute;
-    left: 50%;
-    bottom: calc(56px + var(--space-3));
-    transform: translateX(-50%);
-    z-index: 6;
-}
-
 /* ───────── Bottom marquee ───────── */
 .marquee {
     position: absolute;
@@ -290,10 +281,6 @@
 
     .frame {
         padding-top: calc(var(--nav-height) + var(--space-3));
-    }
-
-    .scroll {
-        display: none;
     }
 }
 

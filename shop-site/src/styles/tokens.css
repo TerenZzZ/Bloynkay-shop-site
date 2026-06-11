@@ -56,6 +56,13 @@
     --container-px: clamp(20px, 4vw, 64px);
     --nav-height: 72px;
 
+    /* Shop — colonna di contenuto allineata alle linee laterali del
+       campo da calcio (sideline a ~2.4% della larghezza del viewport).
+       L'inset al 4% le tiene appena dentro le linee a ogni risoluzione;
+       max-w limita la larghezza sui monitor molto grandi. */
+    --shop-inset: clamp(20px, 4vw, 72px);
+    --shop-max-w: 1320px;
+
     /* Motion */
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);

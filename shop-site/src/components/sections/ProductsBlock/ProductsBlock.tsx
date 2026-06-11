@@ -120,7 +120,6 @@ export function ProductsBlock() {
                     position={i + 1}
                     total={PRODUCTS.length}
                     isFlipped={i % 2 !== 0}
-                    nextColorway={PRODUCTS[i + 1]?.colorway}
                     {...p}
                 />
             ))}

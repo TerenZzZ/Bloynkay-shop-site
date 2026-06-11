@@ -9,8 +9,6 @@ export type { Colorway };
 
 export type ProductSectionProps = {
     colorway: Colorway;
-    /** Colorway della sezione successiva — abilita il blend di chiusura. */
-    nextColorway?: Colorway;
     position: number;
     total: number;
     name: string;
@@ -24,7 +22,6 @@ export type ProductSectionProps = {
 
 export function ProductSection({
     colorway,
-    nextColorway,
     position,
     total,
     name,
@@ -40,7 +37,7 @@ export function ProductSection({
             id={`drop-02-${colorway}`}
             data-nav-theme={COLORWAYS[colorway].navTheme}
             className={`${styles.section} ${isFlipped ? styles.flipped : ""}`}
-            style={colorwayCssVars(colorway, nextColorway)}
+            style={colorwayCssVars(colorway)}
         >
             <div className={styles.backdrop} aria-hidden="true" />
             <img
