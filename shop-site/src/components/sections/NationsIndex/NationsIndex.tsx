@@ -33,13 +33,15 @@ function NationTile({ nation }: { nation: Nation }) {
             onClick={() => scrollToId(`drop-02-${nation.colorway}`)}
             aria-label={`Vai alla polo ${nation.name}`}
         >
-            <span className={styles.shine} aria-hidden="true" />
-            <span className={styles.tileBody}>
-                <span className={styles.code}>{nation.code}</span>
-                <span className={styles.name}>{nation.name}</span>
-            </span>
-            <span className={styles.go} aria-hidden="true">
-                →
+            <span className={styles.card}>
+                <span className={styles.shine} aria-hidden="true" />
+                <span className={styles.tileBody}>
+                    <span className={styles.code}>{nation.code}</span>
+                    <span className={styles.name}>{nation.name}</span>
+                </span>
+                <span className={styles.go} aria-hidden="true">
+                    →
+                </span>
             </span>
         </button>
     );

@@ -299,21 +299,29 @@
     color: var(--cw-fg);
 }
 
+/* Griglia compatta a due colonne, allineata a sinistra:
+   ┌─────────────┬──────────────────────┐
+   │ Prezzo      │ [ Size chart ]        │   ← prezzo e Size chart affiancati
+   │ [Vai shop]  │ [ Aggiungi al... ]    │   ← due bottoni su un'unica riga
+   └─────────────┴──────────────────────┘
+   Size chart e "Aggiungi al carrello" condividono la colonna destra →
+   stesso bordo sinistro. */
 .buyRow {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas:
+            "label ."
+            "price size"
+            "shop  cart";
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-5);
-    flex-wrap: wrap;
-}
-
-.priceBlock {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
+    justify-items: start;
+    justify-content: start;
+    column-gap: var(--space-4);
+    row-gap: var(--space-2);
 }
 
 .priceLabel {
+    grid-area: label;
     font-size: 0.66rem;
     font-weight: 500;
     letter-spacing: 0.32em;
@@ -322,6 +330,7 @@
 }
 
 .price {
+    grid-area: price;
     font-family: var(--font-display);
     font-size: clamp(2rem, 1.6rem + 1.4vw, 2.6rem);
     letter-spacing: 0.01em;
@@ -329,10 +338,16 @@
     line-height: 1;
 }
 
-.buttons {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
+.sizeChart {
+    grid-area: size;
+}
+
+.ctaShop {
+    grid-area: shop;
+}
+
+.cta {
+    grid-area: cart;
 }
 
 .cta,
@@ -507,14 +522,15 @@
     }
 
     .buyRow {
-        flex-direction: column;
-        align-items: stretch;
-        gap: var(--space-4);
-    }
-
-    .buttons {
-        flex-direction: column;
-        gap: var(--space-3);
+        grid-template-columns: 1fr;
+        grid-template-areas:
+                "label"
+                "price"
+                "size"
+                "shop"
+                "cart";
+        justify-items: stretch;
+        row-gap: var(--space-3);
     }
 
     .cta,

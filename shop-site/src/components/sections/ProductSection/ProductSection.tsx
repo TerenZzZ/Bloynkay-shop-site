@@ -110,21 +110,26 @@ export function ProductSection({
                         </ul>
 
                         <div className={styles.buyRow}>
-                            <div className={styles.priceBlock}>
-                                <span className={styles.priceLabel}>Prezzo di lancio</span>
-                                <span className={styles.price}>{price}</span>
-                            </div>
-                            <div className={styles.buttons}>
-                                <Link to="/shop" className={styles.ctaGhost}>
-                                    Vai allo shop
-                                </Link>
-                                <RunningLightButton
-                                    colorway={colorway}
-                                    className={styles.cta}
-                                >
-                                    Aggiungi al carrello
-                                </RunningLightButton>
-                            </div>
+                            <span className={styles.priceLabel}>Prezzo di lancio</span>
+                            <span className={styles.price}>{price}</span>
+                            <button
+                                type="button"
+                                className={`${styles.ctaGhost} ${styles.sizeChart}`}
+                            >
+                                Size chart
+                            </button>
+                            <Link
+                                to="/shop"
+                                className={`${styles.ctaGhost} ${styles.ctaShop}`}
+                            >
+                                Vai allo shop
+                            </Link>
+                            <RunningLightButton
+                                colorway={colorway}
+                                className={styles.cta}
+                            >
+                                Aggiungi al carrello
+                            </RunningLightButton>
                         </div>
                     </Reveal>
                 </div>
