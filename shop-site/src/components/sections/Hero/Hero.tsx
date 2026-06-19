@@ -1,31 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/Button";
-import { Marquee } from "../../ui/Marquee";
+import {
+    Marquee,
+    BRAND_MARQUEE_ITEMS,
+    BRAND_MARQUEE_DOT_COLORS,
+} from "../../ui/Marquee";
 import heroVideo from "../../../assets/videos/hero/hero-drop02.mp4";
 import logoBloynkay from "../../../assets/images/brand/bloykay_logo_1.svg";
 import styles from "./Hero.module.css";
 
 /* TODO: data di lancio da confermare con l'utente. */
 const LAUNCH_LABEL = "Prossimamente";
-
-/* Colori delle sei nazioni, alternati tra i pallini del marquee. */
-const MARQUEE_DOT_COLORS = [
-    "#259925",
-    "#d12308",
-    "#f5f3ed",
-    "#0859d1",
-    "#e8a909",
-    "#878787",
-];
-
-const MARQUEE_ITEMS = [
-    "Drop 02",
-    "Sei nazioni · Sei polo",
-    "Brasile · Inghilterra",
-    "Francia · Germania",
-    "Italia · Portogallo",
-    "Limited Release",
-];
 
 function scrollToId(id: string) {
     const el = document.getElementById(id);
@@ -76,7 +61,10 @@ export function Hero() {
             </div>
 
             <div className={styles.marquee}>
-                <Marquee items={MARQUEE_ITEMS} dotColors={MARQUEE_DOT_COLORS} />
+                <Marquee
+                    items={BRAND_MARQUEE_ITEMS}
+                    dotColors={BRAND_MARQUEE_DOT_COLORS}
+                />
             </div>
         </section>
     );

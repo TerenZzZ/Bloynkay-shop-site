@@ -1,11 +1,11 @@
 import { ProductSection } from "../ProductSection";
 import type { Colorway } from "../ProductSection";
-import poloBrazil from "../../../assets/images/products/landing/brazill.png";
-import poloEngland from "../../../assets/images/products/landing/england.png";
-import poloFrance from "../../../assets/images/products/landing/france.png";
-import poloGermany from "../../../assets/images/products/landing/germany.png";
-import poloItaly from "../../../assets/images/products/landing/italyy.png";
-import poloPortugal from "../../../assets/images/products/landing/portugal.png";
+import poloBrazil from "../../../assets/images/products/landing/blocks/brazill.png";
+import poloEngland from "../../../assets/images/products/landing/blocks/england.png";
+import poloFrance from "../../../assets/images/products/landing/blocks/france.png";
+import poloGermany from "../../../assets/images/products/landing/blocks/germany.png";
+import poloItaly from "../../../assets/images/products/landing/blocks/italyy.png";
+import poloPortugal from "../../../assets/images/products/landing/blocks/portugal.png";
 import styles from "./ProductsBlock.module.css";
 
 type ProductData = {

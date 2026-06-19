@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Reveal } from "../../ui/Reveal";
 import { RunningLightButton } from "../../ui/RunningLightButton";
 import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
 import { COLORWAYS, colorwayCssVars, type Colorway } from "./colorways";
+import { POLO_GALLERY } from "./galleryImages";
+import { ProductGalleryModal } from "./ProductGalleryModal";
 import styles from "./ProductSection.module.css";
 
 export type { Colorway };
@@ -32,6 +35,8 @@ export function ProductSection({
     mediaAlt,
     isFlipped = false,
 }: ProductSectionProps) {
+    const [galleryOpen, setGalleryOpen] = useState(false);
+
     return (
         <section
             id={`drop-02-${colorway}`}
@@ -58,7 +63,12 @@ export function ProductSection({
                             </span>
                         </header>
 
-                        <Link to="/shop" className={styles.mediaLink}>
+                        <button
+                            type="button"
+                            className={styles.mediaButton}
+                            onClick={() => setGalleryOpen(true)}
+                            aria-label={`Apri la gallery di ${name}`}
+                        >
                             <figure className={styles.media}>
                                 <img
                                     src={mediaSrc}
@@ -66,7 +76,7 @@ export function ProductSection({
                                     className={styles.mediaEl}
                                 />
                             </figure>
-                        </Link>
+                        </button>
 
                         <span className={styles.mediaName}>{name}</span>
                     </div>
@@ -119,6 +129,17 @@ export function ProductSection({
                     </Reveal>
                 </div>
             </div>
+
+            {galleryOpen && (
+                <ProductGalleryModal
+                    name={name}
+                    position={position}
+                    total={total}
+                    colorway={colorway}
+                    images={POLO_GALLERY[colorway]}
+                    onClose={() => setGalleryOpen(false)}
+                />
+            )}
         </section>
     );
 }

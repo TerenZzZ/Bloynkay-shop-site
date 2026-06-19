@@ -145,11 +145,20 @@
     font-variant-numeric: tabular-nums;
 }
 
-.mediaLink {
+.mediaButton {
     display: block;
-    text-decoration: none;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
     color: inherit;
     cursor: pointer;
+}
+
+.mediaButton:focus-visible {
+    outline: 2px solid var(--cw-fg);
+    outline-offset: 6px;
+    border-radius: var(--radius-sm);
 }
 
 .media {
@@ -172,7 +181,7 @@
     transition: transform 800ms var(--ease-out), filter 800ms var(--ease-out);
 }
 
-.mediaLink:hover .mediaEl {
+.media:hover .mediaEl {
     transform: scale(1.05) translateY(-4px);
     filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.3))
             drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
@@ -539,7 +548,7 @@
 
 /* === Touch devices optimization === */
 @media (hover: none) and (pointer: coarse) {
-    .mediaLink:hover .mediaEl {
+    .media:hover .mediaEl {
         transform: none;
         filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25))
                 drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
@@ -549,14 +558,6 @@
     .ctaGhost:hover {
         transform: none;
     }
-
-    .link:hover {
-        opacity: 0.72;
-    }
-
-    .link:hover::after {
-        width: 0;
-    }
 }
 
 /* === Reduced motion === */
@@ -564,7 +565,7 @@
     .mediaEl {
         transition: none;
     }
-    .mediaLink:hover .mediaEl {
+    .media:hover .mediaEl {
         transform: none;
     }
 }
