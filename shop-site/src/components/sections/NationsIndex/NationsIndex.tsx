@@ -61,7 +61,7 @@ export function NationsIndex() {
                         <span className={styles.kickerRule} aria-hidden="true" />
                         Drop 02 · World Cup Edition
                     </span>
-                    <h2 className={styles.headline}>Quale scegli?</h2>
+                    <h2 className={styles.headline}>Fai la tua scelta</h2>
                     <p className={styles.sub}>
                         Sei nazioni, una sola edizione limitata. Trova i tuoi colori.
                     </p>

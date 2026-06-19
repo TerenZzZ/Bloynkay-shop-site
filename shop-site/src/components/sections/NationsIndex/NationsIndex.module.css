@@ -1,9 +1,10 @@
 /* =====================================================================
-   Sezione finale — "Scegli la tua Nazionale".
-   Full-height come l'Hero, sfondo stadio. Tile a dimensione fissa con
-   nome sempre visibile (click facile e intuitivo); l'effetto hover è una
-   scia di luce + un bordo nei colori nazionali che si disegna lungo il
-   perimetro. Tutto in CSS, palette landing (panna / ink / oro).
+   Sezione finale — "Fai la tua scelta".
+   Alta quanto una schermata meno la barra marquee soprastante (--bar-h),
+   sfondo stadio. Tile a dimensione fissa con nome sempre visibile (click
+   facile e intuitivo); l'hover è una scia di luce + due linguette a L nei
+   colori nazionali che si allungano fino a disegnare il perimetro. Tutto
+   in CSS, palette landing (panna / ink / oro).
    ===================================================================== */
 .section {
     /* Altezza barra marquee soprastante: barra + sezione devono stare
@@ -93,43 +94,46 @@
     background: var(--color-ink-soft);
 }
 
-/* Titolo unico, grande: interno panna pieno, contorno oro con alone
-   luminoso che pulsa lentamente — l'accento del brand cattura il focus
-   senza introdurre colori estranei. */
+/* Titolo editoriale: panna pieno, alone oro caldo appena percettibile e un
+   filetto oro sotto (richiama il kicker e i pallini del marquee). Statico
+   e premium, coerente con l'intera landing. */
 .headline {
+    position: relative;
     margin: 0;
+    padding-bottom: 0.3em;
     font-family: var(--font-display);
-    font-size: clamp(2.8rem, 1.8rem + 5vw, 6rem);
-    line-height: 0.9;
-    letter-spacing: -0.01em;
+    font-size: clamp(2.6rem, 1.7rem + 4.6vw, 5.4rem);
+    line-height: 0.92;
+    letter-spacing: 0.005em;
     text-transform: uppercase;
-    /* Interno panna appena scaldato d'oro e semitrasparente: lascia
-       filtrare lo stadio così il titolo si integra con lo sfondo. */
-    color: color-mix(
-            in srgb,
-            color-mix(in srgb, var(--color-ink) 88%, var(--color-accent)) 66%,
-            transparent
-    );
-    -webkit-text-stroke: 1px color-mix(in srgb, var(--color-accent) 88%, #fff);
-    animation: titleGlow 3.6s var(--ease-in-out) infinite;
+    color: color-mix(in srgb, var(--color-ink) 40%, transparent);
+    -webkit-text-stroke: 0.6px color-mix(in srgb, var(--color-accent) 82%, #fff);
+    text-shadow:
+            0 0 6px rgba(255, 232, 168, 0.5),
+            0 0 12px rgba(212, 175, 55, 0.55),
+            0 0 30px rgba(212, 175, 55, 0.36),
+            0 0 54px rgba(212, 175, 55, 0.2),
+            0 4px 22px rgba(0, 0, 0, 0.5);
+    /* La sagoma si chiude appena a ovale: gli angoli laterali vengono
+       "risucchiati" verso il centro, riprendendo la forma a lente del
+       filetto oro sottostante. */
+    clip-path: ellipse(72% 132% at 50% 50%);
 }
 
-@keyframes titleGlow {
-    0%,
-    100% {
-        text-shadow:
-                0 0 9px rgba(212, 175, 55, 0.5),
-                0 0 24px rgba(212, 175, 55, 0.36),
-                0 0 46px rgba(212, 175, 55, 0.2),
-                0 3px 16px rgba(0, 0, 0, 0.5);
-    }
-    50% {
-        text-shadow:
-                0 0 13px rgba(212, 175, 55, 0.72),
-                0 0 34px rgba(212, 175, 55, 0.5),
-                0 0 64px rgba(212, 175, 55, 0.3),
-                0 3px 16px rgba(0, 0, 0, 0.5);
-    }
+.headline::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: clamp(64px, 22%, 150px);
+    height: 2px;
+    background: linear-gradient(
+            90deg,
+            transparent,
+            var(--color-accent) 50%,
+            transparent
+    );
 }
 
 .sub {
@@ -168,14 +172,14 @@
             background var(--dur-base) var(--ease-out);
 }
 
-/* Bordo tracciato — due tratti che partono da angoli opposti e si
-   incontrano disegnando il perimetro. */
+/* Bordo tracciato — a riposo due linguette a L agli angoli opposti che,
+   al passaggio del cursore, si allungano fino a disegnare il perimetro. */
 .tile::before,
 .tile::after {
     content: "";
     position: absolute;
-    width: 0;
-    height: 0;
+    width: 22px;
+    height: 22px;
     border-radius: var(--radius-sm);
     pointer-events: none;
     transition: width var(--dur-base) var(--ease-out),
@@ -350,13 +354,5 @@
     .shine::before,
     .go {
         transition: none;
-    }
-
-    .headline {
-        animation: none;
-        text-shadow:
-                0 0 12px rgba(212, 175, 55, 0.55),
-                0 0 30px rgba(212, 175, 55, 0.32),
-                0 3px 16px rgba(0, 0, 0, 0.5);
     }
 }
