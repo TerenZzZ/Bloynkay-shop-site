@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/Button";
+import { scrollToId } from "../../utils";
 import {
     Marquee,
     BRAND_MARQUEE_ITEMS,
@@ -11,12 +12,6 @@ import styles from "./Hero.module.css";
 
 /* TODO: data di lancio da confermare con l'utente. */
 const LAUNCH_LABEL = "Prossimamente";
-
-function scrollToId(id: string) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
 
 export function Hero() {
     const navigate = useNavigate();
@@ -45,10 +40,10 @@ export function Hero() {
                     <span className={styles.divider} aria-hidden="true" />
 
                     <div className={styles.actions}>
-                        <Button onClick={() => scrollToId("drop-02-brazil")}>
+                        <Button glow onClick={() => scrollToId("drop-02-brazil")}>
                             Scopri Drop 02
                         </Button>
-                        <Button variant="ghost" onClick={() => navigate("/shop")}>
+                        <Button glow variant="ghost" onClick={() => navigate("/shop")}>
                             Vedi lo shop
                         </Button>
                     </div>

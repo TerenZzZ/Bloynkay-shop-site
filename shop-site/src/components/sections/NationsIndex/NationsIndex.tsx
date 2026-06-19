@@ -1,6 +1,8 @@
 import type { CSSProperties } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../../ui/Button";
 import { Reveal } from "../../ui/Reveal";
+import { scrollToId } from "../../utils";
 import { COLORWAYS } from "../ProductSection/colorways";
 import type { Colorway } from "../ProductSection";
 import stadiumBg from "../../../assets/images/backgrounds/stadio_finale_01.png";
@@ -17,12 +19,6 @@ const NATIONS: Nation[] = [
     { code: "ITA", name: "Italia", colorway: "italy" },
     { code: "POR", name: "Portogallo", colorway: "portugal" },
 ];
-
-function scrollToId(id: string) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
 
 /* Tile nazione a dimensione fissa: codice e nome sempre visibili. Il
    colore della nazionale è iniettato come --n-color e usato dall'effetto
@@ -50,6 +46,8 @@ function NationTile({ nation }: { nation: Nation }) {
 }
 
 export function NationsIndex() {
+    const navigate = useNavigate();
+
     return (
         <section id="nazioni" data-nav-theme="light" className={styles.section}>
             <div className={styles.bg} aria-hidden="true">
@@ -63,7 +61,7 @@ export function NationsIndex() {
                         <span className={styles.kickerRule} aria-hidden="true" />
                         Drop 02 · World Cup Edition
                     </span>
-                    <h2 className={styles.headline}>Scegli la tua Nazionale</h2>
+                    <h2 className={styles.headline}>Quale scegli?</h2>
                     <p className={styles.sub}>
                         Sei nazioni, una sola edizione limitata. Trova i tuoi colori.
                     </p>
@@ -79,12 +77,9 @@ export function NationsIndex() {
                 </nav>
 
                 <Reveal className={styles.cta}>
-                    <Link to="/shop" className={styles.ctaButton}>
-                        <span className={styles.ctaLabel}>Acquista ora</span>
-                        <span className={styles.ctaArrow} aria-hidden="true">
-                            →
-                        </span>
-                    </Link>
+                    <Button glow onClick={() => navigate("/shop")}>
+                        Acquista ora
+                    </Button>
                     <span className={styles.ctaNote}>
                         Spedizione gratuita · Edizione limitata Drop 02
                     </span>

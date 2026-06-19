@@ -5,6 +5,8 @@ type Variant = "solid" | "ghost";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     variant?: Variant;
+    /** CTA semitrasparente che si illumina di oro al passaggio del cursore. */
+    glow?: boolean;
     children: ReactNode;
 };
 
@@ -15,6 +17,7 @@ const variantClass: Record<Variant, string> = {
 
 export function Button({
                            variant = "solid",
+                           glow = false,
                            className,
                            children,
                            ...rest
@@ -22,7 +25,7 @@ export function Button({
     return (
         <button
             type="button"
-            className={[styles.button, variantClass[variant], className]
+            className={[styles.button, variantClass[variant], glow && styles.glow, className]
                 .filter(Boolean)
                 .join(" ")}
             {...rest}

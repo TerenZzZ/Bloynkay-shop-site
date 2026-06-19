@@ -51,6 +51,26 @@
     background: rgba(245, 241, 232, 0.06);
 }
 
+/* CTA semitrasparente che si illumina di oro al hover (usata su sfondi
+   scuri: Hero e sezione finale). */
+.glow {
+    opacity: 0.82;
+    transition:
+            transform var(--dur-fast) var(--ease-out),
+            background-color var(--dur-base) var(--ease-out),
+            color var(--dur-base) var(--ease-out),
+            border-color var(--dur-base) var(--ease-out),
+            opacity var(--dur-base) var(--ease-out),
+            box-shadow var(--dur-base) var(--ease-out);
+}
+
+.glow:hover {
+    opacity: 1;
+    box-shadow:
+            0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent),
+            0 0 26px color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+
 .label {
     display: inline-block;
 }
