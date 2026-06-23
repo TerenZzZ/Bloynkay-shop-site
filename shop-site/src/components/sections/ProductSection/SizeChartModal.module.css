@@ -1,0 +1,99 @@
+/* Popup guida taglie: il PNG (sfondo trasparente) galleggia direttamente
+   sopra un fondo smerigliato/translucido, riprendendo l'effetto vetro del
+   visualizzatore foto iOS di riferimento — niente pannello pieno, così la
+   trasparenza dell'immagine resta intatta. */
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(16px, 4vw, 56px);
+    color: var(--cw-fg);
+    animation: overlayIn var(--dur-base) var(--ease-out) both;
+}
+
+.backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.close {
+    position: absolute;
+    top: clamp(12px, 2vw, 26px);
+    right: clamp(12px, 2vw, 26px);
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--cw-fg) 30%, transparent);
+    background: color-mix(in srgb, var(--cw-fg) 10%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--cw-fg);
+    font-size: 1rem;
+    cursor: pointer;
+    transition:
+            background var(--dur-base) var(--ease-out),
+            transform var(--dur-fast) var(--ease-out);
+}
+
+.close:hover {
+    background: var(--cw-fg);
+    color: var(--cw-bg-base);
+    transform: rotate(90deg);
+}
+
+.figure {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: min(720px, 100%);
+    max-height: 100%;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: calc(100dvh - clamp(48px, 12vw, 140px));
+    object-fit: contain;
+    filter: drop-shadow(0 30px 70px rgba(0, 0, 0, 0.5));
+    animation: floatIn var(--dur-slow) var(--ease-out) both;
+}
+
+/* === Animations === */
+@keyframes overlayIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes floatIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .overlay,
+    .image {
+        animation: none;
+    }
+}

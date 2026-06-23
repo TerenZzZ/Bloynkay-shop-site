@@ -2,7 +2,7 @@
     min-height: 100vh;
     min-height: 100dvh;
     position: relative;
-    background-image: url('../assets/images/backgrounds/sfondo_shop_01.png');
+    background-image: url('../assets/images/backgrounds/sfondo_store_01.png');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -23,11 +23,11 @@
 .main {
     position: relative;
     z-index: 1;
-    padding: 60px var(--shop-inset) 100px;
+    padding: 60px var(--store-inset) 100px;
 }
 
 .container {
-    max-width: var(--shop-max-w);
+    max-width: var(--store-max-w);
     margin: 0 auto;
     width: 100%;
 }

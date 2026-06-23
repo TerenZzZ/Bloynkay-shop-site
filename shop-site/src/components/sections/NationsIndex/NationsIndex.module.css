@@ -58,7 +58,7 @@
 .inner {
     position: relative;
     z-index: 1;
-    width: min(100%, var(--shop-max-w));
+    width: min(100%, var(--store-max-w));
     margin: 0 auto;
     padding: 0 var(--container-px);
     display: flex;
@@ -314,7 +314,7 @@
     transform: translate(0, 0);
 }
 
-/* ───────── CTA verso lo shop ───────── */
+/* ───────── CTA verso lo store ───────── */
 .cta {
     display: flex;
     flex-direction: column;

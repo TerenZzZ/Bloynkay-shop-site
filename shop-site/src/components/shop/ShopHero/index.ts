@@ -1,1 +1,0 @@
-export { ShopHero } from "./ShopHero";

@@ -15,19 +15,19 @@ type NavLink = {
 
 const NAV_LINKS: NavLink[] = [
     { label: "Drop", href: "#drop-01-nero", target: "drop-01-nero", isRoute: false },
-    { label: "Shop", href: "/shop", isRoute: true },
+    { label: "Store", href: "/store", isRoute: true },
 ];
 
 function useNavbarBehavior() {
     const location = useLocation();
-    const isShopPage = location.pathname === "/shop";
+    const isStorePage = location.pathname === "/store";
 
-    // Inizializza il tema corretto fin da subito per la shop page
+    // Inizializza il tema corretto fin da subito per la store page
     const [theme, setTheme] = useState<Theme>(
-        isShopPage && window.scrollY <= 200 ? "dark" : "light"
+        isStorePage && window.scrollY <= 200 ? "dark" : "light"
     );
     const [scrolled, setScrolled] = useState(false);
-    const [activeId, setActiveId] = useState<string>(isShopPage ? "shop" : "top");
+    const [activeId, setActiveId] = useState<string>(isStorePage ? "store" : "top");
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 140);
@@ -37,13 +37,13 @@ function useNavbarBehavior() {
     }, []);
 
     useEffect(() => {
-        // Se siamo sulla pagina shop, gestiamo il tema in base allo scroll
-        if (isShopPage) {
+        // Se siamo sulla pagina store, gestiamo il tema in base allo scroll
+        if (isStorePage) {
             queueMicrotask(() => {
-                setActiveId("shop");
+                setActiveId("store");
             });
 
-            const updateShopTheme = () => {
+            const updateStoreTheme = () => {
                 const scrollY = window.scrollY;
                 // Cambia tema da dark a light in base allo scroll
                 if (scrollY > 200) {
@@ -53,9 +53,9 @@ function useNavbarBehavior() {
                 }
             };
 
-            updateShopTheme();
-            window.addEventListener("scroll", updateShopTheme, { passive: true });
-            return () => window.removeEventListener("scroll", updateShopTheme);
+            updateStoreTheme();
+            window.addEventListener("scroll", updateStoreTheme, { passive: true });
+            return () => window.removeEventListener("scroll", updateStoreTheme);
         }
 
         // Altrimenti siamo sulla home: resettiamo e configuriamo l'IntersectionObserver
@@ -117,7 +117,7 @@ function useNavbarBehavior() {
             obs.disconnect();
             if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
         };
-    }, [isShopPage]);
+    }, [isStorePage]);
 
     return { theme, scrolled, activeId };
 }
@@ -126,7 +126,7 @@ export function Navbar() {
     const { theme, scrolled, activeId } = useNavbarBehavior();
     const location = useLocation();
     const navigate = useNavigate();
-    const isShopPage = location.pathname === "/shop";
+    const isStorePage = location.pathname === "/store";
     const themeClass =
         theme === "dark" ? styles.dark :
         theme === "medium" ? styles.medium :
@@ -171,7 +171,7 @@ export function Navbar() {
                 styles.navbar,
                 themeClass,
                 scrolled ? styles.scrolled : "",
-                isShopPage ? styles.shopPage : "",
+                isStorePage ? styles.storePage : "",
             ]
                 .filter(Boolean)
                 .join(" ")}
@@ -205,7 +205,7 @@ export function Navbar() {
                                 );
                             }
 
-                            // Altri link (Shop, ecc.)
+                            // Altri link (Store, ecc.)
                             return (
                                 <li key={link.href}>
                                     {link.isRoute ? (

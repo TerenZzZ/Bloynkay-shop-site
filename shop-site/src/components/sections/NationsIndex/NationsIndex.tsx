@@ -79,7 +79,7 @@ export function NationsIndex() {
                 </nav>
 
                 <Reveal className={styles.cta}>
-                    <Button glow onClick={() => navigate("/shop")}>
+                    <Button glow onClick={() => navigate("/store")}>
                         Acquista ora
                     </Button>
                     <span className={styles.ctaNote}>

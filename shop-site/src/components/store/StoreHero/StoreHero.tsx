@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
-import styles from "./ShopHero.module.css";
+import styles from "./StoreHero.module.css";
 
-type ShopHeroProps = {
+type StoreHeroProps = {
     title?: string;
     subtitle?: string;
 };
 
-export function ShopHero({
-    title = "SHOP",
+export function StoreHero({
+    title = "STORE",
     subtitle = "Esplora la collezione completa di Bloynkay Atelier. Ogni capo è pensato per durare, realizzato con materiali selezionati.",
-}: ShopHeroProps) {
+}: StoreHeroProps) {
     return (
         <section className={styles.hero}>
             <motion.div

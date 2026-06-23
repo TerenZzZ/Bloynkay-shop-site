@@ -208,7 +208,8 @@
     flex-direction: column;
     justify-content: center;
     gap: var(--space-4);
-    max-width: 48ch;
+    width: 100%;
+    max-width: 52ch;
 }
 
 .step:first-child {
@@ -299,29 +300,37 @@
     color: var(--cw-fg);
 }
 
-/* Griglia compatta a due colonne, allineata a sinistra:
-   ┌─────────────┬──────────────────────┐
-   │ Prezzo      │ [ Size chart ]        │   ← prezzo e Size chart affiancati
-   │ [Vai shop]  │ [ Aggiungi al... ]    │   ← due bottoni su un'unica riga
-   └─────────────┴──────────────────────┘
-   Size chart e "Aggiungi al carrello" condividono la colonna destra →
-   stesso bordo sinistro. */
+/* Griglia: prezzo ancorato al bordo sinistro (occupa entrambe le righe e si
+   centra in verticale, allineato col bordo sinistro della tabella dettagli),
+   blocco azioni ancorato al bordo destro (allineato col bordo destro della
+   tabella). space-between distribuisce il vuoto centrale come whitespace.
+   ┌──────────────────────────────────────────────┐
+   │ Prezzo                                        │
+   │ €XX        [Size chart] [Vai allo store]       │   ← due ghost, larghezze pari
+   │            [     Aggiungi al carrello     ]   │   ← CTA, stessa larghezza del blocco
+   └──────────────────────────────────────────────┘
+   label+prezzo formano un blocco unico, centrato in verticale sullo stack
+   delle azioni. */
 .buyRow {
     display: grid;
     grid-template-columns: auto auto;
     grid-template-areas:
-            "label ."
-            "price size"
-            "shop  cart";
+            "priceblock  ghosts"
+            "priceblock  cart";
     align-items: center;
-    justify-items: start;
-    justify-content: start;
+    justify-content: space-between;
     column-gap: var(--space-4);
-    row-gap: var(--space-2);
+    row-gap: var(--space-3);
+}
+
+.priceBlock {
+    grid-area: priceblock;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
 }
 
 .priceLabel {
-    grid-area: label;
     font-size: 0.66rem;
     font-weight: 500;
     letter-spacing: 0.32em;
@@ -330,24 +339,31 @@
 }
 
 .price {
-    grid-area: price;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 1.6rem + 1.4vw, 2.6rem);
+    font-size: clamp(2.2rem, 1.7rem + 1.5vw, 2.7rem);
     letter-spacing: 0.01em;
     color: var(--cw-fg);
     line-height: 1;
+    white-space: nowrap;
 }
 
-.sizeChart {
-    grid-area: size;
+.ghostGroup {
+    grid-area: ghosts;
+    display: flex;
+    gap: var(--space-2);
+    justify-self: stretch;
 }
 
-.ctaShop {
-    grid-area: shop;
+/* I due ghost si dividono in parti uguali la larghezza del blocco (= larghezza
+   della CTA), così la riga superiore e la CTA formano un rettangolo pulito. */
+.ghostGroup .ctaGhost {
+    flex: 1;
 }
 
 .cta {
     grid-area: cart;
+    justify-self: stretch;
+    justify-content: center;
 }
 
 .cta,
@@ -375,6 +391,8 @@
 .cta {
     background: var(--cw-fg);
     color: var(--cw-bg-base);
+    padding: 16px 26px;
+    font-weight: 600;
 }
 
 .cta:hover {
@@ -383,7 +401,67 @@
     color: var(--cw-bg-base);
 }
 
+/* === CTA "Aggiungi al carrello" — tono per kit (logo bloynkay + palette nazionale) === */
+:global(#drop-02-brazil) .cta {
+    background: #4d0e82;          /* viola del logo bloynkay */
+    color: #fff4d6;
+}
+:global(#drop-02-brazil) .cta:hover {
+    background: #f5e400;          /* giallo dello sfondo sezione */
+    color: #4d0e82;
+}
+
+:global(#drop-02-england) .cta {
+    background: #9b1724;          /* rosso del logo bloynkay */
+    color: #f4eeea;
+}
+:global(#drop-02-england) .cta:hover {
+    background: #c8202f;          /* rosso un po' più chiaro */
+    color: #f4eeea;
+}
+
+:global(#drop-02-france) .cta {
+    background: #f4f1ea;          /* bianco del logo bloynkay */
+    color: #1d2f9e;
+}
+:global(#drop-02-france) .cta:hover {
+    background: #d2202f;          /* rosso Francia */
+    color: #fdfdfd;
+}
+
+:global(#drop-02-germany) .cta {
+    background: #17171b;          /* nero della maglia Germania */
+    color: #f0f0f0;
+}
+:global(#drop-02-germany) .cta:hover {
+    background: #e3a008;          /* oro Germania */
+    color: #17171b;
+}
+
+:global(#drop-02-italy) .cta {
+    background: #f2f5f7;          /* bianco del logo bloynkay */
+    color: #0d4ea6;
+}
+:global(#drop-02-italy) .cta:hover {
+    background: #009246;          /* verde Italia */
+    color: #fdfdfd;
+}
+
+:global(#drop-02-portugal) .cta {
+    background: #f9c300;          /* oro del logo bloynkay */
+    color: #7a0a14;
+}
+:global(#drop-02-portugal) .cta:hover {
+    background: #0a6b2d;          /* verde Portogallo */
+    color: #fff4d6;
+}
+
 .ctaGhost {
+    padding: 9px 18px;
+    gap: var(--space-2);
+    justify-content: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
     background: transparent;
     color: var(--cw-fg);
     border-color: var(--cw-line);
@@ -392,6 +470,43 @@
 .ctaGhost:hover {
     border-color: var(--cw-fg);
     background: color-mix(in srgb, var(--cw-fg) 8%, transparent);
+}
+
+/* === Simmetria delle sezioni alternate ===
+   A due colonne il contenuto fluisce dal centro verso l'esterno: nelle
+   sezioni normali la colonna info è a destra e il testo è allineato a
+   sinistra (verso il centro); in quelle "flipped" la colonna info è a
+   sinistra e va specchiata, quindi tutto si allinea a destra (di nuovo
+   verso il centro). Attivo solo quando il layout è effettivamente a due
+   colonne (sopra i 1080px); sotto, tutto impila a sinistra in modo
+   identico. */
+@media (min-width: 1081px) {
+    .flipped .infoCol {
+        align-items: flex-end;
+        text-align: right;
+    }
+
+    .flipped .stepLabel,
+    .flipped .detail,
+    .flipped .mediaMeta {
+        flex-direction: row-reverse;
+    }
+
+    .flipped .mediaName {
+        text-align: right;
+    }
+
+    /* Specchio della griglia: prezzo ancorato al bordo destro, blocco azioni
+       al bordo sinistro. space-between e lo stretch sono ereditati dal base. */
+    .flipped .buyRow {
+        grid-template-areas:
+                "ghosts  priceblock"
+                "cart    priceblock";
+    }
+
+    .flipped .priceBlock {
+        align-items: flex-end;
+    }
 }
 
 /* === Responsive === */
@@ -524,24 +639,23 @@
     .buyRow {
         grid-template-columns: 1fr;
         grid-template-areas:
-                "label"
-                "price"
-                "size"
-                "shop"
+                "priceblock"
+                "ghosts"
                 "cart";
         justify-items: stretch;
         row-gap: var(--space-3);
     }
 
-    .cta,
-    .ctaGhost {
-        width: 100%;
-        justify-content: center;
+    .cta {
         padding: 16px 24px;
     }
 
+    .ctaGhost {
+        padding: 11px 24px;
+    }
+
     .price {
-        font-size: clamp(1.8rem, 8vw, 2.2rem);
+        font-size: clamp(2rem, 8vw, 2.4rem);
     }
 
     .priceLabel {
@@ -606,9 +720,13 @@
         font-size: 0.9rem;
     }
 
-    .cta,
-    .ctaGhost {
+    .cta {
         padding: 14px 20px;
-        font-size: 0.72rem;
+        font-size: 0.78rem;
+    }
+
+    .ctaGhost {
+        padding: 10px 20px;
+        font-size: 0.68rem;
     }
 }

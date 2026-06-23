@@ -1,12 +1,12 @@
-import { ShopHero, FilterBar, ProductCard } from "../components/shop";
-import type { Product } from "../components/shop";
-import poloBrazil from "../assets/images/products/shop/brazill.png";
-import poloEngland from "../assets/images/products/shop/england.png";
-import poloFrance from "../assets/images/products/shop/france.png";
-import poloGermany from "../assets/images/products/shop/germany.png";
-import poloItaly from "../assets/images/products/shop/italyy.png";
-import poloPortugal from "../assets/images/products/shop/portugal.png";
-import styles from "./ShopPage.module.css";
+import { StoreHero, FilterBar, ProductCard } from "../components/store";
+import type { Product } from "../components/store";
+import poloBrazil from "../assets/images/products/store/brazill.png";
+import poloEngland from "../assets/images/products/store/england.png";
+import poloFrance from "../assets/images/products/store/france.png";
+import poloGermany from "../assets/images/products/store/germany.png";
+import poloItaly from "../assets/images/products/store/italyy.png";
+import poloPortugal from "../assets/images/products/store/portugal.png";
+import styles from "./StorePage.module.css";
 
 const PRODUCTS: Product[] = [
     {
@@ -83,10 +83,10 @@ const PRODUCTS: Product[] = [
     },
 ];
 
-export function ShopPage() {
+export function StorePage() {
     return (
         <div className={styles.page}>
-            <ShopHero
+            <StoreHero
                 subtitle="Esplora la collezione Drop 02 — World Cup Edition. Sei nazionali, sei polo in piqué di cotone premium, costruite con la cura artigianale di Bloynkay."
             />
 

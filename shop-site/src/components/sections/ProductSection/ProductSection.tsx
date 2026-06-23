@@ -6,6 +6,7 @@ import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
 import { COLORWAYS, colorwayCssVars, type Colorway } from "./colorways";
 import { POLO_GALLERY } from "./galleryImages";
 import { ProductGalleryModal } from "./ProductGalleryModal";
+import { SizeChartModal } from "./SizeChartModal";
 import styles from "./ProductSection.module.css";
 
 export type { Colorway };
@@ -36,6 +37,7 @@ export function ProductSection({
     isFlipped = false,
 }: ProductSectionProps) {
     const [galleryOpen, setGalleryOpen] = useState(false);
+    const [sizeChartOpen, setSizeChartOpen] = useState(false);
 
     return (
         <section
@@ -110,20 +112,24 @@ export function ProductSection({
                         </ul>
 
                         <div className={styles.buyRow}>
-                            <span className={styles.priceLabel}>Prezzo di lancio</span>
-                            <span className={styles.price}>{price}</span>
-                            <button
-                                type="button"
-                                className={`${styles.ctaGhost} ${styles.sizeChart}`}
-                            >
-                                Size chart
-                            </button>
-                            <Link
-                                to="/shop"
-                                className={`${styles.ctaGhost} ${styles.ctaShop}`}
-                            >
-                                Vai allo shop
-                            </Link>
+                            <div className={styles.priceBlock}>
+                                <span className={styles.priceLabel}>
+                                    Prezzo di lancio
+                                </span>
+                                <span className={styles.price}>{price}</span>
+                            </div>
+                            <div className={styles.ghostGroup}>
+                                <button
+                                    type="button"
+                                    className={styles.ctaGhost}
+                                    onClick={() => setSizeChartOpen(true)}
+                                >
+                                    Size chart
+                                </button>
+                                <Link to="/store" className={styles.ctaGhost}>
+                                    Vai allo store
+                                </Link>
+                            </div>
                             <RunningLightButton
                                 colorway={colorway}
                                 className={styles.cta}
@@ -143,6 +149,14 @@ export function ProductSection({
                     colorway={colorway}
                     images={POLO_GALLERY[colorway]}
                     onClose={() => setGalleryOpen(false)}
+                />
+            )}
+
+            {sizeChartOpen && (
+                <SizeChartModal
+                    name={name}
+                    colorway={colorway}
+                    onClose={() => setSizeChartOpen(false)}
                 />
             )}
         </section>

@@ -1,2 +1,2 @@
 export { HomePage } from "./HomePage";
-export { ShopPage } from "./ShopPage";
+export { StorePage } from "./StorePage";

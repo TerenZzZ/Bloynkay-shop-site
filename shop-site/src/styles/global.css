@@ -15,6 +15,17 @@ body {
     background-color: var(--color-bg);
 }
 
+/* Sfocatura forte della landing quando un popup la sovrasta (es. guida
+   taglie). Il portale del modale è figlio diretto di <body>, fratello di
+   #root, quindi sfocando #root l'overlay resta nitido. */
+#root {
+    transition: filter var(--dur-base, 320ms) var(--ease-out, ease);
+}
+
+body.is-blurred #root {
+    filter: blur(28px) brightness(1.12);
+}
+
 h1,
 h2,
 h3 {

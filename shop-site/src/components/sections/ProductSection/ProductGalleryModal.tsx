@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { colorwayCssVars, type Colorway } from "./colorways";
+import type { Colorway } from "./colorways";
 import type { GalleryImage } from "./galleryImages";
 import styles from "./ProductGalleryModal.module.css";
 
@@ -15,17 +15,23 @@ type ProductGalleryModalProps = {
 
 export function ProductGalleryModal({
     name,
-    position,
-    total,
-    colorway,
     images,
     onClose,
 }: ProductGalleryModalProps) {
     const closeRef = useRef<HTMLButtonElement>(null);
+    const [index, setIndex] = useState(0);
+    const count = images.length;
+
+    const go = useCallback(
+        (dir: number) => setIndex((i) => (i + dir + count) % count),
+        [count],
+    );
 
     useEffect(() => {
         const onKey = (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose();
+            else if (e.key === "ArrowRight") go(1);
+            else if (e.key === "ArrowLeft") go(-1);
         };
         document.addEventListener("keydown", onKey);
         const prevOverflow = document.body.style.overflow;
@@ -35,20 +41,25 @@ export function ProductGalleryModal({
             document.removeEventListener("keydown", onKey);
             document.body.style.overflow = prevOverflow;
         };
-    }, [onClose]);
+    }, [onClose, go]);
+
+    const current = images[index];
+    const prevImg = images[(index - 1 + count) % count];
+    const nextImg = images[(index + 1) % count];
 
     return createPortal(
         <div
             className={styles.overlay}
-            style={colorwayCssVars(colorway)}
             role="dialog"
             aria-modal="true"
             aria-label={`${name} — gallery prodotto`}
             onClick={onClose}
         >
-            <div className={styles.backdrop} aria-hidden="true" />
-
-            <div className={styles.panel} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.bar} onClick={(e) => e.stopPropagation()}>
+                <div className={styles.barInfo}>
+                    <span className={styles.kicker}>Drop 02 · World Cup</span>
+                    <h2 className={styles.title}>{name}</h2>
+                </div>
                 <button
                     ref={closeRef}
                     type="button"
@@ -58,34 +69,55 @@ export function ProductGalleryModal({
                 >
                     ✕
                 </button>
+            </div>
 
-                <header className={styles.head}>
-                    <span className={styles.kicker}>Drop 02 · World Cup</span>
-                    <div className={styles.headRow}>
-                        <h2 className={styles.title}>{name}</h2>
-                        <span className={styles.counter}>
-                            {String(position).padStart(2, "0")} /{" "}
-                            {String(total).padStart(2, "0")}
-                        </span>
-                    </div>
-                </header>
+            <div className={styles.stage} onClick={(e) => e.stopPropagation()}>
+                <button
+                    type="button"
+                    className={`${styles.arrow} ${styles.prev}`}
+                    onClick={() => go(-1)}
+                    aria-label="Immagine precedente"
+                >
+                    ‹
+                </button>
 
-                <div className={styles.gallery}>
-                    {images.map((img) => (
-                        <figure key={img.src} className={styles.shot}>
-                            <div className={styles.shotMedia}>
-                                <img
-                                    src={img.src}
-                                    alt={`${name} — ${img.label}`}
-                                    className={styles.shotImg}
-                                />
-                            </div>
-                            <figcaption className={styles.shotLabel}>
-                                {img.label}
-                            </figcaption>
-                        </figure>
-                    ))}
-                </div>
+                <button
+                    type="button"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className={`${styles.side} ${styles.sidePrev}`}
+                    onClick={() => go(-1)}
+                >
+                    <img src={prevImg.src} alt="" className={styles.sideImg} />
+                </button>
+
+                <figure className={styles.frame}>
+                    <img
+                        key={current.src}
+                        src={current.src}
+                        alt={`${name} — ${current.label}`}
+                        className={styles.mainImg}
+                    />
+                </figure>
+
+                <button
+                    type="button"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className={`${styles.side} ${styles.sideNext}`}
+                    onClick={() => go(1)}
+                >
+                    <img src={nextImg.src} alt="" className={styles.sideImg} />
+                </button>
+
+                <button
+                    type="button"
+                    className={`${styles.arrow} ${styles.next}`}
+                    onClick={() => go(1)}
+                    aria-label="Immagine successiva"
+                >
+                    ›
+                </button>
             </div>
         </div>,
         document.body,

@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/layout/Navbar";
 import { Footer } from "./components/sections/Footer";
 import { ScrollToTop } from "./components/utils";
-import { HomePage, ShopPage } from "./pages";
+import { HomePage, StorePage } from "./pages";
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/shop" element={<ShopPage />} />
+                    <Route path="/store" element={<StorePage />} />
                 </Routes>
             </main>
             <Footer />

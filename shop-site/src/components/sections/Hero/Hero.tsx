@@ -43,8 +43,8 @@ export function Hero() {
                         <Button glow onClick={() => scrollToId("drop-02-brazil")}>
                             Scopri Drop 02
                         </Button>
-                        <Button glow variant="ghost" onClick={() => navigate("/shop")}>
-                            Vedi lo shop
+                        <Button glow variant="ghost" onClick={() => navigate("/store")}>
+                            Vedi lo store
                         </Button>
                     </div>
 

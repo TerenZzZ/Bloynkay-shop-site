@@ -1,158 +1,213 @@
+/* =====================================================================
+   Lightbox prodotto — concept "modal gallery" (Ks89/angular-modal-gallery).
+   Overlay scuro a tutto schermo, immagine grande centrale, frecce ai lati,
+   striscia di thumbnail in basso con l'attiva evidenziata.
+   ===================================================================== */
+
 .overlay {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(16px, 4vw, 48px);
-    color: var(--cw-fg);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: clamp(10px, 2vh, 22px);
+    padding: clamp(14px, 3vw, 34px) clamp(14px, 4vw, 56px)
+        clamp(18px, 3vh, 32px);
+    background: rgba(12, 12, 16, 0.46);
+    backdrop-filter: blur(26px) saturate(1.05);
+    -webkit-backdrop-filter: blur(26px) saturate(1.05);
+    color: #f4f4f5;
     animation: overlayIn var(--dur-base) var(--ease-out) both;
 }
 
-.backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(8, 8, 8, 0.72);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.panel {
-    position: relative;
-    z-index: 1;
-    width: min(880px, 100%);
-    max-height: calc(100dvh - clamp(32px, 8vw, 96px));
-    overflow-y: auto;
-    overscroll-behavior: contain;
+/* === Top bar === */
+.bar {
     display: flex;
-    flex-direction: column;
-    gap: clamp(16px, 2.5vh, 28px);
-    background: var(--cw-bg-base);
-    border-radius: var(--radius-sm);
-    padding: clamp(20px, 3vw, 40px);
-    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.5);
-    animation: panelIn var(--dur-slow) var(--ease-out) both;
-}
-
-.close {
-    position: absolute;
-    top: clamp(12px, 2vw, 22px);
-    right: clamp(12px, 2vw, 22px);
-    z-index: 2;
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid var(--cw-line);
-    background: color-mix(in srgb, var(--cw-fg) 6%, transparent);
-    color: var(--cw-fg);
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition:
-            background var(--dur-base) var(--ease-out),
-            transform var(--dur-fast) var(--ease-out);
-}
-
-.close:hover {
-    background: var(--cw-fg);
-    color: var(--cw-bg-base);
-    transform: rotate(90deg);
-}
-
-/* === Head === */
-.head {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding-right: 52px;
-}
-
-.kicker {
-    font-family: var(--font-sans);
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--cw-fg-mute);
-}
-
-.headRow {
-    display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-4);
 }
 
-.title {
-    font-family: var(--font-display);
-    font-size: clamp(2.2rem, 1.6rem + 3vw, 3.6rem);
-    line-height: 0.92;
-    letter-spacing: -0.01em;
-    margin: 0;
-    color: var(--cw-fg);
-}
-
-.counter {
-    font-family: var(--font-sans);
-    font-size: 0.74rem;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--cw-fg-mute);
-    font-variant-numeric: tabular-nums;
-    flex-shrink: 0;
-}
-
-/* === Gallery: tutte e tre le immagini ===
-   Fronte e retro affiancati, guida taglie a tutta larghezza. */
-.gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
-}
-
-.shot {
-    margin: 0;
+.barInfo {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: 6px;
+    min-width: 0;
 }
 
-/* La terza immagine (guida taglie) occupa l'intera riga. */
-.shot:last-child {
-    grid-column: 1 / -1;
-}
-
-.shotMedia {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: color-mix(in srgb, var(--cw-fg) 4%, transparent);
-    border: 1px solid var(--cw-line);
-    border-radius: var(--radius-sm);
-    padding: clamp(14px, 2.5vw, 28px);
-}
-
-.shotImg {
-    width: 100%;
-    max-width: 460px;
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.24));
-    animation: floatIn var(--dur-base) var(--ease-out) both;
-}
-
-.shotLabel {
+.kicker {
     font-family: var(--font-sans);
     font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.26em;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: var(--cw-fg-soft);
-    text-align: center;
+    color: rgba(244, 244, 245, 0.5);
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.1rem + 2vw, 2.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: #fafafa;
+}
+
+.close {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(244, 244, 245, 0.22);
+    background: rgba(244, 244, 245, 0.06);
+    color: #f4f4f5;
+    font-size: 1rem;
+    cursor: pointer;
+    transition:
+        background var(--dur-base) var(--ease-out),
+        border-color var(--dur-base) var(--ease-out),
+        transform var(--dur-fast) var(--ease-out);
+}
+
+.close:hover {
+    background: #fafafa;
+    border-color: #fafafa;
+    color: #111;
+    transform: rotate(90deg);
+}
+
+/* === Stage: freccia · immagine · freccia === */
+.stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 2.5vw, 40px);
+    min-height: 0;
+    /* Alza le immagini per compensare il peso visivo della top bar,
+       pareggiando lo spazio sopra e sotto. */
+    transform: translateY(clamp(-56px, -5vh, -28px));
+}
+
+.frame {
+    margin: 0;
+    flex: 0 1 auto;
+    max-width: min(64vw, 860px);
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mainImg {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.55));
+    animation: imgIn var(--dur-base) var(--ease-out) both;
+}
+
+/* === Anteprime laterali (prec / succ): più piccole e soffuse === */
+.side {
+    flex: 0 0 auto;
+    width: clamp(120px, 20vw, 320px);
+    max-height: 74%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.38;
+    filter: blur(2px) saturate(0.9);
+    transition:
+        opacity var(--dur-base) var(--ease-out),
+        filter var(--dur-base) var(--ease-out),
+        transform var(--dur-fast) var(--ease-out);
+}
+
+.side:hover {
+    opacity: 0.62;
+    filter: blur(1px);
+}
+
+.sidePrev {
+    transform: scale(0.9) translateX(6px);
+    transform-origin: right center;
+}
+
+.sidePrev:hover {
+    transform: scale(0.92) translateX(2px);
+}
+
+.sideNext {
+    transform: scale(0.9) translateX(-6px);
+    transform-origin: left center;
+}
+
+.sideNext:hover {
+    transform: scale(0.92) translateX(-2px);
+}
+
+.sideImg {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.4));
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: clamp(44px, 5vw, 60px);
+    height: clamp(44px, 5vw, 60px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(244, 244, 245, 0.22);
+    background: rgba(20, 20, 24, 0.4);
+    color: #f4f4f5;
+    font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        background var(--dur-base) var(--ease-out),
+        border-color var(--dur-base) var(--ease-out),
+        transform var(--dur-fast) var(--ease-out);
+}
+
+.prev {
+    left: clamp(-6px, -1vw, 0px);
+}
+
+.next {
+    right: clamp(-6px, -1vw, 0px);
+}
+
+.arrow:hover {
+    background: #fafafa;
+    border-color: #fafafa;
+    color: #111;
+}
+
+.prev:hover {
+    transform: translateY(-50%) translateX(-2px);
+}
+
+.next:hover {
+    transform: translateY(-50%) translateX(2px);
 }
 
 /* === Animations === */
@@ -165,45 +220,48 @@
     }
 }
 
-@keyframes panelIn {
+@keyframes imgIn {
     from {
         opacity: 0;
-        transform: translateY(24px) scale(0.98);
+        transform: scale(0.985);
     }
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@keyframes floatIn {
-    from {
-        opacity: 0;
-        transform: translateY(12px) scale(0.97);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: scale(1);
     }
 }
 
 /* === Responsive === */
-@media (max-width: 640px) {
-    .gallery {
-        grid-template-columns: 1fr;
+@media (max-width: 760px) {
+    .side {
+        display: none;
+    }
+    .frame {
+        max-width: 100%;
     }
 }
 
-@media (max-width: 540px) {
-    .panel {
-        padding: var(--space-5) var(--space-4);
+@media (max-width: 600px) {
+    .overlay {
+        padding: 14px 12px 18px;
+    }
+    .arrow {
+        width: 42px;
+        height: 42px;
+    }
+    .title {
+        font-size: 1.4rem;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .overlay,
-    .panel,
-    .shotImg {
+    .mainImg {
         animation: none;
+    }
+    .thumb,
+    .arrow,
+    .close {
+        transition: none;
     }
 }
