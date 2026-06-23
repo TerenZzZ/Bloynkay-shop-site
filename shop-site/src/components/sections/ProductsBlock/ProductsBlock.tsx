@@ -1,4 +1,4 @@
-import { ProductSection } from "../ProductSection";
+import { ProductSection, COLORWAYS } from "../ProductSection";
 import type { Colorway } from "../ProductSection";
 import poloBrazil from "../../../assets/images/products/landing/blocks/brazill.png";
 import poloEngland from "../../../assets/images/products/landing/blocks/england.png";
@@ -18,12 +18,15 @@ type ProductData = {
     mediaAlt: string;
 };
 
+const DESCRIPTION =
+    "Polo Bloynkay World Cup 2026 - Drop 02.\n\n" +
+    "Ispirata a sei iconiche nazionali, con estetica calcistica anni '90/2000 e una rilettura contemporanea riadattata ad una vestibilità boxy.";
+
 const PRODUCTS: ProductData[] = [
     {
         colorway: "brazil",
         name: "Brasile",
-        description:
-            "Il calcio più bello del mondo in un piqué dorato. Il verde amazzonico incontra l'oro del Maracanã. Una polo che porta il ritmo del futebol sul petto.",
+        description: DESCRIPTION,
         details: [
             "100% cotone piqué premium",
             "Verde e oro brasiliani",
@@ -37,8 +40,7 @@ const PRODUCTS: ProductData[] = [
     {
         colorway: "england",
         name: "Inghilterra",
-        description:
-            "Bianco calcistico dove tutto è iniziato. I Three Lions ricamati sul petto, i bordi rosso English sul colletto. Dove il calcio ha preso forma.",
+        description: DESCRIPTION,
         details: [
             "100% cotone piqué premium",
             "Bianco con bordi rosso England",
@@ -52,8 +54,7 @@ const PRODUCTS: ProductData[] = [
     {
         colorway: "france",
         name: "Francia",
-        description:
-            "Blu notte con accenti tricolore. La scuola tattica più sofisticata del calcio mondiale incontra il design artigianale italiano.",
+        description: DESCRIPTION,
         details: [
             "100% cotone piqué premium",
             "Blu notte con accenti tricolore",
@@ -67,8 +68,7 @@ const PRODUCTS: ProductData[] = [
     {
         colorway: "germany",
         name: "Germania",
-        description:
-            "Bianco ghiaccio con rigore tedesco. La tradizione del calcio organizzato si fonde con il minimalismo del design italiano. Perfezione costruita.",
+        description: DESCRIPTION,
         details: [
             "100% cotone piqué premium",
             "Bianco con bordi neri a contrasto",
@@ -82,8 +82,7 @@ const PRODUCTS: ProductData[] = [
     {
         colorway: "italy",
         name: "Italia",
-        description:
-            "L'azzurro più iconico del calcio mondiale. Quattro stelle, un'identità unica. Il capo che celebra la Nazionale con il rigore del design Bloynkay.",
+        description: DESCRIPTION,
         details: [
             "100% cotone piqué premium",
             "Azzurro Nazionale certificato",
@@ -97,8 +96,7 @@ const PRODUCTS: ProductData[] = [
     {
         colorway: "portugal",
         name: "Portogallo",
-        description:
-            "Rosso e verde. Lo scudo antico di una nazione che ha scritto la storia del calcio. Il coraggio di una squadra da anni al vertice del mondo.",
+        description: DESCRIPTION,
         details: [
             "100% cotone piqué premium",
             "Verde con bordi rosso Portogallo",
@@ -114,15 +112,19 @@ const PRODUCTS: ProductData[] = [
 export function ProductsBlock() {
     return (
         <div className={styles.container}>
-            {PRODUCTS.map((p, i) => (
-                <ProductSection
-                    key={p.colorway}
-                    position={i + 1}
-                    total={PRODUCTS.length}
-                    isFlipped={i % 2 !== 0}
-                    {...p}
-                />
-            ))}
+            {PRODUCTS.map((p, i) => {
+                const next = PRODUCTS[i + 1];
+                return (
+                    <ProductSection
+                        key={p.colorway}
+                        position={i + 1}
+                        total={PRODUCTS.length}
+                        isFlipped={i % 2 !== 0}
+                        nextBgBase={next ? COLORWAYS[next.colorway].bgBase : undefined}
+                        {...p}
+                    />
+                );
+            })}
         </div>
     );
 }

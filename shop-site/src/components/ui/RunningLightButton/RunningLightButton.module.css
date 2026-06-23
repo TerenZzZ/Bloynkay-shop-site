@@ -15,6 +15,9 @@
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--rlb-color) 16%, transparent);
     transition:
         transform var(--dur-fast) var(--ease-out),
+        background-color var(--dur-base) var(--ease-out),
+        color var(--dur-base) var(--ease-out),
+        border-color var(--dur-base) var(--ease-out),
         box-shadow var(--dur-base) var(--ease-out);
 }
 
@@ -49,13 +52,15 @@
     transform: translateX(4px);
 }
 
-/* === Palette per colorway — colore dell'alone, coerente col kit ======== */
-.brazil   { --rlb-color: #8818e6; }   /* viola logo bloynkay, luminoso */
-.england  { --rlb-color: #e21c2f; }   /* rosso logo bloynkay, luminoso */
-.france   { --rlb-color: #ea1f2e; }   /* rosso Francia, luminoso */
-.germany  { --rlb-color: #f5402c; }   /* rosso banda Germania, luminoso */
-.italy    { --rlb-color: #19c46a; }   /* verde tricolore, luminoso */
-.portugal { --rlb-color: #ffd233; }   /* oro logo bloynkay, luminoso */
+/* === Palette per colorway ==============================================
+   --rlb-color : colore dell'alone luminoso e del riempimento al hover.
+   --rlb-on    : colore del testo sopra quel riempimento (contrasto). */
+.brazil   { --rlb-color: #8818e6; --rlb-on: #fdf4ff; }   /* viola logo bloynkay, luminoso */
+.england  { --rlb-color: #e21c2f; --rlb-on: #fff4f1; }   /* rosso logo bloynkay, luminoso */
+.france   { --rlb-color: #ea1f2e; --rlb-on: #fff4f1; }   /* rosso Francia, luminoso */
+.germany  { --rlb-color: #f5402c; --rlb-on: #fff6f3; }   /* rosso banda Germania, luminoso */
+.italy    { --rlb-color: #19c46a; --rlb-on: #042417; }   /* verde tricolore, luminoso */
+.portugal { --rlb-color: #ffd233; --rlb-on: #4a0610; }   /* oro logo bloynkay, luminoso */
 
 @media (prefers-reduced-motion: reduce) {
     .button,

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { formatPrice } from "../../../lib/money";
 import styles from "./ProductCard.module.css";
 
 export type ProductColor = {
@@ -41,7 +42,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             <div className={styles.content}>
                 <h3 className={styles.name}>{product.name}</h3>
                 <p className={styles.description}>{product.description}</p>
-                <p className={styles.price}>€ {product.price.toFixed(2).replace('.', ',')}</p>
+                <p className={styles.price}>{formatPrice(product.price)}</p>
 
                 {product.sizes.length > 0 && (
                     <div className={styles.sizes}>

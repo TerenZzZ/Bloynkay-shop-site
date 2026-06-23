@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../../../cart";
+import { parsePrice } from "../../../lib/money";
 import { Reveal } from "../../ui/Reveal";
 import { RunningLightButton } from "../../ui/RunningLightButton";
 import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
@@ -22,6 +24,9 @@ export type ProductSectionProps = {
     mediaSrc: string;
     mediaAlt: string;
     isFlipped?: boolean;
+    /** Base color della sezione successiva: alimenta la sfumatura di
+        transizione verso il prossimo blocco. Assente sull'ultima sezione. */
+    nextBgBase?: string;
 };
 
 export function ProductSection({
@@ -35,24 +40,43 @@ export function ProductSection({
     mediaSrc,
     mediaAlt,
     isFlipped = false,
+    nextBgBase,
 }: ProductSectionProps) {
     const [galleryOpen, setGalleryOpen] = useState(false);
     const [sizeChartOpen, setSizeChartOpen] = useState(false);
+    const { addItem } = useCart();
+
+    const sectionStyle = {
+        ...colorwayCssVars(colorway),
+        ...(nextBgBase ? { "--cw-bg-next": nextBgBase } : {}),
+    } as CSSProperties;
+
+    const handleAddToCart = () =>
+        addItem({
+            id: `polo-${colorway}`,
+            name,
+            price: parsePrice(price),
+            image: mediaSrc,
+            colorway,
+        });
 
     return (
         <section
             id={`drop-02-${colorway}`}
             data-nav-theme={COLORWAYS[colorway].navTheme}
             className={`${styles.section} ${isFlipped ? styles.flipped : ""}`}
-            style={colorwayCssVars(colorway)}
+            style={sectionStyle}
         >
             <div className={styles.backdrop} aria-hidden="true" />
+            <div className={styles.ball} aria-hidden="true" />
+            <div className={styles.confetti} aria-hidden="true" />
             <img
                 src={logoBloynkay}
                 alt=""
                 aria-hidden="true"
                 className={styles.watermark}
             />
+            {nextBgBase && <div className={styles.seam} aria-hidden="true" />}
 
             <div className={styles.grid}>
                 <aside className={styles.mediaCol} aria-label={mediaAlt}>
@@ -91,7 +115,11 @@ export function ProductSection({
                             Polo {String(position).padStart(2, "0")}
                         </span>
                         <h2 className={styles.title}>{name}</h2>
-                        <p className={styles.lead}>{description}</p>
+                        {description.split("\n\n").map((paragraph) => (
+                            <p key={paragraph} className={styles.lead}>
+                                {paragraph}
+                            </p>
+                        ))}
                     </Reveal>
 
                     <Reveal as="article" className={`${styles.step} ${styles.stepBuy}`}>
@@ -119,6 +147,9 @@ export function ProductSection({
                                 <span className={styles.price}>{price}</span>
                             </div>
                             <div className={styles.ghostGroup}>
+                                <Link to="/store" className={styles.ctaGhost}>
+                                    Visita lo store
+                                </Link>
                                 <button
                                     type="button"
                                     className={styles.ctaGhost}
@@ -126,13 +157,11 @@ export function ProductSection({
                                 >
                                     Size chart
                                 </button>
-                                <Link to="/store" className={styles.ctaGhost}>
-                                    Vai allo store
-                                </Link>
                             </div>
                             <RunningLightButton
                                 colorway={colorway}
                                 className={styles.cta}
+                                onClick={handleAddToCart}
                             >
                                 Aggiungi al carrello
                             </RunningLightButton>

@@ -51,7 +51,7 @@ export function NationsIndex() {
     const navigate = useNavigate();
 
     return (
-        <section id="nazioni" data-nav-theme="light" className={styles.section}>
+        <section id="nazioni" className={styles.section}>
             <div className={styles.bg} aria-hidden="true">
                 <img className={styles.bgImg} src={stadiumBg} alt="" loading="lazy" />
                 <div className={styles.bgOverlay} />

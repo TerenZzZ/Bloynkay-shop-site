@@ -12,7 +12,7 @@ export function Footer() {
     };
 
     return (
-        <footer className={styles.footer} data-nav-theme="light">
+        <footer className={styles.footer}>
             <div className={styles.inner}>
                 <div className={styles.brand}>
                     <span className={styles.logo}>BLOYNKAY</span>

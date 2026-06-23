@@ -21,7 +21,7 @@
 .backdrop {
     position: absolute;
     inset: 0;
-    z-index: -2;
+    z-index: -5;
     background: var(--cw-bg-base);
 }
 
@@ -69,7 +69,7 @@
 /* === Watermark logo === */
 .watermark {
     position: absolute;
-    z-index: -1;
+    z-index: -2;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -91,6 +91,67 @@
     opacity: 0.05;
 }
 
+/* === Pallone Mondiale 2026 (Adidas Trionda, stilizzato) ===
+   Watermark line-art a pinwheel: tre cuciture curve dal mozzo al bordo,
+   dietro al prodotto. Disegnato come maschera così prende automaticamente
+   il foreground della colorway (--cw-fg) e resta coerente su ogni kit. */
+.ball {
+    position: absolute;
+    z-index: -4;
+    top: 50%;
+    left: -6%;
+    right: auto;
+    transform: translateY(-50%);
+    width: min(46vw, 600px);
+    aspect-ratio: 1 / 1;
+    pointer-events: none;
+    background: var(--cw-fg);
+    opacity: 0.07;
+    -webkit-mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='47' fill='none' stroke='%23000' stroke-width='2.4'/><g fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round'><path d='M50 50 C 55 33 67 24 80 23'/><path d='M50 50 C 55 33 67 24 80 23' transform='rotate(120 50 50)'/><path d='M50 50 C 55 33 67 24 80 23' transform='rotate(240 50 50)'/></g><circle cx='50' cy='50' r='5.5' fill='%23000'/></svg>") center / contain no-repeat;
+    mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='47' fill='none' stroke='%23000' stroke-width='2.4'/><g fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round'><path d='M50 50 C 55 33 67 24 80 23'/><path d='M50 50 C 55 33 67 24 80 23' transform='rotate(120 50 50)'/><path d='M50 50 C 55 33 67 24 80 23' transform='rotate(240 50 50)'/></g><circle cx='50' cy='50' r='5.5' fill='%23000'/></svg>") center / contain no-repeat;
+}
+
+.flipped .ball {
+    left: auto;
+    right: -6%;
+}
+
+/* === Layer coriandoli ===
+   Tile SVG ripetuto con bit di carta nei colori del Mondiale, opacità
+   bassa e mascherato in alto/basso così resta un velo leggero e non
+   crea seam con la cucitura tra sezioni. */
+.confetti {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+    opacity: 0.55;
+    background-repeat: repeat;
+    background-size: 360px 360px;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'><g><rect x='26' y='36' width='10' height='5' rx='1.5' fill='%23e63b3b' opacity='.7' transform='rotate(25 31 38)'/><rect x='92' y='18' width='8' height='5' rx='1.5' fill='%232f6fe0' opacity='.6' transform='rotate(-40 96 20)'/><rect x='158' y='66' width='9' height='5' rx='1.5' fill='%231fb866' opacity='.7' transform='rotate(60 162 68)'/><rect x='222' y='28' width='7' height='7' rx='1.5' fill='%23f4c233' opacity='.7' transform='rotate(15 225 31)'/><rect x='300' y='58' width='10' height='5' rx='1.5' fill='%23ffffff' opacity='.55' transform='rotate(-25 305 60)'/><rect x='60' y='124' width='8' height='5' rx='1.5' fill='%23f4c233' opacity='.6' transform='rotate(45 64 126)'/><rect x='134' y='156' width='9' height='5' rx='1.5' fill='%23e63b3b' opacity='.6' transform='rotate(-15 138 158)'/><rect x='208' y='114' width='7' height='5' rx='1.5' fill='%232f6fe0' opacity='.7' transform='rotate(70 211 116)'/><rect x='278' y='166' width='10' height='6' rx='1.5' fill='%231fb866' opacity='.55' transform='rotate(-50 283 169)'/><rect x='40' y='220' width='8' height='5' rx='1.5' fill='%232f6fe0' opacity='.6' transform='rotate(30 44 222)'/><rect x='116' y='250' width='9' height='5' rx='1.5' fill='%23f4c233' opacity='.7' transform='rotate(-35 120 252)'/><rect x='188' y='216' width='7' height='7' rx='1.5' fill='%23ffffff' opacity='.5' transform='rotate(20 191 219)'/><rect x='262' y='240' width='10' height='5' rx='1.5' fill='%23e63b3b' opacity='.6' transform='rotate(-60 267 242)'/><rect x='320' y='126' width='8' height='5' rx='1.5' fill='%231fb866' opacity='.55' transform='rotate(40 324 128)'/><rect x='20' y='312' width='9' height='5' rx='1.5' fill='%23f4c233' opacity='.6' transform='rotate(-20 24 314)'/><rect x='98' y='300' width='7' height='5' rx='1.5' fill='%232f6fe0' opacity='.55' transform='rotate(55 101 302)'/><rect x='172' y='316' width='10' height='6' rx='1.5' fill='%23e63b3b' opacity='.55' transform='rotate(-45 177 319)'/><rect x='244' y='292' width='8' height='5' rx='1.5' fill='%23ffffff' opacity='.5' transform='rotate(35 248 294)'/><rect x='322' y='312' width='9' height='5' rx='1.5' fill='%231fb866' opacity='.6' transform='rotate(-30 326 314)'/></g></svg>");
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+}
+
+/* === Cucitura di transizione tra sezioni ===
+   La base color sfuma morbidamente verso quella della sezione successiva
+   (--cw-bg-next), così il passaggio tra un blocco e l'altro non ha tagli
+   netti. Copre l'intero stack di sfondo ma resta dietro al contenuto. */
+.seam {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30vh;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            var(--cw-bg-next) 94%
+    );
+}
+
 /* === Layout: sticky media + scrolling info === */
 .grid {
     position: relative;
@@ -100,7 +161,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     gap: clamp(48px, 6vw, 96px);
-    align-items: start;
+    align-items: center;
 }
 
 /* Inverte il layout per le sezioni in posizione pari */
@@ -114,9 +175,7 @@
 }
 
 .mediaCol {
-    position: sticky;
-    top: calc(var(--nav-height) + clamp(20px, 4vh, 40px));
-    align-self: start;
+    align-self: center;
 }
 
 .mediaInner {
@@ -261,9 +320,12 @@
     margin: 0;
 }
 
-/* === Buy step === */
+/* === Buy step ===
+   Un filo più largo dell'intro (52ch) per ospitare prezzo grande + blocco
+   azioni affiancati senza overflow al breakpoint a due colonne. */
 .stepBuy {
     gap: var(--space-5);
+    max-width: 60ch;
 }
 
 .details {
@@ -300,17 +362,15 @@
     color: var(--cw-fg);
 }
 
-/* Griglia: prezzo ancorato al bordo sinistro (occupa entrambe le righe e si
-   centra in verticale, allineato col bordo sinistro della tabella dettagli),
-   blocco azioni ancorato al bordo destro (allineato col bordo destro della
-   tabella). space-between distribuisce il vuoto centrale come whitespace.
+/* Griglia: blocco prezzo (label + prezzo) accostato al blocco azioni con un
+   gap contenuto, così il prezzo "copre" in altezza lo stack dei due pulsanti.
+   Allineati al bordo sinistro (= bordo della tabella dettagli) e centrati in
+   verticale tra loro.
    ┌──────────────────────────────────────────────┐
-   │ Prezzo                                        │
-   │ €XX        [Size chart] [Vai allo store]       │   ← due ghost, larghezze pari
-   │            [     Aggiungi al carrello     ]   │   ← CTA, stessa larghezza del blocco
-   └──────────────────────────────────────────────┘
-   label+prezzo formano un blocco unico, centrato in verticale sullo stack
-   delle azioni. */
+   │ PREZZO DI LANCIO                              │
+   │ €59,90   [Size chart] [Vai allo store]        │   ← due ghost, larghezze pari
+   │          [    Aggiungi al carrello    ]       │   ← CTA, stessa larghezza del blocco
+   └──────────────────────────────────────────────┘ */
 .buyRow {
     display: grid;
     grid-template-columns: auto auto;
@@ -318,8 +378,8 @@
             "priceblock  ghosts"
             "priceblock  cart";
     align-items: center;
-    justify-content: space-between;
-    column-gap: var(--space-4);
+    justify-content: start;
+    column-gap: var(--space-5);
     row-gap: var(--space-3);
 }
 
@@ -327,20 +387,20 @@
     grid-area: priceblock;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--space-3);
 }
 
 .priceLabel {
-    font-size: 0.66rem;
+    font-size: 0.74rem;
     font-weight: 500;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--cw-fg-mute);
 }
 
 .price {
     font-family: var(--font-display);
-    font-size: clamp(2.2rem, 1.7rem + 1.5vw, 2.7rem);
+    font-size: clamp(2.4rem, 3.6vw, 3.2rem);
     letter-spacing: 0.01em;
     color: var(--cw-fg);
     line-height: 1;
@@ -352,12 +412,7 @@
     display: flex;
     gap: var(--space-2);
     justify-self: stretch;
-}
-
-/* I due ghost si dividono in parti uguali la larghezza del blocco (= larghezza
-   della CTA), così la riga superiore e la CTA formano un rettangolo pulito. */
-.ghostGroup .ctaGhost {
-    flex: 1;
+    justify-content: space-between;
 }
 
 .cta {
@@ -383,83 +438,38 @@
     border: 1px solid transparent;
     transition:
             transform var(--dur-fast) var(--ease-out),
-            background var(--dur-base) var(--ease-out),
+            background-color var(--dur-base) var(--ease-out),
             color var(--dur-base) var(--ease-out),
-            border-color var(--dur-base) var(--ease-out);
+            border-color var(--dur-base) var(--ease-out),
+            box-shadow var(--dur-base) var(--ease-out);
 }
 
+/* === CTA "Aggiungi al carrello" — stesso concept "glow" di "Acquista ora" ===
+   A riposo è neutra e tenue (tinta soft del foreground di sezione, sempre
+   in contrasto con lo sfondo). Al passaggio del cursore si illumina e prende
+   il colore definitivo del kit nazionale (--rlb-color), con l'alone luminoso
+   fornito da RunningLightButton. */
 .cta {
-    background: var(--cw-fg);
-    color: var(--cw-bg-base);
-    padding: 16px 26px;
+    background: color-mix(in srgb, var(--cw-fg) 14%, transparent);
+    color: var(--cw-fg);
+    border-color: color-mix(in srgb, var(--cw-fg) 28%, transparent);
+    padding: 16px 22px;
     font-weight: 600;
 }
 
 .cta:hover {
     transform: translateY(-1px);
-    background: var(--cw-accent);
-    color: var(--cw-bg-base);
-}
-
-/* === CTA "Aggiungi al carrello" — tono per kit (logo bloynkay + palette nazionale) === */
-:global(#drop-02-brazil) .cta {
-    background: #4d0e82;          /* viola del logo bloynkay */
-    color: #fff4d6;
-}
-:global(#drop-02-brazil) .cta:hover {
-    background: #f5e400;          /* giallo dello sfondo sezione */
-    color: #4d0e82;
-}
-
-:global(#drop-02-england) .cta {
-    background: #9b1724;          /* rosso del logo bloynkay */
-    color: #f4eeea;
-}
-:global(#drop-02-england) .cta:hover {
-    background: #c8202f;          /* rosso un po' più chiaro */
-    color: #f4eeea;
-}
-
-:global(#drop-02-france) .cta {
-    background: #f4f1ea;          /* bianco del logo bloynkay */
-    color: #1d2f9e;
-}
-:global(#drop-02-france) .cta:hover {
-    background: #d2202f;          /* rosso Francia */
-    color: #fdfdfd;
-}
-
-:global(#drop-02-germany) .cta {
-    background: #17171b;          /* nero della maglia Germania */
-    color: #f0f0f0;
-}
-:global(#drop-02-germany) .cta:hover {
-    background: #e3a008;          /* oro Germania */
-    color: #17171b;
-}
-
-:global(#drop-02-italy) .cta {
-    background: #f2f5f7;          /* bianco del logo bloynkay */
-    color: #0d4ea6;
-}
-:global(#drop-02-italy) .cta:hover {
-    background: #009246;          /* verde Italia */
-    color: #fdfdfd;
-}
-
-:global(#drop-02-portugal) .cta {
-    background: #f9c300;          /* oro del logo bloynkay */
-    color: #7a0a14;
-}
-:global(#drop-02-portugal) .cta:hover {
-    background: #0a6b2d;          /* verde Portogallo */
-    color: #fff4d6;
+    background: var(--rlb-color);
+    color: var(--rlb-on);
+    border-color: transparent;
 }
 
 .ctaGhost {
-    padding: 9px 18px;
+    padding: 5px 18px;
     gap: var(--space-2);
     justify-content: center;
+    text-align: center;
+    white-space: nowrap;
     font-size: 0.72rem;
     letter-spacing: 0.16em;
     background: transparent;
@@ -502,6 +512,7 @@
         grid-template-areas:
                 "ghosts  priceblock"
                 "cart    priceblock";
+        justify-content: end;
     }
 
     .flipped .priceBlock {
@@ -529,10 +540,6 @@
 
     .flipped .infoCol {
         grid-row: auto;
-    }
-
-    .mediaCol {
-        position: static;
     }
 
     .mediaInner {
@@ -650,16 +657,20 @@
         padding: 16px 24px;
     }
 
+    .ghostGroup .ctaGhost {
+        flex: 1;
+    }
+
     .ctaGhost {
-        padding: 11px 24px;
+        padding: 7px 24px;
     }
 
     .price {
-        font-size: clamp(2rem, 8vw, 2.4rem);
+        font-size: clamp(2.4rem, 9vw, 3rem);
     }
 
     .priceLabel {
-        font-size: 0.62rem;
+        font-size: 0.7rem;
     }
 
     .details {
@@ -726,7 +737,7 @@
     }
 
     .ctaGhost {
-        padding: 10px 20px;
+        padding: 8px 20px;
         font-size: 0.68rem;
     }
 }

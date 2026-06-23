@@ -17,7 +17,7 @@ export function Hero() {
     const navigate = useNavigate();
 
     return (
-        <section className={styles.hero} id="top" data-nav-theme="light">
+        <section className={styles.hero} id="top">
             <div className={styles.media} aria-hidden="true">
                 <video
                     className={styles.heroVideo}

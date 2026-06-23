@@ -1,136 +1,63 @@
-import { type MouseEvent, useEffect, useState } from "react";
+import { type MouseEvent, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IconButton } from "../../ui/IconButton";
+import { useCart } from "../../../cart";
 import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
 import styles from "./Navbar.module.css";
-
-type Theme = "light" | "dark" | "medium";
 
 type NavLink = {
     label: string;
     href: string;
-    target?: string;
     isRoute?: boolean;
 };
 
 const NAV_LINKS: NavLink[] = [
-    { label: "Drop", href: "#drop-01-nero", target: "drop-01-nero", isRoute: false },
+    { label: "Drop", href: "#drop-01-nero", isRoute: false },
     { label: "Store", href: "/store", isRoute: true },
 ];
 
-function useNavbarBehavior() {
-    const location = useLocation();
-    const isStorePage = location.pathname === "/store";
-
-    // Inizializza il tema corretto fin da subito per la store page
-    const [theme, setTheme] = useState<Theme>(
-        isStorePage && window.scrollY <= 200 ? "dark" : "light"
-    );
-    const [scrolled, setScrolled] = useState(false);
-    const [activeId, setActiveId] = useState<string>(isStorePage ? "store" : "top");
+// Nasconde la navbar scrollando verso il basso, la rivela scrollando in su.
+function useHideOnScroll(): boolean {
+    const [hidden, setHidden] = useState(false);
+    const lastY = useRef(0);
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 140);
-        onScroll();
+        lastY.current = window.scrollY;
+        let ticking = false;
+
+        const update = () => {
+            const y = window.scrollY;
+            const delta = y - lastY.current;
+
+            if (Math.abs(delta) > 6) {
+                // Resta visibile vicino alla cima; nasconde solo scendendo.
+                setHidden(delta > 0 && y > 80);
+                lastY.current = y;
+            }
+            ticking = false;
+        };
+
+        const onScroll = () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
+            }
+        };
+
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
-    useEffect(() => {
-        // Se siamo sulla pagina store, gestiamo il tema in base allo scroll
-        if (isStorePage) {
-            queueMicrotask(() => {
-                setActiveId("store");
-            });
-
-            const updateStoreTheme = () => {
-                const scrollY = window.scrollY;
-                // Cambia tema da dark a light in base allo scroll
-                if (scrollY > 200) {
-                    setTheme("light");
-                } else {
-                    setTheme("dark");
-                }
-            };
-
-            updateStoreTheme();
-            window.addEventListener("scroll", updateStoreTheme, { passive: true });
-            return () => window.removeEventListener("scroll", updateStoreTheme);
-        }
-
-        // Altrimenti siamo sulla home: resettiamo e configuriamo l'IntersectionObserver
-        queueMicrotask(() => {
-            setTheme("light");
-            setActiveId("top");
-        });
-
-        const sections =
-            document.querySelectorAll<HTMLElement>("[data-nav-theme]");
-        if (sections.length === 0) return;
-
-        let currentTheme: Theme = "light";
-        let themeChangeTimeout: ReturnType<typeof setTimeout> | null = null;
-
-        const obs = new IntersectionObserver(
-            (entries) => {
-                const visibleSections = entries
-                    .filter((e) => e.isIntersecting && e.intersectionRatio >= 0.25)
-                    .sort(
-                        (a, b) =>
-                            Math.abs(a.boundingClientRect.top) -
-                            Math.abs(b.boundingClientRect.top)
-                    );
-
-                const mostVisible = visibleSections[0];
-
-                if (mostVisible) {
-                    const t = mostVisible.target.getAttribute("data-nav-theme");
-                    if (t === "light" || t === "dark" || t === "medium") {
-                        if (t !== currentTheme) {
-                            if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
-
-                            themeChangeTimeout = setTimeout(() => {
-                                currentTheme = t;
-                                requestAnimationFrame(() => setTheme(t));
-                            }, 150);
-                        }
-                    }
-
-                    const id = mostVisible.target.id;
-                    if (id) {
-                        if (id.startsWith("drop-01")) {
-                            setActiveId("drop-01-nero");
-                        } else {
-                            setActiveId(id);
-                        }
-                    }
-                }
-            },
-            {
-                rootMargin: "-140px 0px -35% 0px",
-                threshold: [0, 0.25, 0.5, 0.75]
-            }
-        );
-
-        sections.forEach((s) => obs.observe(s));
-        return () => {
-            obs.disconnect();
-            if (themeChangeTimeout) clearTimeout(themeChangeTimeout);
-        };
-    }, [isStorePage]);
-
-    return { theme, scrolled, activeId };
+    return hidden;
 }
 
 export function Navbar() {
-    const { theme, scrolled, activeId } = useNavbarBehavior();
+    const hidden = useHideOnScroll();
+    const { openCart, totalQuantity } = useCart();
     const location = useLocation();
     const navigate = useNavigate();
     const isStorePage = location.pathname === "/store";
-    const themeClass =
-        theme === "dark" ? styles.dark :
-        theme === "medium" ? styles.medium :
-        styles.light;
+    const themeClass = isStorePage ? styles.dark : styles.light;
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -167,12 +94,7 @@ export function Navbar() {
 
     return (
         <header
-            className={[
-                styles.navbar,
-                themeClass,
-                scrolled ? styles.scrolled : "",
-                isStorePage ? styles.storePage : "",
-            ]
+            className={[styles.navbar, themeClass, hidden ? styles.hidden : ""]
                 .filter(Boolean)
                 .join(" ")}
         >
@@ -180,9 +102,8 @@ export function Navbar() {
                 <nav aria-label="Primary" className={styles.left}>
                     <ul className={styles.list}>
                         {NAV_LINKS.map((link) => {
-                            const isActive = link.isRoute
-                                ? location.pathname === link.href
-                                : activeId === link.target;
+                            const isActive =
+                                link.isRoute && location.pathname === link.href;
 
                             // Link "Drop" con navigazione intelligente
                             if (link.label === "Drop") {
@@ -258,7 +179,8 @@ export function Navbar() {
                     <IconButton
                         label="Carrello"
                         className={styles.iconBtn}
-                        data-action="cart"
+                        onClick={openCart}
+                        badge={totalQuantity}
                     >
                         <svg
                             viewBox="0 0 24 24"
@@ -277,7 +199,6 @@ export function Navbar() {
                     <IconButton
                         label="Account"
                         className={styles.iconBtn}
-                        data-action="account"
                     >
                         <svg
                             viewBox="0 0 24 24"
