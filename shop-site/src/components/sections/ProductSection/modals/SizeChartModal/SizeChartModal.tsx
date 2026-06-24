@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { colorwayCssVars, type Colorway } from "./colorways";
-import sizeChartImg from "../../../assets/images/products/landing/gallery/polo/size_chart_polo.png";
+import { colorwayCssVars, type Colorway } from "../../data";
+import sizeChartImg from "../../../../../assets/images/products/landing/gallery/polo/size_chart_polo.png";
 import styles from "./SizeChartModal.module.css";
 
 type SizeChartModalProps = {

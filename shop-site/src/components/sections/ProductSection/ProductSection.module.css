@@ -8,21 +8,45 @@
     isolation: isolate;
     display: flex;
     align-items: center;
+    /* Le sezioni adiacenti si sovrappongono di 1px: con altezze in dvh
+       l'arrotondamento sub-pixel può lasciare un hairline dello sfondo
+       pagina tra due fondi a tutto-bleed, percepito come riga netta.
+       L'overlap lo elimina ed è invisibile perché i due bordi che si
+       toccano condividono lo stesso colore di confine. */
+    margin-bottom: -1px;
 }
 
 /* === Backdrop a tre layer ===
-   1) .backdrop          → fondo uniforme nella base color della sezione.
+   1) .backdrop          → gradiente verticale che tiene il colore pieno al
+                           centro e sfuma ai bordi verso il colore di confine
+                           condiviso col blocco adiacente (vedi sotto).
    2) .backdrop::before  → light radiale centrale soft (respiro/depth).
-   3) .backdrop::after   → noise grain mascherato ai bordi.
+   3) .backdrop::after   → noise grain uniforme a tutta sezione.
 
    Le custom property --cw-* arrivano via inline style dal componente
    (vedi colorways.ts). Una sola implementazione, agnostica alla
    colorway. */
+
+/* Soffusione tra blocchi senza cuciture.
+   Il colore di confine tra due sezioni è il mix 50/50 delle due basi:
+   la sezione corrente raggiunge mix(prev, base) al bordo superiore e
+   mix(base, next) al bordo inferiore. Poiché il blocco successivo parte
+   esattamente da mix(base, next), i due bordi combaciano al pixel: nessuna
+   linea, solo una rampa morbida e simmetrica. La base resta pura nel
+   plateau centrale (28%–72%) così ogni kit mantiene la sua identità.
+   Senza --cw-bg-prev/next (prima e ultima sezione) il mix degenera nella
+   base stessa, quindi il bordo esterno della pagina resta pieno. */
 .backdrop {
     position: absolute;
     inset: 0;
     z-index: -5;
-    background: var(--cw-bg-base);
+    background: linear-gradient(
+            to bottom,
+            color-mix(in srgb, var(--cw-bg-prev, var(--cw-bg-base)), var(--cw-bg-base)) 0%,
+            var(--cw-bg-base) 28%,
+            var(--cw-bg-base) 72%,
+            color-mix(in srgb, var(--cw-bg-base), var(--cw-bg-next, var(--cw-bg-base))) 100%
+    );
 }
 
 .backdrop::before {
@@ -47,23 +71,10 @@
     opacity: 0.18;
     mix-blend-mode: overlay;
     pointer-events: none;
-    /* La grana svanisce minimamente ai bordi: due texture casuali che
-       si toccano avrebbero comunque un seam, basta un cuscinetto di
-       2% per ammorbidirlo senza assottigliare la sezione. */
-    -webkit-mask-image: linear-gradient(
-            180deg,
-            transparent 0,
-            #000 2%,
-            #000 98%,
-            transparent 100%
-    );
-    mask-image: linear-gradient(
-            180deg,
-            transparent 0,
-            #000 2%,
-            #000 98%,
-            transparent 100%
-    );
+    /* Grana a tutta sezione, senza dissolvenza ai bordi: una densità
+       uniforme attraverso il confine evita la fascia liscia che l'occhio
+       leggeva come riga di separazione. Il tile 160px è ad alta frequenza,
+       quindi il reset di fase al cambio sezione è impercettibile. */
 }
 
 /* === Watermark logo === */
@@ -112,12 +123,22 @@
     background-repeat: no-repeat;
     mix-blend-mode: soft-light;
     opacity: 0.9;
-    /* L'angolo in basso a destra del PNG ha un bordo netto dove il pattern
-       finisce: una maschera radiale lo sfuma in trasparenza solo lì, così
-       si fonde con lo sfondo. Segue il flip della sezione (scaleX), quindi
-       resta ancorata allo stesso angolo del disegno. */
-    -webkit-mask-image: radial-gradient(80% 80% at 100% 100%, transparent 0%, #000 42%);
-    mask-image: radial-gradient(80% 80% at 100% 100%, transparent 0%, #000 42%);
+    /* Due maschere combinate in intersezione (mask-composite):
+       1) dissolvenza verticale: la grunge è inquadrata e specchiata per
+          sezione, quindi ai confini due frame diversi si toccherebbero
+          creando uno scalino di luminosità. Portandola a zero in cima e in
+          fondo, al confine la texture è assente su entrambi i lati: niente
+          da disallineare, nessuna linea. Resta piena nel centro del blocco.
+       2) maschera radiale d'angolo: il PNG ha un bordo netto in basso a
+          destra; la sfuma solo lì. Segue il flip della sezione (scaleX). */
+    -webkit-mask-image:
+            linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%),
+            radial-gradient(80% 80% at 100% 100%, transparent 0%, #000 42%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+            linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%),
+            radial-gradient(80% 80% at 100% 100%, transparent 0%, #000 42%);
+    mask-composite: intersect;
 }
 
 .flipped .texture {
@@ -128,8 +149,14 @@
    destra, dove la maschera standard non arriva. Qui la allarghiamo così
    l'angolo si dissolve completamente nello sfondo. */
 :global(#drop-02-italy) .texture {
-    -webkit-mask-image: radial-gradient(115% 105% at 100% 100%, transparent 16%, #000 58%);
-    mask-image: radial-gradient(115% 105% at 100% 100%, transparent 16%, #000 58%);
+    -webkit-mask-image:
+            linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%),
+            radial-gradient(115% 105% at 100% 100%, transparent 16%, #000 58%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+            linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%),
+            radial-gradient(115% 105% at 100% 100%, transparent 16%, #000 58%);
+    mask-composite: intersect;
 }
 
 /* === Layer motivi Mondiale 2026 ===
@@ -137,7 +164,9 @@
    stelle, scie tratteggiate (traiettorie di palla), nastri di coriandoli
    curvi e bagliori, nei colori del torneo. Composizione fantasiosa e
    organica (niente griglia geometrica). Opacità bassa e mascheratura in
-   alto/basso così resta un velo leggero e non litiga con la cucitura. */
+   alto/basso così resta un velo leggero e non litiga con la cucitura.
+   Niente dissolvenza verticale: i motivi restano a densità costante anche
+   sul confine, così non si crea la fascia "pulita" che marcava lo stacco. */
 .confetti {
     position: absolute;
     inset: 0;
@@ -147,29 +176,6 @@
     background-repeat: repeat;
     background-size: 420px 420px;
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'><g fill='none' stroke-linecap='round'><path d='M30 190 q14 -18 28 -7 q14 11 28 -5' stroke='%23e63b3b' stroke-width='3' opacity='.5'/><path d='M250 360 q16 -16 32 -6 q14 8 26 -6' stroke='%232f6fe0' stroke-width='3' opacity='.45'/><path d='M16 250 q70 -54 132 -12' stroke='%231fb866' stroke-width='2.5' stroke-dasharray='1 10' opacity='.5'/><path d='M214 36 q64 -30 120 14' stroke='%23f4c233' stroke-width='2.5' stroke-dasharray='1 10' opacity='.5'/></g><g><g transform='translate(80 72)'><circle r='12' fill='none' stroke='%232f6fe0' stroke-width='2' opacity='.55'/><path d='M0 -6 L5 -2 L3 5 L-3 5 L-5 -2 Z' fill='%232f6fe0' opacity='.4'/></g><g transform='translate(312 256)'><circle r='13' fill='none' stroke='%23e63b3b' stroke-width='2' opacity='.5'/><path d='M0 -6 L5 -2 L3 5 L-3 5 L-5 -2 Z' fill='%23e63b3b' opacity='.38'/></g><path transform='translate(346 84)' d='M0 -10 L2.9 -3.1 L10 -3.1 L4.2 1.6 L6.2 8.9 L0 4.8 L-6.2 8.9 L-4.2 1.6 L-10 -3.1 L-2.9 -3.1 Z' fill='%23f4c233' opacity='.6'/><path transform='translate(150 300)' d='M0 -8 L2.3 -2.5 L8 -2.5 L3.4 1.3 L5 7.1 L0 3.8 L-5 7.1 L-3.4 1.3 L-8 -2.5 L-2.3 -2.5 Z' fill='%231fb866' opacity='.5'/><path transform='translate(208 140)' d='M0 -6 L1.8 -1.9 L6 -1.9 L2.6 1 L3.8 5.3 L0 2.9 L-3.8 5.3 L-2.6 1 L-6 -1.9 L-1.8 -1.9 Z' fill='%23e63b3b' opacity='.5'/><path transform='translate(132 60)' d='M0 -7 Q1 -1 7 0 Q1 1 0 7 Q-1 1 -7 0 Q-1 -1 0 -7 Z' fill='%23ffffff' opacity='.6'/><path transform='translate(362 332)' d='M0 -6 Q.9 -1 6 0 Q.9 1 0 6 Q-.9 1 -6 0 Q-.9 -1 0 -6 Z' fill='%23ffffff' opacity='.55'/><path transform='translate(58 332)' d='M0 -6 Q.9 -1 6 0 Q.9 1 0 6 Q-.9 1 -6 0 Q-.9 -1 0 -6 Z' fill='%23f4c233' opacity='.55'/><circle cx='250' cy='110' r='2.5' fill='%232f6fe0' opacity='.5'/><circle cx='110' cy='220' r='2.5' fill='%23f4c233' opacity='.5'/><circle cx='300' cy='182' r='2' fill='%231fb866' opacity='.5'/><circle cx='40' cy='110' r='2' fill='%23e63b3b' opacity='.5'/></g></svg>");
-    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
-    mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
-}
-
-/* === Cucitura di transizione tra sezioni ===
-   Il colore della sezione precedente (--cw-bg-prev) parte pieno dal bordo
-   superiore — combaciando con il fondo del blocco sopra, quindi nessun
-   taglio netto — e cala dolcemente nella base di questa sezione. Così il
-   blocco di sopra "invade" a lungo questo, e l'alto richiama la pagina
-   precedente. Resta dietro al contenuto. */
-.seam {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 45vh;
-    z-index: -1;
-    pointer-events: none;
-    background: linear-gradient(
-            to bottom,
-            var(--cw-bg-prev) 0%,
-            transparent 100%
-    );
 }
 
 /* === Layout: sticky media + scrolling info === */
@@ -217,11 +223,6 @@
 
 .kicker {
     color: var(--cw-fg-soft);
-}
-
-.counter {
-    color: var(--cw-fg-mute);
-    font-variant-numeric: tabular-nums;
 }
 
 .mediaButton {
@@ -435,6 +436,14 @@
     color: var(--cw-fg);
     line-height: 1;
     white-space: nowrap;
+    /* Stesso leggero effetto distressed del nome nazione (.title): la
+       maschera di rumore fractale scava micro-vuoti sparsi nelle cifre. */
+    -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 6 -0.62'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+    mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 6 -0.62'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+    -webkit-mask-size: 280px 280px;
+    mask-size: 280px 280px;
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
 }
 
 .ghostGroup {
@@ -547,6 +556,12 @@
 
     .flipped .priceBlock {
         align-items: flex-end;
+    }
+
+    /* Specchio dei due pulsanti ghost: nelle sezioni flipped (2-4-6)
+       "Size chart" e "Visita lo store" risultano invertiti. */
+    .flipped .ghostGroup {
+        flex-direction: row-reverse;
     }
 }
 

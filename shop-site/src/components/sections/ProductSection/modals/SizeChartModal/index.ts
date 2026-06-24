@@ -1,0 +1,1 @@
+export { SizeChartModal } from "./SizeChartModal";

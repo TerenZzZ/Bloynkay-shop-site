@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
-import { colorwayCssVars, type Colorway } from "./colorways";
+import { colorwayCssVars, type Colorway } from "../../data";
 import styles from "./DropSignupModal.module.css";
 
 type DropSignupModalProps = {

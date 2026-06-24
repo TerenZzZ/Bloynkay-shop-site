@@ -1,3 +1,3 @@
 export { ProductSection } from "./ProductSection";
-export { COLORWAYS } from "./colorways";
+export { COLORWAYS } from "./data";
 export type { Colorway, ProductSectionProps } from "./ProductSection";

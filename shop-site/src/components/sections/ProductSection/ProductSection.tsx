@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 import { Reveal } from "../../ui/Reveal";
 import { RunningLightButton } from "../../ui/RunningLightButton";
 import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
-import { COLORWAYS, colorwayCssVars, type Colorway } from "./colorways";
-import { POLO_GALLERY } from "./galleryImages";
-import { ProductGalleryModal } from "./ProductGalleryModal";
-import { SizeChartModal } from "./SizeChartModal";
-import { DropSignupModal } from "./DropSignupModal";
+import { COLORWAYS, colorwayCssVars, POLO_GALLERY, type Colorway } from "./data";
+import { ProductGalleryModal } from "./modals/ProductGalleryModal";
+import { SizeChartModal } from "./modals/SizeChartModal";
+import { DropSignupModal } from "./modals/DropSignupModal";
 import styles from "./ProductSection.module.css";
 
 export type { Colorway };
@@ -23,10 +22,12 @@ export type ProductSectionProps = {
     mediaSrc: string;
     mediaAlt: string;
     isFlipped?: boolean;
-    /** Base color della sezione precedente: scende dall'alto e sfuma nella
-        base di questa sezione, così il blocco sopra invade dolcemente questo.
-        Assente sulla prima sezione. */
+    /** Base color delle sezioni adiacenti: usati per calcolare il colore di
+        confine (mix 50/50) verso cui questa sezione sfuma in alto/basso, così
+        i bordi combaciano col vicino e la transizione è senza linea.
+        prevBgBase assente sulla prima sezione, nextBgBase sull'ultima. */
     prevBgBase?: string;
+    nextBgBase?: string;
 };
 
 export function ProductSection({
@@ -41,6 +42,7 @@ export function ProductSection({
     mediaAlt,
     isFlipped = false,
     prevBgBase,
+    nextBgBase,
 }: ProductSectionProps) {
     const [galleryOpen, setGalleryOpen] = useState(false);
     const [sizeChartOpen, setSizeChartOpen] = useState(false);
@@ -49,6 +51,7 @@ export function ProductSection({
     const sectionStyle = {
         ...colorwayCssVars(colorway),
         ...(prevBgBase ? { "--cw-bg-prev": prevBgBase } : {}),
+        ...(nextBgBase ? { "--cw-bg-next": nextBgBase } : {}),
     } as CSSProperties;
 
     return (
@@ -67,17 +70,12 @@ export function ProductSection({
                 aria-hidden="true"
                 className={styles.watermark}
             />
-            {prevBgBase && <div className={styles.seam} aria-hidden="true" />}
 
             <div className={styles.grid}>
                 <aside className={styles.mediaCol} aria-label={mediaAlt}>
                     <div className={styles.mediaInner}>
                         <header className={styles.mediaMeta}>
                             <span className={styles.kicker}>Drop 02 / World Cup</span>
-                            <span className={styles.counter}>
-                                {String(position).padStart(2, "0")} —{" "}
-                                {String(total).padStart(2, "0")}
-                            </span>
                         </header>
 
                         <button

@@ -1,0 +1,1 @@
+export { ProductGalleryModal } from "./ProductGalleryModal";

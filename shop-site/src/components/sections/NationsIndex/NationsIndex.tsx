@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/Button";
 import { Reveal } from "../../ui/Reveal";
 import { scrollToId } from "../../utils";
-import { COLORWAYS } from "../ProductSection/colorways";
-import type { Colorway } from "../ProductSection";
+import { COLORWAYS, type Colorway } from "../ProductSection";
 import stadiumBg from "../../../assets/images/backgrounds/stadio_finale_01.png";
 import styles from "./NationsIndex.module.css";
 

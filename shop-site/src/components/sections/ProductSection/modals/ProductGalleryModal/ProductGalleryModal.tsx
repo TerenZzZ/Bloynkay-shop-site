@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import type { Colorway } from "./colorways";
-import type { GalleryImage } from "./galleryImages";
+import type { Colorway, GalleryImage } from "../../data";
 import styles from "./ProductGalleryModal.module.css";
 
 type ProductGalleryModalProps = {

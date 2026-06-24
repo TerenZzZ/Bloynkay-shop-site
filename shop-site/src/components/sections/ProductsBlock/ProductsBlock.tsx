@@ -91,6 +91,7 @@ export function ProductsBlock() {
         <div className={styles.container}>
             {PRODUCTS.map((p, i) => {
                 const prev = PRODUCTS[i - 1];
+                const next = PRODUCTS[i + 1];
                 return (
                     <ProductSection
                         key={p.colorway}
@@ -98,6 +99,7 @@ export function ProductsBlock() {
                         total={PRODUCTS.length}
                         isFlipped={i % 2 !== 0}
                         prevBgBase={prev ? COLORWAYS[prev.colorway].bgBase : undefined}
+                        nextBgBase={next ? COLORWAYS[next.colorway].bgBase : undefined}
                         {...p}
                     />
                 );
