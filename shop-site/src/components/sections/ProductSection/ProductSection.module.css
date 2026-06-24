@@ -91,64 +91,84 @@
     opacity: 0.05;
 }
 
-/* === Pallone Mondiale 2026 (Adidas Trionda, stilizzato) ===
-   Watermark line-art a pinwheel: tre cuciture curve dal mozzo al bordo,
-   dietro al prodotto. Disegnato come maschera così prende automaticamente
-   il foreground della colorway (--cw-fg) e resta coerente su ogni kit. */
-.ball {
+/* === Texture organica di sezione ===
+   Pattern grunge trasparente fornito dal brand: l'alfa è già pre-sfumata
+   (max ~60%), quindi basta stenderlo sull'intera sezione per dare materia
+   allo sfondo in modo uniforme su ogni kit.
+   1) "cover" + center → riempie la sezione senza ripetersi né deformarsi;
+   2) blend "soft-light" unico per tutti i kit → le venature aggiungono
+      luce/ombra adattandosi alla base senza ingrigirla, così lo stacco
+      tra le sezioni resta uniforme su chiari e scuri;
+   3) le sezioni flipped specchiano la texture, così il pattern non si
+      ripete identico da un blocco all'altro. */
+.texture {
     position: absolute;
+    inset: 0;
     z-index: -4;
-    top: 50%;
-    left: -6%;
-    right: auto;
-    transform: translateY(-50%);
-    width: min(46vw, 600px);
-    aspect-ratio: 1 / 1;
     pointer-events: none;
-    background: var(--cw-fg);
-    opacity: 0.07;
-    -webkit-mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='47' fill='none' stroke='%23000' stroke-width='2.4'/><g fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round'><path d='M50 50 C 55 33 67 24 80 23'/><path d='M50 50 C 55 33 67 24 80 23' transform='rotate(120 50 50)'/><path d='M50 50 C 55 33 67 24 80 23' transform='rotate(240 50 50)'/></g><circle cx='50' cy='50' r='5.5' fill='%23000'/></svg>") center / contain no-repeat;
-    mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='47' fill='none' stroke='%23000' stroke-width='2.4'/><g fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round'><path d='M50 50 C 55 33 67 24 80 23'/><path d='M50 50 C 55 33 67 24 80 23' transform='rotate(120 50 50)'/><path d='M50 50 C 55 33 67 24 80 23' transform='rotate(240 50 50)'/></g><circle cx='50' cy='50' r='5.5' fill='%23000'/></svg>") center / contain no-repeat;
+    background-image: url("../../../assets/images/products/landing/patterns/trasparent_pattern_pblocks.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    mix-blend-mode: soft-light;
+    opacity: 0.9;
+    /* L'angolo in basso a destra del PNG ha un bordo netto dove il pattern
+       finisce: una maschera radiale lo sfuma in trasparenza solo lì, così
+       si fonde con lo sfondo. Segue il flip della sezione (scaleX), quindi
+       resta ancorata allo stesso angolo del disegno. */
+    -webkit-mask-image: radial-gradient(80% 80% at 100% 100%, transparent 0%, #000 42%);
+    mask-image: radial-gradient(80% 80% at 100% 100%, transparent 0%, #000 42%);
 }
 
-.flipped .ball {
-    left: auto;
-    right: -6%;
+.flipped .texture {
+    transform: scaleX(-1);
 }
 
-/* === Layer coriandoli ===
-   Tile SVG ripetuto con bit di carta nei colori del Mondiale, opacità
-   bassa e mascherato in alto/basso così resta un velo leggero e non
-   crea seam con la cucitura tra sezioni. */
+/* Italia: l'azzurro saturo fa risaltare di più il bordo del PNG in basso a
+   destra, dove la maschera standard non arriva. Qui la allarghiamo così
+   l'angolo si dissolve completamente nello sfondo. */
+:global(#drop-02-italy) .texture {
+    -webkit-mask-image: radial-gradient(115% 105% at 100% 100%, transparent 16%, #000 58%);
+    mask-image: radial-gradient(115% 105% at 100% 100%, transparent 16%, #000 58%);
+}
+
+/* === Layer motivi Mondiale 2026 ===
+   Tile SVG ripetuto, a tema pallone/coppa del mondo: palloni stilizzati,
+   stelle, scie tratteggiate (traiettorie di palla), nastri di coriandoli
+   curvi e bagliori, nei colori del torneo. Composizione fantasiosa e
+   organica (niente griglia geometrica). Opacità bassa e mascheratura in
+   alto/basso così resta un velo leggero e non litiga con la cucitura. */
 .confetti {
     position: absolute;
     inset: 0;
     z-index: -3;
     pointer-events: none;
-    opacity: 0.55;
+    opacity: 0.6;
     background-repeat: repeat;
-    background-size: 360px 360px;
-    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'><g><rect x='26' y='36' width='10' height='5' rx='1.5' fill='%23e63b3b' opacity='.7' transform='rotate(25 31 38)'/><rect x='92' y='18' width='8' height='5' rx='1.5' fill='%232f6fe0' opacity='.6' transform='rotate(-40 96 20)'/><rect x='158' y='66' width='9' height='5' rx='1.5' fill='%231fb866' opacity='.7' transform='rotate(60 162 68)'/><rect x='222' y='28' width='7' height='7' rx='1.5' fill='%23f4c233' opacity='.7' transform='rotate(15 225 31)'/><rect x='300' y='58' width='10' height='5' rx='1.5' fill='%23ffffff' opacity='.55' transform='rotate(-25 305 60)'/><rect x='60' y='124' width='8' height='5' rx='1.5' fill='%23f4c233' opacity='.6' transform='rotate(45 64 126)'/><rect x='134' y='156' width='9' height='5' rx='1.5' fill='%23e63b3b' opacity='.6' transform='rotate(-15 138 158)'/><rect x='208' y='114' width='7' height='5' rx='1.5' fill='%232f6fe0' opacity='.7' transform='rotate(70 211 116)'/><rect x='278' y='166' width='10' height='6' rx='1.5' fill='%231fb866' opacity='.55' transform='rotate(-50 283 169)'/><rect x='40' y='220' width='8' height='5' rx='1.5' fill='%232f6fe0' opacity='.6' transform='rotate(30 44 222)'/><rect x='116' y='250' width='9' height='5' rx='1.5' fill='%23f4c233' opacity='.7' transform='rotate(-35 120 252)'/><rect x='188' y='216' width='7' height='7' rx='1.5' fill='%23ffffff' opacity='.5' transform='rotate(20 191 219)'/><rect x='262' y='240' width='10' height='5' rx='1.5' fill='%23e63b3b' opacity='.6' transform='rotate(-60 267 242)'/><rect x='320' y='126' width='8' height='5' rx='1.5' fill='%231fb866' opacity='.55' transform='rotate(40 324 128)'/><rect x='20' y='312' width='9' height='5' rx='1.5' fill='%23f4c233' opacity='.6' transform='rotate(-20 24 314)'/><rect x='98' y='300' width='7' height='5' rx='1.5' fill='%232f6fe0' opacity='.55' transform='rotate(55 101 302)'/><rect x='172' y='316' width='10' height='6' rx='1.5' fill='%23e63b3b' opacity='.55' transform='rotate(-45 177 319)'/><rect x='244' y='292' width='8' height='5' rx='1.5' fill='%23ffffff' opacity='.5' transform='rotate(35 248 294)'/><rect x='322' y='312' width='9' height='5' rx='1.5' fill='%231fb866' opacity='.6' transform='rotate(-30 326 314)'/></g></svg>");
+    background-size: 420px 420px;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'><g fill='none' stroke-linecap='round'><path d='M30 190 q14 -18 28 -7 q14 11 28 -5' stroke='%23e63b3b' stroke-width='3' opacity='.5'/><path d='M250 360 q16 -16 32 -6 q14 8 26 -6' stroke='%232f6fe0' stroke-width='3' opacity='.45'/><path d='M16 250 q70 -54 132 -12' stroke='%231fb866' stroke-width='2.5' stroke-dasharray='1 10' opacity='.5'/><path d='M214 36 q64 -30 120 14' stroke='%23f4c233' stroke-width='2.5' stroke-dasharray='1 10' opacity='.5'/></g><g><g transform='translate(80 72)'><circle r='12' fill='none' stroke='%232f6fe0' stroke-width='2' opacity='.55'/><path d='M0 -6 L5 -2 L3 5 L-3 5 L-5 -2 Z' fill='%232f6fe0' opacity='.4'/></g><g transform='translate(312 256)'><circle r='13' fill='none' stroke='%23e63b3b' stroke-width='2' opacity='.5'/><path d='M0 -6 L5 -2 L3 5 L-3 5 L-5 -2 Z' fill='%23e63b3b' opacity='.38'/></g><path transform='translate(346 84)' d='M0 -10 L2.9 -3.1 L10 -3.1 L4.2 1.6 L6.2 8.9 L0 4.8 L-6.2 8.9 L-4.2 1.6 L-10 -3.1 L-2.9 -3.1 Z' fill='%23f4c233' opacity='.6'/><path transform='translate(150 300)' d='M0 -8 L2.3 -2.5 L8 -2.5 L3.4 1.3 L5 7.1 L0 3.8 L-5 7.1 L-3.4 1.3 L-8 -2.5 L-2.3 -2.5 Z' fill='%231fb866' opacity='.5'/><path transform='translate(208 140)' d='M0 -6 L1.8 -1.9 L6 -1.9 L2.6 1 L3.8 5.3 L0 2.9 L-3.8 5.3 L-2.6 1 L-6 -1.9 L-1.8 -1.9 Z' fill='%23e63b3b' opacity='.5'/><path transform='translate(132 60)' d='M0 -7 Q1 -1 7 0 Q1 1 0 7 Q-1 1 -7 0 Q-1 -1 0 -7 Z' fill='%23ffffff' opacity='.6'/><path transform='translate(362 332)' d='M0 -6 Q.9 -1 6 0 Q.9 1 0 6 Q-.9 1 -6 0 Q-.9 -1 0 -6 Z' fill='%23ffffff' opacity='.55'/><path transform='translate(58 332)' d='M0 -6 Q.9 -1 6 0 Q.9 1 0 6 Q-.9 1 -6 0 Q-.9 -1 0 -6 Z' fill='%23f4c233' opacity='.55'/><circle cx='250' cy='110' r='2.5' fill='%232f6fe0' opacity='.5'/><circle cx='110' cy='220' r='2.5' fill='%23f4c233' opacity='.5'/><circle cx='300' cy='182' r='2' fill='%231fb866' opacity='.5'/><circle cx='40' cy='110' r='2' fill='%23e63b3b' opacity='.5'/></g></svg>");
     -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
     mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
 }
 
 /* === Cucitura di transizione tra sezioni ===
-   La base color sfuma morbidamente verso quella della sezione successiva
-   (--cw-bg-next), così il passaggio tra un blocco e l'altro non ha tagli
-   netti. Copre l'intero stack di sfondo ma resta dietro al contenuto. */
+   Il colore della sezione precedente (--cw-bg-prev) parte pieno dal bordo
+   superiore — combaciando con il fondo del blocco sopra, quindi nessun
+   taglio netto — e cala dolcemente nella base di questa sezione. Così il
+   blocco di sopra "invade" a lungo questo, e l'alto richiama la pagina
+   precedente. Resta dietro al contenuto. */
 .seam {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
-    height: 30vh;
+    top: 0;
+    height: 45vh;
     z-index: -1;
     pointer-events: none;
     background: linear-gradient(
             to bottom,
-            transparent 0%,
-            var(--cw-bg-next) 94%
+            var(--cw-bg-prev) 0%,
+            transparent 100%
     );
 }
 
@@ -310,6 +330,16 @@
     letter-spacing: -0.01em;
     margin: 0;
     color: var(--cw-fg);
+    /* Leggero effetto distressed: una maschera di rumore fractale scava
+       micro-vuoti sparsi nelle lettere, simulando una stampa consumata.
+       L'alfa resta quasi ovunque piena (6*a − 0.62), così solo i punti
+       piu' scuri del noise bucano il testo: erosione appena percettibile. */
+    -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 6 -0.62'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+    mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 6 -0.62'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+    -webkit-mask-size: 280px 280px;
+    mask-size: 280px 280px;
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
 }
 
 .lead {
@@ -369,7 +399,7 @@
    ┌──────────────────────────────────────────────┐
    │ PREZZO DI LANCIO                              │
    │ €59,90   [Size chart] [Vai allo store]        │   ← due ghost, larghezze pari
-   │          [    Aggiungi al carrello    ]       │   ← CTA, stessa larghezza del blocco
+   │          [        Join Drop 02        ]       │   ← CTA, stessa larghezza del blocco
    └──────────────────────────────────────────────┘ */
 .buyRow {
     display: grid;
@@ -444,7 +474,7 @@
             box-shadow var(--dur-base) var(--ease-out);
 }
 
-/* === CTA "Aggiungi al carrello" — stesso concept "glow" di "Acquista ora" ===
+/* === CTA "Join Drop 02" — stesso concept "glow" di "Acquista ora" ===
    A riposo è neutra e tenue (tinta soft del foreground di sezione, sempre
    in contrasto con lo sfondo). Al passaggio del cursore si illumina e prende
    il colore definitivo del kit nazionale (--rlb-color), con l'alone luminoso

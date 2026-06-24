@@ -22,17 +22,19 @@ const DESCRIPTION =
     "Polo Bloynkay World Cup 2026 - Drop 02.\n\n" +
     "Ispirata a sei iconiche nazionali, con estetica calcistica anni '90/2000 e una rilettura contemporanea riadattata ad una vestibilità boxy.";
 
+const DETAILS = [
+    "100% cotton piqué",
+    "Embroidered front and back logo",
+    "Screen printed 'bloynkay' logo",
+    "Embroidered bloynkay patch",
+];
+
 const PRODUCTS: ProductData[] = [
     {
         colorway: "brazil",
         name: "Brasile",
         description: DESCRIPTION,
-        details: [
-            "100% cotone piqué premium",
-            "Verde e oro brasiliani",
-            "Patch Bloynkay sul petto",
-            "Taglia S / M / L / XL",
-        ],
+        details: DETAILS,
         price: "€59,90",
         mediaSrc: poloBrazil,
         mediaAlt: "Polo Bloynkay Brasile — World Cup Edition",
@@ -41,12 +43,7 @@ const PRODUCTS: ProductData[] = [
         colorway: "england",
         name: "Inghilterra",
         description: DESCRIPTION,
-        details: [
-            "100% cotone piqué premium",
-            "Bianco con bordi rosso England",
-            "Three Lions ricamati",
-            "Patch Bloynkay sul colletto",
-        ],
+        details: DETAILS,
         price: "€59,90",
         mediaSrc: poloEngland,
         mediaAlt: "Polo Bloynkay Inghilterra — World Cup Edition",
@@ -55,12 +52,7 @@ const PRODUCTS: ProductData[] = [
         colorway: "france",
         name: "Francia",
         description: DESCRIPTION,
-        details: [
-            "100% cotone piqué premium",
-            "Blu notte con accenti tricolore",
-            "Gallo Gallico ricamato",
-            "Patch Bloynkay in argento",
-        ],
+        details: DETAILS,
         price: "€59,90",
         mediaSrc: poloFrance,
         mediaAlt: "Polo Bloynkay Francia — World Cup Edition",
@@ -69,12 +61,7 @@ const PRODUCTS: ProductData[] = [
         colorway: "germany",
         name: "Germania",
         description: DESCRIPTION,
-        details: [
-            "100% cotone piqué premium",
-            "Bianco con bordi neri a contrasto",
-            "Aquila DFB ricamata",
-            "Patch Bloynkay sul retro",
-        ],
+        details: DETAILS,
         price: "€59,90",
         mediaSrc: poloGermany,
         mediaAlt: "Polo Bloynkay Germania — World Cup Edition",
@@ -83,12 +70,7 @@ const PRODUCTS: ProductData[] = [
         colorway: "italy",
         name: "Italia",
         description: DESCRIPTION,
-        details: [
-            "100% cotone piqué premium",
-            "Azzurro Nazionale certificato",
-            "Quattro stelle ricamate",
-            "Patch Bloynkay in oro sul petto",
-        ],
+        details: DETAILS,
         price: "€59,90",
         mediaSrc: poloItaly,
         mediaAlt: "Polo Bloynkay Italia — World Cup Edition",
@@ -97,12 +79,7 @@ const PRODUCTS: ProductData[] = [
         colorway: "portugal",
         name: "Portogallo",
         description: DESCRIPTION,
-        details: [
-            "100% cotone piqué premium",
-            "Verde con bordi rosso Portogallo",
-            "Stemma FPF ricamato",
-            "Patch Bloynkay sul colletto",
-        ],
+        details: DETAILS,
         price: "€59,90",
         mediaSrc: poloPortugal,
         mediaAlt: "Polo Bloynkay Portogallo — World Cup Edition",
@@ -113,14 +90,14 @@ export function ProductsBlock() {
     return (
         <div className={styles.container}>
             {PRODUCTS.map((p, i) => {
-                const next = PRODUCTS[i + 1];
+                const prev = PRODUCTS[i - 1];
                 return (
                     <ProductSection
                         key={p.colorway}
                         position={i + 1}
                         total={PRODUCTS.length}
                         isFlipped={i % 2 !== 0}
-                        nextBgBase={next ? COLORWAYS[next.colorway].bgBase : undefined}
+                        prevBgBase={prev ? COLORWAYS[prev.colorway].bgBase : undefined}
                         {...p}
                     />
                 );

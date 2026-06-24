@@ -1,7 +1,5 @@
 import { useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../../../cart";
-import { parsePrice } from "../../../lib/money";
 import { Reveal } from "../../ui/Reveal";
 import { RunningLightButton } from "../../ui/RunningLightButton";
 import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
@@ -9,6 +7,7 @@ import { COLORWAYS, colorwayCssVars, type Colorway } from "./colorways";
 import { POLO_GALLERY } from "./galleryImages";
 import { ProductGalleryModal } from "./ProductGalleryModal";
 import { SizeChartModal } from "./SizeChartModal";
+import { DropSignupModal } from "./DropSignupModal";
 import styles from "./ProductSection.module.css";
 
 export type { Colorway };
@@ -24,9 +23,10 @@ export type ProductSectionProps = {
     mediaSrc: string;
     mediaAlt: string;
     isFlipped?: boolean;
-    /** Base color della sezione successiva: alimenta la sfumatura di
-        transizione verso il prossimo blocco. Assente sull'ultima sezione. */
-    nextBgBase?: string;
+    /** Base color della sezione precedente: scende dall'alto e sfuma nella
+        base di questa sezione, così il blocco sopra invade dolcemente questo.
+        Assente sulla prima sezione. */
+    prevBgBase?: string;
 };
 
 export function ProductSection({
@@ -40,25 +40,16 @@ export function ProductSection({
     mediaSrc,
     mediaAlt,
     isFlipped = false,
-    nextBgBase,
+    prevBgBase,
 }: ProductSectionProps) {
     const [galleryOpen, setGalleryOpen] = useState(false);
     const [sizeChartOpen, setSizeChartOpen] = useState(false);
-    const { addItem } = useCart();
+    const [signupOpen, setSignupOpen] = useState(false);
 
     const sectionStyle = {
         ...colorwayCssVars(colorway),
-        ...(nextBgBase ? { "--cw-bg-next": nextBgBase } : {}),
+        ...(prevBgBase ? { "--cw-bg-prev": prevBgBase } : {}),
     } as CSSProperties;
-
-    const handleAddToCart = () =>
-        addItem({
-            id: `polo-${colorway}`,
-            name,
-            price: parsePrice(price),
-            image: mediaSrc,
-            colorway,
-        });
 
     return (
         <section
@@ -68,7 +59,7 @@ export function ProductSection({
             style={sectionStyle}
         >
             <div className={styles.backdrop} aria-hidden="true" />
-            <div className={styles.ball} aria-hidden="true" />
+            <div className={styles.texture} aria-hidden="true" />
             <div className={styles.confetti} aria-hidden="true" />
             <img
                 src={logoBloynkay}
@@ -76,7 +67,7 @@ export function ProductSection({
                 aria-hidden="true"
                 className={styles.watermark}
             />
-            {nextBgBase && <div className={styles.seam} aria-hidden="true" />}
+            {prevBgBase && <div className={styles.seam} aria-hidden="true" />}
 
             <div className={styles.grid}>
                 <aside className={styles.mediaCol} aria-label={mediaAlt}>
@@ -161,9 +152,9 @@ export function ProductSection({
                             <RunningLightButton
                                 colorway={colorway}
                                 className={styles.cta}
-                                onClick={handleAddToCart}
+                                onClick={() => setSignupOpen(true)}
                             >
-                                Aggiungi al carrello
+                                Join Drop 02
                             </RunningLightButton>
                         </div>
                     </Reveal>
@@ -186,6 +177,13 @@ export function ProductSection({
                     name={name}
                     colorway={colorway}
                     onClose={() => setSizeChartOpen(false)}
+                />
+            )}
+
+            {signupOpen && (
+                <DropSignupModal
+                    colorway={colorway}
+                    onClose={() => setSignupOpen(false)}
                 />
             )}
         </section>
