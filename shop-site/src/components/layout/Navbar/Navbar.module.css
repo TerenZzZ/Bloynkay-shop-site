@@ -8,7 +8,9 @@
     display: flex;
     align-items: center;
     padding: 0 var(--container-px);
-    transition: transform 350ms var(--ease-out);
+    transition:
+        transform 350ms var(--ease-out),
+        background 300ms ease;
 }
 
 .hidden {
@@ -28,9 +30,17 @@
     color: var(--color-ink);
     background: rgba(10, 10, 10, 0.35);
 }
-.dark {
-    color: #1a1a1a;
-    background: rgba(235, 227, 209, 0.45);
+
+/* Store page: dark glass, si opacizza scrollando nei prodotti */
+.store {
+    color: var(--color-ink);
+    background: rgba(6, 6, 8, 0.38);
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+}
+
+.storeScrolled {
+    background: rgba(6, 6, 8, 0.68);
 }
 
 .left {
@@ -105,13 +115,10 @@
             opacity var(--dur-base) var(--ease-out);
 }
 
-/* Logo is black artwork on transparent: invert on light theme (dark sections) */
-.light .logoImg {
+/* Logo is black artwork on transparent: invert on dark backgrounds */
+.light .logoImg,
+.store .logoImg {
     filter: invert(1);
-}
-
-.dark .logoImg {
-    filter: none;
 }
 
 .logo:hover .logoImg {

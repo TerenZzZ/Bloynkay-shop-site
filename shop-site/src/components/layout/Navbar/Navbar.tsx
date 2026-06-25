@@ -51,13 +51,31 @@ function useHideOnScroll(): boolean {
     return hidden;
 }
 
+function useScrollPast(threshold: number, enabled = true): boolean {
+    const [past, setPast] = useState(false);
+
+    useEffect(() => {
+        if (!enabled) return;
+        const onScroll = () => setPast(window.scrollY > threshold);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [threshold, enabled]);
+
+    return enabled ? past : false;
+}
+
 export function Navbar() {
     const hidden = useHideOnScroll();
     const { openCart, totalQuantity } = useCart();
     const location = useLocation();
     const navigate = useNavigate();
     const isStorePage = location.pathname === "/store";
-    const themeClass = isStorePage ? styles.dark : styles.light;
+    const storeScrolled = useScrollPast(120, isStorePage);
+
+    const themeClass = isStorePage
+        ? [styles.store, storeScrolled ? styles.storeScrolled : ""].filter(Boolean).join(" ")
+        : styles.light;
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
