@@ -1,10 +1,14 @@
 import { useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
+import { parsePrice } from "../../../lib/money";
 import { Reveal } from "../../ui/Reveal";
 import { RunningLightButton } from "../../ui/RunningLightButton";
 import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
 import { COLORWAYS, colorwayCssVars, POLO_GALLERY, type Colorway } from "./data";
-import { ProductGalleryModal } from "./modals/ProductGalleryModal";
+import {
+    ProductGalleryModal,
+    type GalleryModel,
+} from "./modals/ProductGalleryModal";
 import { SizeChartModal } from "./modals/SizeChartModal";
 import { DropSignupModal } from "./modals/DropSignupModal";
 import styles from "./ProductSection.module.css";
@@ -28,6 +32,8 @@ export type ProductSectionProps = {
         prevBgBase assente sulla prima sezione, nextBgBase sull'ultima. */
     prevBgBase?: string;
     nextBgBase?: string;
+    /** Catalogo completo per lo switch fra modelli nel pannello acquisto. */
+    catalog?: GalleryModel[];
 };
 
 export function ProductSection({
@@ -43,6 +49,7 @@ export function ProductSection({
     isFlipped = false,
     prevBgBase,
     nextBgBase,
+    catalog,
 }: ProductSectionProps) {
     const [galleryOpen, setGalleryOpen] = useState(false);
     const [sizeChartOpen, setSizeChartOpen] = useState(false);
@@ -162,11 +169,16 @@ export function ProductSection({
             {galleryOpen && (
                 <ProductGalleryModal
                     name={name}
-                    position={position}
-                    total={total}
                     colorway={colorway}
                     images={POLO_GALLERY[colorway]}
                     onClose={() => setGalleryOpen(false)}
+                    purchase={{
+                        id: `drop-02-${colorway}`,
+                        price: parsePrice(price),
+                        image: mediaSrc,
+                        sizes: ["S", "M", "L", "XL"],
+                    }}
+                    models={catalog}
                 />
             )}
 

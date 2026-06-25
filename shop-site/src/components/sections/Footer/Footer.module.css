@@ -1,176 +1,149 @@
+/* =====================================================================
+   Footer — riproduzione fedele del sample (palette navy).
+   Colori scoped localmente al footer: l'immagine di riferimento usa un
+   blu notte che resta comunque coerente con il taglio "stadio notturno"
+   dello store.
+   ===================================================================== */
 .footer {
-    background: var(--color-bg);
-    color: var(--color-ink);
-    padding: var(--space-9) var(--container-px) var(--space-5);
-    border-top: 1px solid var(--color-line);
+    --fr-bg-top: var(--color-bg-elev);
+    --fr-bg-bottom: var(--color-bg);
+    --fr-bar-bg: #060606;
+    --fr-heading: var(--color-ink);
+    --fr-text: var(--color-ink-soft);
+    --fr-muted: var(--color-ink-mute);
+    --fr-line: var(--color-line);
+    --fr-icon: var(--color-ink-soft);
+
+    background: linear-gradient(180deg, var(--fr-bg-top) 0%, var(--fr-bg-bottom) 100%);
+    color: var(--fr-text);
+    border-top: 1px solid var(--fr-line);
 }
 
 .inner {
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr;
-    gap: var(--space-7);
-    margin-bottom: var(--space-8);
+    grid-template-columns: 1.5fr 0.9fr 0.9fr 0.9fr 1.6fr;
+    gap: var(--space-6);
+    padding: var(--space-7) var(--container-px) var(--space-6);
 }
 
+/* ───────── Colonna brand ───────── */
 .brand {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--space-4);
 }
 
 .logo {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    letter-spacing: 0.06em;
+    display: block;
+    align-self: flex-start;
+    height: 44px;
+    width: auto;
+    /* Artwork nero su trasparente → portato a chiaro sul navy. */
+    filter: invert(1);
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .tagline {
-    font-size: 0.95rem;
-    color: var(--color-ink-soft);
-    max-width: 36ch;
     margin: 0;
-}
-
-.location {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--color-ink-mute);
-    margin-top: var(--space-3);
-}
-
-.newsletterCol,
-.social {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-}
-
-.colLabel {
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--color-ink-mute);
-}
-
-.newsletter {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-}
-
-.newsletterRow {
-    display: flex;
-    gap: var(--space-2);
-    border-bottom: 1px solid var(--color-line);
-    padding-bottom: var(--space-2);
-}
-
-.input {
-    flex: 1;
-    background: transparent;
-    border: 0;
-    outline: 0;
-    color: var(--color-ink);
-    font-size: 0.95rem;
-    padding: 6px 0;
-    min-width: 0;
-}
-
-.input::placeholder {
-    color: var(--color-ink-mute);
-}
-
-.submit {
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-ink);
-    padding: 6px 12px;
-    cursor: pointer;
-    background: transparent;
-    border: 0;
-    transition: color var(--dur-base) var(--ease-out);
-}
-
-.submit:hover {
-    color: var(--color-accent);
-}
-
-.hint {
-    font-size: 0.78rem;
-    color: var(--color-ink-mute);
-    margin: 0;
-}
-
-.success {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    font-size: 0.92rem;
-    color: var(--color-ink-soft);
-    margin: 0;
-    animation: footerSuccess var(--dur-slow) var(--ease-out) both;
-}
-
-.successMark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    color: var(--color-bg);
-    font-size: 0.75rem;
-    font-weight: 600;
-    flex-shrink: 0;
-}
-
-@keyframes footerSuccess {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--fr-text);
 }
 
 .socialList {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: var(--space-2) 0 0;
     display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
+    gap: 10px;
 }
 
 .socialLink {
-    font-size: 0.95rem;
-    color: var(--color-ink-soft);
-    transition: color var(--dur-base) var(--ease-out);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--fr-line);
+    color: var(--fr-icon);
+    transition: background var(--dur-base) var(--ease-out),
+            border-color var(--dur-base) var(--ease-out),
+            color var(--dur-base) var(--ease-out);
+}
+
+.socialLink svg {
+    width: 15px;
+    height: 15px;
 }
 
 .socialLink:hover {
-    color: var(--color-ink);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg);
 }
 
+/* ───────── Colonne di link ───────── */
+.linkCol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.colLabel {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fr-heading);
+}
+
+.linkList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.link {
+    font-size: 0.85rem;
+    color: var(--fr-text);
+    transition: color var(--dur-base) var(--ease-out);
+}
+
+.link:hover {
+    color: var(--fr-heading);
+}
+
+/* ───────── Newsletter (solo testo, senza campo email) ───────── */
+.newsletterCol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.newsletterDesc {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--fr-text);
+}
+
+/* ───────── Barra finale ───────── */
 .bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.78rem;
-    color: var(--color-ink-mute);
-    letter-spacing: 0.06em;
-    padding-top: var(--space-5);
-    border-top: 1px solid var(--color-line);
     gap: var(--space-5);
+    padding: var(--space-4) var(--container-px);
+    background: var(--fr-bar-bg);
+    border-top: 1px solid var(--fr-line);
+    font-size: 0.78rem;
+    color: var(--fr-muted);
 }
 
 .legal {
@@ -178,25 +151,36 @@
     margin: 0;
     padding: 0;
     display: flex;
-    gap: var(--space-5);
+    gap: var(--space-6);
 }
 
 .legalLink {
-    color: var(--color-ink-mute);
+    color: var(--fr-muted);
     transition: color var(--dur-base) var(--ease-out);
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
 }
 
 .legalLink:hover {
-    color: var(--color-ink);
+    color: var(--fr-heading);
 }
 
-@media (max-width: 880px) {
+/* ───────── Responsive ───────── */
+@media (max-width: 980px) {
     .inner {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1.4fr 1fr 1fr;
+        row-gap: var(--space-7);
+    }
+    .brand {
+        grid-column: 1 / -1;
+    }
+    .newsletterCol {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 620px) {
+    .inner {
+        grid-template-columns: 1fr 1fr;
         gap: var(--space-6);
-        margin-bottom: var(--space-6);
     }
     .bottom {
         flex-direction: column;
@@ -207,5 +191,11 @@
         flex-wrap: wrap;
         justify-content: center;
         gap: var(--space-4);
+    }
+}
+
+@media (max-width: 400px) {
+    .inner {
+        grid-template-columns: 1fr;
     }
 }

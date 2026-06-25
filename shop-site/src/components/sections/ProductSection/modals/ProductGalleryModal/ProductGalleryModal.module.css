@@ -1,7 +1,7 @@
 /* =====================================================================
-   Lightbox prodotto — concept "modal gallery" (Ks89/angular-modal-gallery).
-   Overlay scuro a tutto schermo, immagine grande centrale, frecce ai lati,
-   striscia di thumbnail in basso con l'attiva evidenziata.
+   Product Gallery Modal — gallery + acquisto inline.
+   Overlay scuro a tutto schermo, immagine con navigazione a sinistra,
+   pannello acquisto sempre visibile a destra.
    ===================================================================== */
 
 .overlay {
@@ -79,16 +79,25 @@
     transform: rotate(90deg);
 }
 
-/* === Stage: freccia · immagine · freccia === */
+/* === Body: stage (gallery) + pannello acquisto === */
+.body {
+    position: relative;
+    min-height: 0;
+    display: flex;
+    align-items: stretch;
+    gap: clamp(16px, 2vw, 28px);
+}
+
+/* === Stage: frecce + anteprime laterali + immagine principale === */
 .stage {
     position: relative;
+    flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: clamp(10px, 2.5vw, 40px);
     min-height: 0;
-    /* Alza le immagini per compensare il peso visivo della top bar,
-       pareggiando lo spazio sopra e sotto. */
+    /* Alza le immagini per compensare il peso visivo della top bar */
     transform: translateY(clamp(-56px, -5vh, -28px));
 }
 
@@ -185,6 +194,7 @@
     transition:
         background var(--dur-base) var(--ease-out),
         border-color var(--dur-base) var(--ease-out),
+        opacity var(--dur-base) var(--ease-out),
         transform var(--dur-fast) var(--ease-out);
 }
 
@@ -210,6 +220,160 @@
     transform: translateY(-50%) translateX(2px);
 }
 
+/* === Pannello acquisto (sempre visibile) === */
+.panel {
+    flex: 0 0 min(380px, 86vw);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2.2vh, 22px);
+    padding: clamp(22px, 3vh, 34px) clamp(20px, 2.4vw, 30px);
+    background: rgba(120, 120, 128, 0.22);
+    backdrop-filter: blur(22px) saturate(1.05);
+    -webkit-backdrop-filter: blur(22px) saturate(1.05);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 14px;
+    box-shadow: -24px 0 60px rgba(0, 0, 0, 0.28);
+    color: var(--color-ink, #f5f1e8);
+    overflow-y: auto;
+}
+
+.panelName {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: var(--color-ink, #f5f1e8);
+}
+
+.panelPrice {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-accent, #d4af37);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fieldLabel {
+    font-family: var(--font-sans);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-mute, rgba(245, 241, 232, 0.5));
+}
+
+.models {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.modelBtn {
+    width: 48px;
+    height: 48px;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        border-color var(--dur-fast) var(--ease-out),
+        background var(--dur-fast) var(--ease-out),
+        transform var(--dur-fast) var(--ease-out);
+}
+
+.modelBtn:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+}
+
+.modelActive {
+    border-color: var(--color-accent, #d4af37);
+    box-shadow: 0 0 0 1px var(--color-accent, #d4af37);
+}
+
+.modelImg {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+.sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sizeBtn {
+    min-width: 46px;
+    height: 42px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-line, rgba(255, 255, 255, 0.18));
+    background: transparent;
+    color: var(--color-ink-soft, rgba(245, 241, 232, 0.85));
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        border-color var(--dur-fast) var(--ease-out),
+        background var(--dur-fast) var(--ease-out),
+        color var(--dur-fast) var(--ease-out);
+}
+
+.sizeBtn:hover {
+    border-color: var(--color-ink-soft, rgba(245, 241, 232, 0.7));
+}
+
+.sizeActive {
+    background: var(--color-ink, #f5f1e8);
+    border-color: var(--color-ink, #f5f1e8);
+    color: var(--color-bg, #0a0a0a);
+}
+
+.addBtn {
+    margin-top: auto;
+    height: 52px;
+    border-radius: 999px;
+    border: 1px solid var(--color-accent, #d4af37);
+    background: var(--color-accent, #d4af37);
+    color: #111;
+    font-family: var(--font-sans);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        transform var(--dur-fast) var(--ease-out),
+        box-shadow var(--dur-base) var(--ease-out),
+        opacity var(--dur-base) var(--ease-out);
+}
+
+.addBtn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(212, 175, 55, 0.32);
+}
+
+.addBtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: transparent;
+    color: var(--color-ink-mute, rgba(245, 241, 232, 0.5));
+    border-color: var(--color-line, rgba(255, 255, 255, 0.18));
+}
+
 /* === Animations === */
 @keyframes overlayIn {
     from {
@@ -233,11 +397,25 @@
 
 /* === Responsive === */
 @media (max-width: 760px) {
+    .body {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    .stage {
+        flex: 0 0 46vh;
+        transform: none;
+    }
     .side {
         display: none;
     }
     .frame {
         max-width: 100%;
+    }
+    .panel {
+        flex: 0 0 auto;
+        width: 100%;
+        border-radius: 0;
+        overflow-y: visible;
     }
 }
 
@@ -259,7 +437,6 @@
     .mainImg {
         animation: none;
     }
-    .thumb,
     .arrow,
     .close {
         transition: none;

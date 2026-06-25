@@ -28,6 +28,16 @@
     justify-content: center;
     overflow: hidden;
     padding: 32px;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.imageWrapper:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -4px;
 }
 
 .image {

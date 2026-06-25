@@ -40,7 +40,7 @@ export function Hero() {
                     <span className={styles.divider} aria-hidden="true" />
 
                     <div className={styles.actions}>
-                        <Button glow onClick={() => scrollToId("drop-02-brazil")}>
+                        <Button glow onClick={() => scrollToId("drop-02-portugal")}>
                             Scopri Drop 02
                         </Button>
                         <Button glow variant="ghost" onClick={() => navigate("/store")}>

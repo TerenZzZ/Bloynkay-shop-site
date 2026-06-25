@@ -11,12 +11,12 @@ type Nation = { code: string; name: string; colorway: Colorway };
 
 /* L'ordine segue ProductsBlock. */
 const NATIONS: Nation[] = [
-    { code: "BRA", name: "Brasile", colorway: "brazil" },
-    { code: "ENG", name: "Inghilterra", colorway: "england" },
-    { code: "FRA", name: "Francia", colorway: "france" },
-    { code: "GER", name: "Germania", colorway: "germany" },
-    { code: "ITA", name: "Italia", colorway: "italy" },
     { code: "POR", name: "Portogallo", colorway: "portugal" },
+    { code: "BRA", name: "Brasile", colorway: "brazil" },
+    { code: "FRA", name: "Francia", colorway: "france" },
+    { code: "ENG", name: "Inghilterra", colorway: "england" },
+    { code: "ITA", name: "Italia", colorway: "italy" },
+    { code: "GER", name: "Germania", colorway: "germany" },
 ];
 
 /* Tile nazione a dimensione fissa: codice e nome sempre visibili. Il

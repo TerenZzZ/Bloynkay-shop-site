@@ -1,5 +1,12 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { formatPrice } from "../../../lib/money";
+import {
+    ProductGalleryModal,
+    POLO_GALLERY,
+    type Colorway,
+    type GalleryModel,
+} from "../../sections/ProductSection";
 import styles from "./ProductCard.module.css";
 
 export type ProductColor = {
@@ -13,6 +20,7 @@ export type Product = {
     description: string;
     price: number;
     image: string;
+    colorway: Colorway;
     colors: ProductColor[];
     sizes: string[];
 };
@@ -20,9 +28,14 @@ export type Product = {
 type ProductCardProps = {
     product: Product;
     index?: number;
+    /** Catalogo completo per lo switch fra modelli nel pannello acquisto. */
+    catalog?: GalleryModel[];
 };
 
-export function ProductCard({ product, index = 0 }: ProductCardProps) {
+export function ProductCard({ product, index = 0, catalog }: ProductCardProps) {
+    const [galleryOpen, setGalleryOpen] = useState(false);
+    const images = POLO_GALLERY[product.colorway];
+
     return (
         <motion.article
             className={styles.card}
@@ -31,13 +44,18 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             transition={{ duration: 0.4, delay: index * 0.08 }}
             whileHover={{ y: -6, transition: { duration: 0.2 } }}
         >
-            <div className={styles.imageWrapper}>
+            <button
+                type="button"
+                className={styles.imageWrapper}
+                onClick={() => setGalleryOpen(true)}
+                aria-label={`Apri la gallery di ${product.name}`}
+            >
                 <img
                     src={product.image}
                     alt={product.name}
                     className={styles.image}
                 />
-            </div>
+            </button>
 
             <div className={styles.content}>
                 <h3 className={styles.name}>{product.name}</h3>
@@ -54,6 +72,25 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                     </div>
                 )}
             </div>
+
+            {galleryOpen && (
+                <ProductGalleryModal
+                    name={product.name}
+                    position={index + 1}
+                    total={images.length}
+                    colorway={product.colorway}
+                    images={images}
+                    onClose={() => setGalleryOpen(false)}
+                    purchase={{
+                        id: product.id,
+                        price: product.price,
+                        image: product.image,
+                        sizes: product.sizes,
+                        colors: product.colors,
+                    }}
+                    models={catalog}
+                />
+            )}
         </motion.article>
     );
 }

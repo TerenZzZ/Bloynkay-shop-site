@@ -1,5 +1,6 @@
-import { ProductSection, COLORWAYS } from "../ProductSection";
-import type { Colorway } from "../ProductSection";
+import { ProductSection, COLORWAYS, POLO_GALLERY } from "../ProductSection";
+import type { Colorway, GalleryModel } from "../ProductSection";
+import { parsePrice } from "../../../lib/money";
 import poloBrazil from "../../../assets/images/products/landing/blocks/brazill.png";
 import poloEngland from "../../../assets/images/products/landing/blocks/england.png";
 import poloFrance from "../../../assets/images/products/landing/blocks/france.png";
@@ -31,6 +32,15 @@ const DETAILS = [
 
 const PRODUCTS: ProductData[] = [
     {
+        colorway: "portugal",
+        name: "Portogallo",
+        description: DESCRIPTION,
+        details: DETAILS,
+        price: "€59,90",
+        mediaSrc: poloPortugal,
+        mediaAlt: "Polo Bloynkay Portogallo — World Cup Edition",
+    },
+    {
         colorway: "brazil",
         name: "Brasile",
         description: DESCRIPTION,
@@ -38,15 +48,6 @@ const PRODUCTS: ProductData[] = [
         price: "€59,90",
         mediaSrc: poloBrazil,
         mediaAlt: "Polo Bloynkay Brasile — World Cup Edition",
-    },
-    {
-        colorway: "england",
-        name: "Inghilterra",
-        description: DESCRIPTION,
-        details: DETAILS,
-        price: "€59,90",
-        mediaSrc: poloEngland,
-        mediaAlt: "Polo Bloynkay Inghilterra — World Cup Edition",
     },
     {
         colorway: "france",
@@ -58,13 +59,13 @@ const PRODUCTS: ProductData[] = [
         mediaAlt: "Polo Bloynkay Francia — World Cup Edition",
     },
     {
-        colorway: "germany",
-        name: "Germania",
+        colorway: "england",
+        name: "Inghilterra",
         description: DESCRIPTION,
         details: DETAILS,
         price: "€59,90",
-        mediaSrc: poloGermany,
-        mediaAlt: "Polo Bloynkay Germania — World Cup Edition",
+        mediaSrc: poloEngland,
+        mediaAlt: "Polo Bloynkay Inghilterra — World Cup Edition",
     },
     {
         colorway: "italy",
@@ -76,15 +77,28 @@ const PRODUCTS: ProductData[] = [
         mediaAlt: "Polo Bloynkay Italia — World Cup Edition",
     },
     {
-        colorway: "portugal",
-        name: "Portogallo",
+        colorway: "germany",
+        name: "Germania",
         description: DESCRIPTION,
         details: DETAILS,
         price: "€59,90",
-        mediaSrc: poloPortugal,
-        mediaAlt: "Polo Bloynkay Portogallo — World Cup Edition",
+        mediaSrc: poloGermany,
+        mediaAlt: "Polo Bloynkay Germania — World Cup Edition",
     },
 ];
+
+const GALLERY_MODELS: GalleryModel[] = PRODUCTS.map((p) => ({
+    colorway: p.colorway,
+    name: p.name,
+    swatch: p.mediaSrc,
+    images: POLO_GALLERY[p.colorway],
+    purchase: {
+        id: `drop-02-${p.colorway}`,
+        price: parsePrice(p.price),
+        image: p.mediaSrc,
+        sizes: ["S", "M", "L", "XL"],
+    },
+}));
 
 export function ProductsBlock() {
     return (
@@ -100,6 +114,7 @@ export function ProductsBlock() {
                         isFlipped={i % 2 !== 0}
                         prevBgBase={prev ? COLORWAYS[prev.colorway].bgBase : undefined}
                         nextBgBase={next ? COLORWAYS[next.colorway].bgBase : undefined}
+                        catalog={GALLERY_MODELS}
                         {...p}
                     />
                 );
