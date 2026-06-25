@@ -1,9 +1,3 @@
-/* =====================================================================
-   Footer — riproduzione fedele del sample (palette navy).
-   Colori scoped localmente al footer: l'immagine di riferimento usa un
-   blu notte che resta comunque coerente con il taglio "stadio notturno"
-   dello store.
-   ===================================================================== */
 .footer {
     --fr-bg-top: var(--color-bg-elev);
     --fr-bg-bottom: var(--color-bg);
@@ -14,6 +8,8 @@
     --fr-line: var(--color-line);
     --fr-icon: var(--color-ink-soft);
 
+    position: relative;
+    z-index: 2;
     background: linear-gradient(180deg, var(--fr-bg-top) 0%, var(--fr-bg-bottom) 100%);
     color: var(--fr-text);
     border-top: 1px solid var(--fr-line);
@@ -21,9 +17,10 @@
 
 .inner {
     display: grid;
-    grid-template-columns: 1.5fr 0.9fr 0.9fr 0.9fr 1.6fr;
+    grid-template-columns: 1.4fr 0.7fr 0.7fr 1.4fr;
     gap: var(--space-6);
     padding: var(--space-7) var(--container-px) var(--space-6);
+    align-items: start;
 }
 
 /* ───────── Colonna brand ───────── */
@@ -38,7 +35,6 @@
     align-self: flex-start;
     height: 44px;
     width: auto;
-    /* Artwork nero su trasparente → portato a chiaro sul navy. */
     filter: invert(1);
     user-select: none;
     -webkit-user-drag: none;
@@ -69,9 +65,10 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--fr-line);
     color: var(--fr-icon);
-    transition: background var(--dur-base) var(--ease-out),
-            border-color var(--dur-base) var(--ease-out),
-            color var(--dur-base) var(--ease-out);
+    transition:
+        background var(--dur-base) var(--ease-out),
+        border-color var(--dur-base) var(--ease-out),
+        color var(--dur-base) var(--ease-out);
 }
 
 .socialLink svg {
@@ -90,14 +87,6 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
-}
-
-.colLabel {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--fr-heading);
 }
 
 .linkList {
@@ -119,21 +108,87 @@
     color: var(--fr-heading);
 }
 
-/* ───────── Newsletter (solo testo, senza campo email) ───────── */
+/* ───────── Colonna newsletter ───────── */
 .newsletterCol {
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
+    justify-self: end;
+    width: 100%;
+    max-width: 380px;
 }
 
-.newsletterDesc {
+.colLabel {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fr-heading);
+}
+
+.emailForm {
+    display: flex;
+    gap: 8px;
+}
+
+.emailInput {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: 1px solid var(--fr-line);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--fr-heading);
+    font-family: var(--font-sans);
+    font-size: 0.83rem;
+    outline: none;
+    transition:
+        border-color 180ms ease,
+        background 180ms ease;
+}
+
+.emailInput::placeholder {
+    color: var(--fr-muted);
+}
+
+.emailInput:focus {
+    border-color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.emailBtn {
+    flex: 0 0 auto;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 8px;
+    border: none;
+    background: var(--color-accent, #d4af37);
+    color: #111;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 180ms ease;
+}
+
+.emailBtn:hover {
+    opacity: 0.88;
+}
+
+.newsletterConfirm {
     margin: 0;
     font-size: 0.85rem;
-    line-height: 1.55;
-    color: var(--fr-text);
+    color: var(--color-accent, #d4af37);
 }
 
 /* ───────── Barra finale ───────── */
+.copy {
+    color: var(--fr-muted);
+}
+
 .bottom {
     display: flex;
     justify-content: space-between;
@@ -164,29 +219,39 @@
 }
 
 /* ───────── Responsive ───────── */
-@media (max-width: 980px) {
+@media (max-width: 960px) {
     .inner {
-        grid-template-columns: 1.4fr 1fr 1fr;
+        grid-template-columns: 1.4fr 0.7fr 0.7fr;
         row-gap: var(--space-7);
     }
-    .brand {
-        grid-column: 1 / -1;
-    }
+
     .newsletterCol {
         grid-column: 1 / -1;
+        max-width: 420px;
     }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 640px) {
     .inner {
         grid-template-columns: 1fr 1fr;
         gap: var(--space-6);
     }
+
+    .brand {
+        grid-column: 1 / -1;
+    }
+
+    .newsletterCol {
+        grid-column: 1 / -1;
+        max-width: 100%;
+    }
+
     .bottom {
         flex-direction: column;
         gap: var(--space-3);
         text-align: center;
     }
+
     .legal {
         flex-wrap: wrap;
         justify-content: center;

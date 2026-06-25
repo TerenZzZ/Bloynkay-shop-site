@@ -76,8 +76,6 @@ export function ProductCard({ product, index = 0, catalog }: ProductCardProps) {
             {galleryOpen && (
                 <ProductGalleryModal
                     name={product.name}
-                    position={index + 1}
-                    total={images.length}
                     colorway={product.colorway}
                     images={images}
                     onClose={() => setGalleryOpen(false)}

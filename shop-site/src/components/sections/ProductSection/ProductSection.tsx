@@ -18,7 +18,6 @@ export type { Colorway };
 export type ProductSectionProps = {
     colorway: Colorway;
     position: number;
-    total: number;
     name: string;
     description: string;
     details: string[];
@@ -39,7 +38,6 @@ export type ProductSectionProps = {
 export function ProductSection({
     colorway,
     position,
-    total,
     name,
     description,
     details,
@@ -176,7 +174,7 @@ export function ProductSection({
                         id: `drop-02-${colorway}`,
                         price: parsePrice(price),
                         image: mediaSrc,
-                        sizes: ["S", "M", "L", "XL"],
+                        sizes: ["XS", "S", "M", "L", "XL"],
                     }}
                     models={catalog}
                 />

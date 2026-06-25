@@ -96,7 +96,7 @@ const GALLERY_MODELS: GalleryModel[] = PRODUCTS.map((p) => ({
         id: `drop-02-${p.colorway}`,
         price: parsePrice(p.price),
         image: p.mediaSrc,
-        sizes: ["S", "M", "L", "XL"],
+        sizes: ["XS", "S", "M", "L", "XL"],
     },
 }));
 
@@ -110,7 +110,6 @@ export function ProductsBlock() {
                     <ProductSection
                         key={p.colorway}
                         position={i + 1}
-                        total={PRODUCTS.length}
                         isFlipped={i % 2 !== 0}
                         prevBgBase={prev ? COLORWAYS[prev.colorway].bgBase : undefined}
                         nextBgBase={next ? COLORWAYS[next.colorway].bgBase : undefined}

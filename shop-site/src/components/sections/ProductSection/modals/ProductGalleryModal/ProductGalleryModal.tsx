@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { useCart } from "../../../../../cart/useCart";
 import { formatPrice } from "../../../../../lib/money";
 import { QuantityStepper } from "../../../../cart/QuantityStepper";
-import type { Colorway, GalleryImage } from "../../data";
+import { colorwayCssVars, type Colorway, type GalleryImage } from "../../data";
 import styles from "./ProductGalleryModal.module.css";
 
 export type GalleryPurchase = {
@@ -28,6 +28,7 @@ type ProductGalleryModalProps = {
     images: GalleryImage[];
     onClose: () => void;
     purchase?: GalleryPurchase;
+    /** Catalogo completo: abilita lo switch fra colorway nel pannello. */
     models?: GalleryModel[];
 };
 
@@ -61,8 +62,8 @@ export function ProductGalleryModal({
     useEffect(() => {
         const onKey = (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose();
-            else if (e.key === "ArrowRight") go(1);
-            else if (e.key === "ArrowLeft") go(-1);
+            else if (e.key === "ArrowRight" || e.key === "ArrowDown") go(1);
+            else if (e.key === "ArrowLeft" || e.key === "ArrowUp") go(-1);
         };
         document.addEventListener("keydown", onKey);
         const prevOverflow = document.body.style.overflow;
@@ -77,6 +78,7 @@ export function ProductGalleryModal({
     const selectModel = (cw: Colorway) => {
         setActiveColorway(cw);
         setIndex(0);
+        setSelectedSize(null);
     };
 
     const handleAddToCart = () => {
@@ -99,54 +101,68 @@ export function ProductGalleryModal({
     };
 
     const current = activeImages[index];
-    const prevImg = activeImages[(index - 1 + count) % count];
-    const nextImg = activeImages[(index + 1) % count];
 
     return createPortal(
         <div
             className={styles.overlay}
+            style={colorwayCssVars(activeColorway)}
             role="dialog"
             aria-modal="true"
             aria-label={`${activeName} — gallery prodotto`}
             onClick={onClose}
         >
-            <div className={styles.bar} onClick={(e) => e.stopPropagation()}>
-                <div className={styles.barInfo}>
-                    <span className={styles.kicker}>Drop 02 · World Cup</span>
-                    <h2 className={styles.title}>{activeName}</h2>
+            {/* ── close button ── */}
+            <button
+                ref={closeRef}
+                type="button"
+                className={styles.close}
+                onClick={onClose}
+                aria-label="Chiudi"
+            >
+                ✕
+            </button>
+
+            {/* ── body: thumbnails · immagine principale · pannello ── */}
+            <div className={styles.body} onClick={(e) => e.stopPropagation()} >
+
+                {/* Colonna thumbnail a sinistra */}
+                <div className={styles.thumbCol}>
+                    {activeImages.map((img, i) => (
+                        <button
+                            key={img.src}
+                            type="button"
+                            className={`${styles.thumbBtn} ${i === index ? styles.thumbActive : ""}`}
+                            onClick={() => setIndex(i)}
+                            aria-label={img.label}
+                            aria-pressed={i === index}
+                        >
+                            <img src={img.src} alt="" className={styles.thumbImg} />
+                        </button>
+                    ))}
                 </div>
-                <button
-                    ref={closeRef}
-                    type="button"
-                    className={styles.close}
-                    onClick={onClose}
-                    aria-label="Chiudi"
-                >
-                    ✕
-                </button>
-            </div>
 
-            <div className={styles.body} onClick={(e) => e.stopPropagation()}>
-                <div className={styles.stage}>
-                    <button
-                        type="button"
-                        className={`${styles.arrow} ${styles.prev}`}
-                        onClick={() => go(-1)}
-                        aria-label="Immagine precedente"
-                    >
-                        ‹
-                    </button>
-
-                    <button
-                        type="button"
-                        tabIndex={-1}
-                        aria-hidden="true"
-                        className={`${styles.side} ${styles.sidePrev}`}
-                        onClick={() => go(-1)}
-                    >
-                        <img src={prevImg.src} alt="" className={styles.sideImg} />
-                    </button>
-
+                {/* Immagine principale */}
+                <div className={styles.mainStage}>
+                    {count > 1 && (
+                        <>
+                            <button
+                                type="button"
+                                className={`${styles.navBtn} ${styles.navPrev}`}
+                                onClick={() => go(-1)}
+                                aria-label="Foto precedente"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                            </button>
+                            <button
+                                type="button"
+                                className={`${styles.navBtn} ${styles.navNext}`}
+                                onClick={() => go(1)}
+                                aria-label="Foto successiva"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                            </button>
+                        </>
+                    )}
                     <figure className={styles.frame}>
                         <img
                             key={current.src}
@@ -155,37 +171,23 @@ export function ProductGalleryModal({
                             className={styles.mainImg}
                         />
                     </figure>
-
-                    <button
-                        type="button"
-                        tabIndex={-1}
-                        aria-hidden="true"
-                        className={`${styles.side} ${styles.sideNext}`}
-                        onClick={() => go(1)}
-                    >
-                        <img src={nextImg.src} alt="" className={styles.sideImg} />
-                    </button>
-
-                    <button
-                        type="button"
-                        className={`${styles.arrow} ${styles.next}`}
-                        onClick={() => go(1)}
-                        aria-label="Immagine successiva"
-                    >
-                        ›
-                    </button>
                 </div>
 
+                {/* Pannello dettagli e acquisto */}
                 {activePurchase && (
                     <aside
                         className={styles.panel}
                         aria-label={`Acquista ${activeName}`}
                     >
-                        <h3 className={styles.panelName}>{activeName}</h3>
-                        <span className={styles.panelPrice}>
-                            {formatPrice(activePurchase.price)}
-                        </span>
+                        <div className={styles.panelHeader}>
+                            <span className={styles.panelKicker}>Drop 02 · World Cup</span>
+                            <h3 className={styles.panelName}>{activeName}</h3>
+                            <span className={styles.panelPrice}>
+                                {formatPrice(activePurchase.price)}
+                            </span>
+                        </div>
 
+                        {/* Selezione modello */}
                         {models && models.length > 1 && (
                             <div className={styles.field}>
                                 <span className={styles.fieldLabel}>Modello</span>
@@ -214,6 +216,7 @@ export function ProductGalleryModal({
                             </div>
                         )}
 
+                        {/* Selezione taglia */}
                         <div className={styles.field}>
                             <span className={styles.fieldLabel}>Taglia</span>
                             <div className={styles.sizes}>
@@ -233,6 +236,7 @@ export function ProductGalleryModal({
                             </div>
                         </div>
 
+                        {/* Quantità */}
                         <div className={styles.field}>
                             <span className={styles.fieldLabel}>Quantità</span>
                             <QuantityStepper

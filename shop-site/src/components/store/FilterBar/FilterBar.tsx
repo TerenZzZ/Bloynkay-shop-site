@@ -1,22 +1,16 @@
-import { useState } from "react";
-import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import styles from "./FilterBar.module.css";
 
-type FilterType = "colore" | "prezzo" | "taglia";
+const SIZES = ["XS", "S", "M", "L", "XL"] as const;
 
 type FilterBarProps = {
     productCount: number;
+    selectedSize: string | null;
+    onSizeChange: (size: string | null) => void;
 };
 
-export function FilterBar({ productCount }: FilterBarProps) {
-    const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
-
-    const toggleFilter = (type: FilterType) => {
-        setActiveFilter(activeFilter === type ? null : type);
-    };
-
-    const productText = productCount === 1 ? "PRODOTTO" : "PRODOTTI";
+export function FilterBar({ productCount, selectedSize, onSizeChange }: FilterBarProps) {
+    const productText = productCount === 1 ? "prodotto" : "prodotti";
 
     return (
         <motion.div
@@ -25,57 +19,25 @@ export function FilterBar({ productCount }: FilterBarProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
         >
-            <div className={styles.left}>
-                <span className={styles.count}>
-                    {productCount} {productText}
-                </span>
-            </div>
+            <span className={styles.count}>
+                {productCount} {productText}
+            </span>
 
-            <div className={styles.right}>
-                <button
-                    className={`${styles.filterButton} ${
-                        activeFilter === "colore" ? styles.active : ""
-                    }`}
-                    onClick={() => toggleFilter("colore")}
-                >
-                    <span>COLORE</span>
-                    <ChevronDown
-                        size={13}
-                        className={`${styles.icon} ${
-                            activeFilter === "colore" ? styles.iconActive : ""
-                        }`}
-                    />
-                </button>
-
-                <button
-                    className={`${styles.filterButton} ${
-                        activeFilter === "prezzo" ? styles.active : ""
-                    }`}
-                    onClick={() => toggleFilter("prezzo")}
-                >
-                    <span>PREZZO</span>
-                    <ChevronDown
-                        size={13}
-                        className={`${styles.icon} ${
-                            activeFilter === "prezzo" ? styles.iconActive : ""
-                        }`}
-                    />
-                </button>
-
-                <button
-                    className={`${styles.filterButton} ${
-                        activeFilter === "taglia" ? styles.active : ""
-                    }`}
-                    onClick={() => toggleFilter("taglia")}
-                >
-                    <span>TAGLIA</span>
-                    <ChevronDown
-                        size={13}
-                        className={`${styles.icon} ${
-                            activeFilter === "taglia" ? styles.iconActive : ""
-                        }`}
-                    />
-                </button>
+            <div className={styles.sizeGroup}>
+                <span className={styles.sizeLabel}>Taglia</span>
+                <div className={styles.sizes}>
+                    {SIZES.map((s) => (
+                        <button
+                            key={s}
+                            type="button"
+                            className={`${styles.sizeBtn} ${selectedSize === s ? styles.sizeActive : ""}`}
+                            onClick={() => onSizeChange(selectedSize === s ? null : s)}
+                            aria-pressed={selectedSize === s}
+                        >
+                            {s}
+                        </button>
+                    ))}
+                </div>
             </div>
         </motion.div>
     );

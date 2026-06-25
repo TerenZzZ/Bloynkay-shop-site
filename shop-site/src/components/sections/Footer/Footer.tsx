@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { type FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
 import styles from "./Footer.module.css";
@@ -19,7 +19,6 @@ const LINK_COLUMNS: LinkColumn[] = [
         title: "Store",
         links: [
             { label: "Tutte le polo", href: "/store", isRoute: true },
-            { label: "Collezioni", href: "#" },
             { label: "Size chart", href: "#" },
             { label: "FAQ", href: "#" },
         ],
@@ -29,27 +28,12 @@ const LINK_COLUMNS: LinkColumn[] = [
         links: [
             { label: "Spedizioni", href: "#" },
             { label: "Resi e cambi", href: "#" },
-            { label: "Pagamenti", href: "#" },
             { label: "Contatti", href: "#" },
-        ],
-    },
-    {
-        title: "Account",
-        links: [
-            { label: "Il mio account", href: "#" },
-            { label: "Ordini", href: "#" },
-            { label: "Wishlist", href: "#" },
         ],
     },
 ];
 
-type Social = {
-    label: string;
-    href: string;
-    icon: ReactNode;
-};
-
-const SOCIALS: Social[] = [
+const SOCIALS = [
     {
         label: "Instagram",
         href: "https://instagram.com",
@@ -70,28 +54,17 @@ const SOCIALS: Social[] = [
             </svg>
         ),
     },
-    {
-        label: "X",
-        href: "https://x.com",
-        icon: (
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M17.7 3h3.2l-7 8 8.2 10h-6.4l-5-6.5L4.8 21H1.6l7.5-8.6L1.2 3h6.6l4.5 6 5.4-6zm-1.1 16h1.8L7.5 4.8H5.6L16.6 19z" />
-            </svg>
-        ),
-    },
-    {
-        label: "YouTube",
-        href: "https://youtube.com",
-        icon: (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden="true">
-                <rect x="2.5" y="5.5" width="19" height="13" rx="3.5" />
-                <path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none" />
-            </svg>
-        ),
-    },
 ];
 
 export function Footer() {
+    const [email, setEmail] = useState("");
+    const [submitted, setSubmitted] = useState(false);
+
+    function handleSubmit(e: FormEvent) {
+        e.preventDefault();
+        if (email.trim()) setSubmitted(true);
+    }
+
     return (
         <footer className={styles.footer}>
             <div className={styles.inner}>
@@ -140,28 +113,35 @@ export function Footer() {
                 ))}
 
                 <div className={styles.newsletterCol}>
-                    <span className={styles.colLabel}>Iscriviti alla newsletter</span>
-                    <p className={styles.newsletterDesc}>
-                        Ricevi anteprime, drop esclusivi
-                        <br />e contenuti riservati.
-                    </p>
+                    {submitted ? (
+                        <p className={styles.newsletterConfirm}>Grazie — ti scriveremo presto.</p>
+                    ) : (
+                        <form className={styles.emailForm} onSubmit={handleSubmit} noValidate>
+                            <input
+                                type="email"
+                                className={styles.emailInput}
+                                placeholder="La tua email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                aria-label="Indirizzo email"
+                            />
+                            <button type="submit" className={styles.emailBtn}>
+                                Iscriviti
+                            </button>
+                        </form>
+                    )}
                 </div>
             </div>
 
             <div className={styles.bottom}>
-                <span className={styles.copy}>
-                    © 2026 Bloynkay. All rights reserved.
-                </span>
+                <span className={styles.copy}>© 2026 Bloynkay. All rights reserved.</span>
                 <ul className={styles.legal}>
                     <li>
-                        <a href="#" className={styles.legalLink}>
-                            Privacy Policy
-                        </a>
+                        <a href="#" className={styles.legalLink}>Privacy Policy</a>
                     </li>
                     <li>
-                        <a href="#" className={styles.legalLink}>
-                            Termini e Condizioni
-                        </a>
+                        <a href="#" className={styles.legalLink}>Termini e Condizioni</a>
                     </li>
                 </ul>
             </div>

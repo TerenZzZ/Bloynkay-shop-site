@@ -1,9 +1,13 @@
 .hero {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     justify-content: center;
-    padding: calc(var(--nav-height) + 72px) var(--store-inset) 56px;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: var(--nav-height) var(--store-inset) 0;
+    box-sizing: border-box;
 }
 
 .text {
@@ -12,51 +16,129 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 18px;
+    gap: 10px;
     text-align: center;
 }
 
 .title {
     font-family: var(--font-display);
-    font-size: clamp(4rem, 8vw, 7rem);
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    line-height: 1;
+    font-size: clamp(5rem, 10vw, 9rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 0.92;
     margin: 0;
-    color: #0a0a0a;
-    text-transform: uppercase;
+    color: var(--color-ink);
+    -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 6 -0.62'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+    mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 6 -0.62'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+    -webkit-mask-size: 280px 280px;
+    mask-size: 280px 280px;
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
+}
+
+.lightRow {
+    display: flex;
+    align-items: center;
+    width: clamp(140px, 22vw, 260px);
+    margin: 2px 0;
+}
+
+.lineLeft {
+    flex: 1;
+    display: block;
+    height: 1px;
+    transform-origin: right center;
+    background: linear-gradient(
+        270deg,
+        rgba(255, 255, 255, 0.85) 0%,
+        rgba(212, 175, 55, 0.4) 55%,
+        transparent 100%
+    );
+}
+
+.lineRight {
+    flex: 1;
+    display: block;
+    height: 1px;
+    transform-origin: left center;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.85) 0%,
+        rgba(212, 175, 55, 0.4) 55%,
+        transparent 100%
+    );
+}
+
+.orb {
+    flex-shrink: 0;
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.9),
+        0 0 8px 3px rgba(255, 255, 255, 0.65),
+        0 0 20px 7px rgba(212, 175, 55, 0.55),
+        0 0 44px 14px rgba(212, 175, 55, 0.22);
+    animation: orbPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes orbPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.9),
+            0 0 8px 3px rgba(255, 255, 255, 0.65),
+            0 0 20px 7px rgba(212, 175, 55, 0.55),
+            0 0 44px 14px rgba(212, 175, 55, 0.22);
+    }
+    50% {
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 1),
+            0 0 14px 5px rgba(255, 255, 255, 0.85),
+            0 0 32px 12px rgba(212, 175, 55, 0.75),
+            0 0 64px 22px rgba(212, 175, 55, 0.32);
+    }
 }
 
 .subtitle {
-    font-family: var(--font-sans);
-    font-size: clamp(0.85rem, 0.9vw, 0.92rem);
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
     font-weight: 400;
-    line-height: 1.6;
-    color: #1a1a1a;
-    max-width: 580px;
-    margin: 0;
+    letter-spacing: -0.01em;
+    line-height: 0.92;
+    color: var(--color-ink-soft);
+    margin: 4px 0 0;
+    -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 6 -0.62'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+    mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 6 -0.62'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+    -webkit-mask-size: 280px 280px;
+    mask-size: 280px 280px;
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
 }
 
 @media (max-width: 768px) {
-    .hero {
-        padding-block: calc(var(--nav-height) + 48px) 44px;
-    }
-
     .title {
-        font-size: clamp(3rem, 12vw, 5rem);
+        font-size: clamp(3.8rem, 14vw, 6rem);
     }
 
-    .subtitle {
-        font-size: 0.85rem;
+    .lightRow {
+        width: clamp(120px, 28vw, 200px);
     }
 }
 
-@media (max-width: 640px) {
-    .hero {
-        padding-block: calc(var(--nav-height) + 36px) 36px;
+@media (max-width: 480px) {
+    .title {
+        font-size: clamp(3rem, 16vw, 4.5rem);
     }
 
-    .title {
-        font-size: clamp(2.5rem, 14vw, 4rem);
+    .lightRow {
+        width: clamp(100px, 32vw, 160px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orb {
+        animation: none;
     }
 }

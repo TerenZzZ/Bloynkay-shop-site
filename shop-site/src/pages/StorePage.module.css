@@ -2,32 +2,42 @@
     min-height: 100vh;
     min-height: 100dvh;
     position: relative;
+}
+
+/* Sfondo parallax: fixed + sovradimensionato per nascondere i bordi durante il movimento */
+.bgParallax {
+    position: fixed;
+    top: 0;
+    bottom: -55%;
+    left: 0;
+    right: 0;
     background-image: url('../assets/images/backgrounds/sfondo_store_01.png');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    z-index: 0;
+    will-change: transform;
+    pointer-events: none;
 }
 
-/* Velo neutro appena percettibile per uniformare il campo e dare
-   contrasto ai riquadri, senza alterarne il verde. */
+/* Velo neutro sopra il bg, sotto il contenuto */
 .page::before {
     content: '';
     position: fixed;
     inset: 0;
     background: rgba(255, 255, 255, 0.05);
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
 }
 
 .main {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     padding: 60px var(--store-inset) 100px;
 }
 
 .container {
-    max-width: var(--store-max-w);
+    max-width: 980px;
     margin: 0 auto;
     width: 100%;
 }
@@ -35,7 +45,7 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 24px;
 }
 
 @media (max-width: 1200px) {
@@ -44,7 +54,7 @@
     }
 
     .grid {
-        gap: 28px;
+        gap: 20px;
     }
 }
 
@@ -64,7 +74,7 @@
     }
 
     .grid {
-        gap: 20px;
+        gap: 16px;
     }
 }
 

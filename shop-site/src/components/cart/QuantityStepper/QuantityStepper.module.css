@@ -1,4 +1,6 @@
 .stepper {
+    --sq-btn: 26px;
+    --sq-font: 0.85rem;
     display: inline-flex;
     align-items: center;
     gap: var(--space-1);
@@ -8,8 +10,8 @@
 }
 
 .button {
-    width: 26px;
-    height: 26px;
+    width: var(--sq-btn);
+    height: var(--sq-btn);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -39,7 +41,7 @@
 .value {
     min-width: 20px;
     text-align: center;
-    font-size: 0.85rem;
+    font-size: var(--sq-font);
     font-variant-numeric: tabular-nums;
     color: var(--color-ink);
 }
