@@ -195,8 +195,21 @@
     transition: opacity 180ms ease;
 }
 
-.btn:hover {
+.btn:hover:not(:disabled) {
     opacity: 0.86;
+}
+
+.btn:disabled,
+.input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.newsletterError {
+    margin: 0;
+    font-size: 0.76rem;
+    color: #e57373;
+    line-height: 1.5;
 }
 
 /* ── Bottom bar ── */

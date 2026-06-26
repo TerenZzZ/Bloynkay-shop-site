@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/jsonp": "^0.2.3",
     "framer-motion": "^12.40.0",
+    "jsonp": "^0.2.1",
     "lucide-react": "^1.17.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",

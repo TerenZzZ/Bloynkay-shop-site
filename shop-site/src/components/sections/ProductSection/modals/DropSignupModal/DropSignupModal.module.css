@@ -135,9 +135,21 @@
             opacity var(--dur-base) var(--ease-out);
 }
 
-.submit:hover {
+.submit:hover:not(:disabled) {
     transform: translateY(-1px);
     opacity: 0.9;
+}
+
+.submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.errorMsg {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #e57373;
+    line-height: 1.5;
 }
 
 /* === Animations === */

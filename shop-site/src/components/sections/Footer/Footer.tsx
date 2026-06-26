@@ -1,5 +1,6 @@
 import { type FormEvent, type MouseEvent, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useMailchimp } from "../../../hooks/useMailchimp";
 import { scrollToId } from "../../utils";
 import { SizeChartModal } from "../ProductSection/modals/SizeChartModal";
 import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
@@ -33,11 +34,11 @@ export function Footer() {
     const navigate = useNavigate();
     const [sizeChartOpen, setSizeChartOpen] = useState(false);
     const [email, setEmail] = useState("");
-    const [submitted, setSubmitted] = useState(false);
+    const { status, message, subscribe } = useMailchimp();
 
     function handleSubmit(e: FormEvent) {
         e.preventDefault();
-        if (email.trim()) setSubmitted(true);
+        subscribe(email);
     }
 
     const onTutteLePolo = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -138,21 +139,33 @@ export function Footer() {
                     <p className={styles.newsletterSub}>
                         Resta aggiornato sui drop e le novità Bloynkay.
                     </p>
-                    {submitted ? (
-                        <p className={styles.newsletterConfirm}>Grazie — ti scriveremo presto.</p>
+                    {status === "success" ? (
+                        <p className={styles.newsletterConfirm}>{message}</p>
                     ) : (
-                        <form className={styles.form} onSubmit={handleSubmit} noValidate>
-                            <input
-                                type="email"
-                                className={styles.input}
-                                placeholder="La tua email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                aria-label="Indirizzo email"
-                            />
-                            <button type="submit" className={styles.btn}>Iscriviti</button>
-                        </form>
+                        <>
+                            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+                                <input
+                                    type="email"
+                                    className={styles.input}
+                                    placeholder="La tua email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    aria-label="Indirizzo email"
+                                    disabled={status === "loading"}
+                                />
+                                <button
+                                    type="submit"
+                                    className={styles.btn}
+                                    disabled={status === "loading"}
+                                >
+                                    {status === "loading" ? "…" : "Iscriviti"}
+                                </button>
+                            </form>
+                            {status === "error" && (
+                                <p className={styles.newsletterError}>{message}</p>
+                            )}
+                        </>
                     )}
                 </div>
 

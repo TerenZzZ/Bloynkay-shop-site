@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
+import { useMailchimp } from "../../../../../hooks/useMailchimp";
 import { colorwayCssVars, type Colorway } from "../../data";
 import styles from "./DropSignupModal.module.css";
 
@@ -11,7 +12,7 @@ type DropSignupModalProps = {
 export function DropSignupModal({ colorway, onClose }: DropSignupModalProps) {
     const closeRef = useRef<HTMLButtonElement>(null);
     const [email, setEmail] = useState("");
-    const [submitted, setSubmitted] = useState(false);
+    const { status, message, subscribe } = useMailchimp();
 
     useEffect(() => {
         const onKey = (e: KeyboardEvent) => {
@@ -31,7 +32,7 @@ export function DropSignupModal({ colorway, onClose }: DropSignupModalProps) {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setSubmitted(true);
+        subscribe(email);
     };
 
     return createPortal(
@@ -58,11 +59,8 @@ export function DropSignupModal({ colorway, onClose }: DropSignupModalProps) {
             <div className={styles.panel} onClick={(e) => e.stopPropagation()}>
                 <h2 className={styles.title}>Join Drop 02</h2>
 
-                {submitted ? (
-                    <p className={styles.text}>
-                        Grazie! La tua email è stata registrata. Sarai tra i primi
-                        a ricevere aggiornamenti sul Drop 02 di Bloynkay.
-                    </p>
+                {status === "success" ? (
+                    <p className={styles.text}>{message}</p>
                 ) : (
                     <>
                         <p className={styles.text}>
@@ -81,11 +79,20 @@ export function DropSignupModal({ colorway, onClose }: DropSignupModalProps) {
                                 placeholder="La tua email"
                                 className={styles.input}
                                 aria-label="Email"
+                                disabled={status === "loading"}
                             />
-                            <button type="submit" className={styles.submit}>
-                                Conferma
+                            <button
+                                type="submit"
+                                className={styles.submit}
+                                disabled={status === "loading"}
+                            >
+                                {status === "loading" ? "Invio…" : "Conferma"}
                             </button>
                         </form>
+
+                        {status === "error" && (
+                            <p className={styles.errorMsg}>{message}</p>
+                        )}
                     </>
                 )}
             </div>
