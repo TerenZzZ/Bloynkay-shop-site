@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useCart } from "../../../../../cart/useCart";
 import { formatPrice } from "../../../../../lib/money";
-import { QuantityStepper } from "../../../../cart/QuantityStepper";
 import { colorwayCssVars, type Colorway, type GalleryImage } from "../../data";
 import styles from "./ProductGalleryModal.module.css";
 
@@ -44,8 +42,6 @@ export function ProductGalleryModal({
     const [index, setIndex] = useState(0);
     const [activeColorway, setActiveColorway] = useState<Colorway>(colorway);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
-    const [quantity, setQuantity] = useState(1);
-    const { addItem, openCart } = useCart();
 
     const activeModel =
         models?.find((m) => m.colorway === activeColorway) ?? models?.[0] ?? null;
@@ -79,25 +75,6 @@ export function ProductGalleryModal({
         setActiveColorway(cw);
         setIndex(0);
         setSelectedSize(null);
-    };
-
-    const handleAddToCart = () => {
-        if (!activePurchase) return;
-        addItem(
-            {
-                id: activePurchase.id,
-                name: activeName,
-                price: activePurchase.price,
-                image: activePurchase.image,
-                colorway: activeColorway,
-            },
-            {
-                size: selectedSize ?? undefined,
-                quantity,
-            },
-        );
-        openCart();
-        onClose();
     };
 
     const current = activeImages[index];
@@ -236,31 +213,12 @@ export function ProductGalleryModal({
                             </div>
                         </div>
 
-                        {/* Quantità */}
-                        <div className={styles.field}>
-                            <span className={styles.fieldLabel}>Quantità</span>
-                            <QuantityStepper
-                                quantity={quantity}
-                                onDecrement={() =>
-                                    setQuantity((q) => Math.max(1, q - 1))
-                                }
-                                onIncrement={() => setQuantity((q) => q + 1)}
-                                label={activeName}
-                            />
+                        <div className={styles.preorder}>
+                            <span className={styles.preorderBadge}>Preorder</span>
+                            <p className={styles.preorderText}>
+                                Il servizio di acquisto sarà disponibile al lancio ufficiale del Drop 02.
+                            </p>
                         </div>
-
-                        <button
-                            type="button"
-                            className={styles.addBtn}
-                            onClick={handleAddToCart}
-                            disabled={
-                                activePurchase.sizes.length > 0 && !selectedSize
-                            }
-                        >
-                            {activePurchase.sizes.length > 0 && !selectedSize
-                                ? "Seleziona una taglia"
-                                : "Aggiungi al carrello"}
-                        </button>
                     </aside>
                 )}
             </div>

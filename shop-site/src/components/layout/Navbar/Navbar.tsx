@@ -2,6 +2,7 @@ import { type MouseEvent, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IconButton } from "../../ui/IconButton";
 import { useCart } from "../../../cart";
+import { scrollToId } from "../../utils";
 import logoBloynkay from "../../../assets/images/brand/bloynkay_logo_2.png";
 import styles from "./Navbar.module.css";
 
@@ -12,7 +13,7 @@ type NavLink = {
 };
 
 const NAV_LINKS: NavLink[] = [
-    { label: "Drop", href: "#drop-01-nero", isRoute: false },
+    { label: "Drop", href: "#drop-02-portugal", isRoute: false },
     { label: "Store", href: "/store", isRoute: true },
 ];
 
@@ -81,20 +82,12 @@ export function Navbar() {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    const scrollToElement = (id: string) => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-    };
-
     const onLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         if (location.pathname === "/") {
             scrollToTop();
         } else {
             navigate("/");
-            // Scroll dopo la navigazione
             setTimeout(scrollToTop, 100);
         }
     };
@@ -102,11 +95,10 @@ export function Navbar() {
     const onDropClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         if (location.pathname === "/") {
-            scrollToElement("drop-01-nero");
+            scrollToId("drop-02-portugal");
         } else {
             navigate("/");
-            // Scroll dopo la navigazione
-            setTimeout(() => scrollToElement("drop-01-nero"), 100);
+            setTimeout(() => scrollToId("drop-02-portugal"), 100);
         }
     };
 
@@ -134,7 +126,7 @@ export function Navbar() {
                                             ]
                                                 .filter(Boolean)
                                                 .join(" ")}
-                                            href="/#drop-01-nero"
+                                            href="/#drop-02-portugal"
                                             onClick={onDropClick}
                                             aria-current={isActive ? "true" : undefined}
                                         >
@@ -214,22 +206,6 @@ export function Navbar() {
                         </svg>
                     </IconButton>
 
-                    <IconButton
-                        label="Account"
-                        className={styles.iconBtn}
-                    >
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.6"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <circle cx="12" cy="8" r="4" />
-                            <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
-                        </svg>
-                    </IconButton>
                 </div>
             </div>
         </header>

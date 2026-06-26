@@ -1,39 +1,33 @@
 .footer {
-    --fr-bg-top: var(--color-bg-elev);
-    --fr-bg-bottom: var(--color-bg);
-    --fr-bar-bg: #060606;
-    --fr-heading: var(--color-ink);
-    --fr-text: var(--color-ink-soft);
-    --fr-muted: var(--color-ink-mute);
-    --fr-line: var(--color-line);
-    --fr-icon: var(--color-ink-soft);
-
     position: relative;
     z-index: 2;
-    background: linear-gradient(180deg, var(--fr-bg-top) 0%, var(--fr-bg-bottom) 100%);
-    color: var(--fr-text);
-    border-top: 1px solid var(--fr-line);
+    background: var(--color-bg-elev);
+    border-top: 1px solid var(--color-line);
+    color: var(--color-ink-soft);
 }
 
+/* ── Layout ── */
 .inner {
     display: grid;
-    grid-template-columns: 1.4fr 0.7fr 0.7fr 1.4fr;
-    gap: var(--space-6);
-    padding: var(--space-7) var(--container-px) var(--space-6);
+    grid-template-columns: auto auto auto auto 1fr;
+    column-gap: 48px;
+    row-gap: 0;
+    padding: 36px var(--container-px) 32px;
     align-items: start;
 }
 
-/* ───────── Colonna brand ───────── */
+/* ── Brand (logo + tagline + social: centrati) ── */
 .brand {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    align-items: center;
+    gap: 14px;
+    text-align: center;
 }
 
 .logo {
     display: block;
-    align-self: flex-start;
-    height: 44px;
+    height: 48px;
     width: auto;
     filter: invert(1);
     user-select: none;
@@ -42,199 +36,239 @@
 
 .tagline {
     margin: 0;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: var(--fr-text);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--color-ink-mute);
 }
 
-.socialList {
+.socials {
+    display: flex;
+    gap: 8px;
     list-style: none;
     padding: 0;
-    margin: var(--space-2) 0 0;
-    display: flex;
-    gap: 10px;
+    margin: 0;
 }
 
-.socialLink {
+.socialBtn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 7px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--fr-line);
-    color: var(--fr-icon);
+    border: 1px solid var(--color-line);
+    background: transparent;
+    color: var(--color-ink-soft);
     transition:
         background var(--dur-base) var(--ease-out),
         border-color var(--dur-base) var(--ease-out),
         color var(--dur-base) var(--ease-out);
 }
 
-.socialLink svg {
-    width: 15px;
-    height: 15px;
+.socialBtn svg {
+    width: 16px;
+    height: 16px;
 }
 
-.socialLink:hover {
+.socialBtn:hover {
     background: var(--color-accent);
     border-color: var(--color-accent);
-    color: var(--color-bg);
+    color: #111;
 }
 
-/* ───────── Colonne di link ───────── */
-.linkCol {
+/* ── Colonne testo (allineamento sinistra) ── */
+.col {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    align-items: flex-start;
+    gap: 12px;
 }
 
-.linkList {
+.colTitle {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
 }
 
 .link {
-    font-size: 0.85rem;
-    color: var(--fr-text);
+    font-size: 0.82rem;
+    color: var(--color-ink-soft);
     transition: color var(--dur-base) var(--ease-out);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
 }
 
 .link:hover {
-    color: var(--fr-heading);
+    color: var(--color-ink);
 }
 
-/* ───────── Colonna newsletter ───────── */
+.note {
+    font-size: 0.78rem;
+    color: var(--color-ink-mute);
+}
+
+/* ── Newsletter (occupa lo spazio rimanente) ── */
 .newsletterCol {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    align-items: flex-start;
+    gap: 12px;
     justify-self: end;
     width: 100%;
-    max-width: 380px;
+    max-width: 320px;
 }
 
-.colLabel {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--fr-heading);
+.newsletterSub {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--color-ink-mute);
+    line-height: 1.5;
 }
 
-.emailForm {
+.newsletterConfirm {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--color-accent);
+}
+
+.form {
     display: flex;
-    gap: 8px;
+    gap: 6px;
+    width: 100%;
 }
 
-.emailInput {
+.input {
     flex: 1 1 auto;
     min-width: 0;
-    height: 40px;
-    padding: 0 14px;
-    border-radius: 8px;
-    border: 1px solid var(--fr-line);
-    background: rgba(255, 255, 255, 0.04);
-    color: var(--fr-heading);
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 6px;
+    border: 1px solid var(--color-line);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 0.83rem;
+    font-size: 0.8rem;
     outline: none;
-    transition:
-        border-color 180ms ease,
-        background 180ms ease;
+    transition: border-color 180ms ease, background 180ms ease;
 }
 
-.emailInput::placeholder {
-    color: var(--fr-muted);
+.input::placeholder {
+    color: var(--color-ink-mute);
 }
 
-.emailInput:focus {
+.input:focus {
     border-color: var(--color-accent);
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.emailBtn {
+.btn {
     flex: 0 0 auto;
-    height: 40px;
-    padding: 0 18px;
-    border-radius: 8px;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 6px;
     border: none;
-    background: var(--color-accent, #d4af37);
+    background: var(--color-accent);
     color: #111;
     font-family: var(--font-sans);
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
     cursor: pointer;
     transition: opacity 180ms ease;
 }
 
-.emailBtn:hover {
-    opacity: 0.88;
+.btn:hover {
+    opacity: 0.86;
 }
 
-.newsletterConfirm {
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--color-accent, #d4af37);
+/* ── Bottom bar ── */
+.bar {
+    padding: 12px var(--container-px);
+    border-top: 1px solid var(--color-line);
+    background: #060606;
+    font-size: 0.72rem;
+    color: var(--color-ink-mute);
 }
 
-/* ───────── Barra finale ───────── */
-.copy {
-    color: var(--fr-muted);
-}
-
-.bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-5);
-    padding: var(--space-4) var(--container-px);
-    background: var(--fr-bar-bg);
-    border-top: 1px solid var(--fr-line);
-    font-size: 0.78rem;
-    color: var(--fr-muted);
-}
-
-.legal {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: var(--space-6);
-}
-
-.legalLink {
-    color: var(--fr-muted);
-    transition: color var(--dur-base) var(--ease-out);
-}
-
-.legalLink:hover {
-    color: var(--fr-heading);
-}
-
-/* ───────── Responsive ───────── */
-@media (max-width: 960px) {
+/* ── Responsive ── */
+@media (max-width: 1024px) {
     .inner {
-        grid-template-columns: 1.4fr 0.7fr 0.7fr;
-        row-gap: var(--space-7);
+        grid-template-columns: auto auto auto auto;
+        column-gap: 36px;
     }
 
     .newsletterCol {
         grid-column: 1 / -1;
-        max-width: 420px;
+        max-width: 100%;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding-top: 20px;
+        border-top: 1px solid var(--color-line);
+        justify-self: start;
+    }
+
+    .newsletterSub {
+        flex: 1 1 200px;
+    }
+
+    .form {
+        flex: 1 1 260px;
+        max-width: 360px;
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 720px) {
+    .inner {
+        grid-template-columns: auto auto auto;
+        column-gap: 28px;
+        padding: 32px var(--container-px) 28px;
+    }
+
+    .brand {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        gap: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--color-line);
+    }
+
+    .newsletterCol {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
     .inner {
         grid-template-columns: 1fr 1fr;
-        gap: var(--space-6);
+        column-gap: 20px;
+        padding: 28px var(--container-px) 24px;
     }
 
     .brand {
@@ -243,24 +277,5 @@
 
     .newsletterCol {
         grid-column: 1 / -1;
-        max-width: 100%;
-    }
-
-    .bottom {
-        flex-direction: column;
-        gap: var(--space-3);
-        text-align: center;
-    }
-
-    .legal {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: var(--space-4);
-    }
-}
-
-@media (max-width: 400px) {
-    .inner {
-        grid-template-columns: 1fr;
     }
 }

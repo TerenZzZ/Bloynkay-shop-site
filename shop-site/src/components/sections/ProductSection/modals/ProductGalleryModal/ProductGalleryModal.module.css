@@ -409,6 +409,37 @@
     transform: none;
 }
 
+/* === Preorder === */
+.preorder {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    background: rgba(212, 175, 55, 0.06);
+}
+
+.preorderBadge {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill, 999px);
+    border: 1px solid var(--color-accent, #d4af37);
+    color: var(--color-accent, #d4af37);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.preorderText {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: rgba(244, 244, 245, 0.55);
+}
+
 /* === Animazioni === */
 @keyframes overlayIn {
     from { opacity: 0; }
