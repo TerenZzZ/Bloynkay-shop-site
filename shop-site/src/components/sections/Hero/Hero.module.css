@@ -80,12 +80,11 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1.5);
+    transform-origin: center;
     width: min(88vw, 720px);
     max-height: 78svh;
     object-fit: contain;
-    transform: translate(-50%, -50%) scale(1.5);
-    transform-origin: center;
     opacity: 0.85;
     filter: brightness(0) invert(1) brightness(0.8);
     mix-blend-mode: soft-light;
@@ -177,6 +176,15 @@
 @media (max-width: 540px) {
     .logo {
         width: 92vw;
+        transform: translate(-50%, -50%) scale(1.18);
+    }
+
+    .content {
+        padding-bottom: clamp(56px, 10vh, 96px);
+    }
+
+    .actions {
+        max-width: 300px;
     }
 }
 

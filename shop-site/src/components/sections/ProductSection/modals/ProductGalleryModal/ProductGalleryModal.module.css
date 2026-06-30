@@ -497,22 +497,22 @@
    Thumbnail in riga orizzontale sotto l'immagine, pannello sotto. */
 @media (max-width: 640px) {
     .overlay {
-        grid-template-rows: auto 1fr;
         overflow-y: auto;
     }
 
     .body {
         flex-direction: column;
-        padding: 0 16px 20px;
+        /* padding-top leaves room for the absolute close button */
+        padding: 64px 16px 24px;
         gap: 14px;
         overflow-y: visible;
     }
 
-    /* L'immagine principale occupa metà viewport in altezza */
+    /* L'immagine principale occupa circa metà viewport in altezza */
     .mainStage {
-        height: 44vw;
-        min-height: 200px;
-        max-height: 340px;
+        height: 46vw;
+        min-height: 220px;
+        max-height: 360px;
     }
 
     /* Thumbnail in riga orizzontale */

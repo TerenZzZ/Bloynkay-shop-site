@@ -176,8 +176,7 @@
 
     .logo {
         order: 2;
-        justify-self: end;
-        margin-left: auto;
+        justify-self: center;
     }
 
     .right {

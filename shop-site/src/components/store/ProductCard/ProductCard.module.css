@@ -131,5 +131,10 @@
     .imageWrapper {
         padding: 16px;
     }
+
+    .card {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
 }
 

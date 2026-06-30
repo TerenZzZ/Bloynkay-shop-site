@@ -785,4 +785,8 @@
         padding: 8px 20px;
         font-size: 0.68rem;
     }
+
+    .ghostGroup {
+        flex-wrap: wrap;
+    }
 }
