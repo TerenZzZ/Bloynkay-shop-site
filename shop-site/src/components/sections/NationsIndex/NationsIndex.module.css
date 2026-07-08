@@ -344,6 +344,24 @@
     }
 }
 
+/* Telefono in orizzontale: niente altezza piena forzata (la griglia di sei
+   tile + CTA la supera comunque) e via la riga di sottotitolo, così la
+   sezione resta compatta e ordinata senza spazi vuoti. */
+@media (orientation: landscape) and (max-height: 600px) {
+    .section {
+        min-height: 0;
+        padding: var(--space-7) 0;
+    }
+
+    .sub {
+        display: none;
+    }
+
+    .tile {
+        min-height: 84px;
+    }
+}
+
 @media (hover: none) and (pointer: coarse) {
     .tile:hover .card {
         transform: none;

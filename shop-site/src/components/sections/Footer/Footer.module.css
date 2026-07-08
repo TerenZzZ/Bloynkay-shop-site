@@ -9,7 +9,10 @@
 /* ── Layout ── */
 .inner {
     display: grid;
-    grid-template-columns: auto auto auto auto 1fr;
+    /* Brand a sinistra, le tre colonne di link si distribuiscono in modo
+       uniforme (1fr) riempiendo lo spazio, newsletter ancorata a destra con
+       larghezza definita: niente più vuoto morto al centro del footer. */
+    grid-template-columns: auto repeat(3, 1fr) minmax(260px, 320px);
     column-gap: 48px;
     row-gap: 0;
     padding: 36px var(--container-px) 32px;
@@ -130,9 +133,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
-    justify-self: end;
     width: 100%;
-    max-width: 320px;
 }
 
 .newsletterSub {
@@ -272,7 +273,12 @@
         align-items: flex-start;
     }
 
+    /* In colonna il flex-basis del layout a riga (≤1024) diventerebbe
+       altezza, creando enormi vuoti verticali: qui torna a dimensione
+       naturale così gli elementi si impilano compatti. */
+    .newsletterSub,
     .form {
+        flex: 0 0 auto;
         max-width: 100%;
     }
 }

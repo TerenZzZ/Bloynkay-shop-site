@@ -80,7 +80,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(1.5);
+    transform: translate(-50%, -50%) scale(1.35);
     transform-origin: center;
     width: min(88vw, 720px);
     max-height: 78svh;
@@ -176,7 +176,7 @@
 @media (max-width: 540px) {
     .logo {
         width: 92vw;
-        transform: translate(-50%, -50%) scale(1.18);
+        transform: translate(-50%, -50%) scale(1.06);
     }
 
     .content {
@@ -185,6 +185,42 @@
 
     .actions {
         max-width: 300px;
+    }
+}
+
+/* Telefono in orizzontale: l'altezza è minima, così logo centrale, CTA
+   ancorate in basso e marquee finivano per accavallarsi. Riduciamo i
+   margini, mettiamo i due bottoni in riga, nascondiamo l'etichetta di
+   lancio e la barra scorrevole (rumore superfluo con poco spazio): resta
+   un hero pulito con logo + azioni. */
+@media (orientation: landscape) and (max-height: 600px) {
+    .content {
+        padding-top: calc(var(--nav-height) + var(--space-2));
+        padding-bottom: var(--space-5);
+        gap: var(--space-3);
+    }
+
+    .logo {
+        transform: translate(-50%, -50%) scale(0.95);
+        width: min(60vw, 460px);
+        max-height: 66svh;
+    }
+
+    .actions {
+        flex-direction: row;
+        justify-content: center;
+        max-width: none;
+        width: auto;
+    }
+
+    .actions > * {
+        width: auto;
+        white-space: nowrap;
+    }
+
+    .launch,
+    .marquee {
+        display: none;
     }
 }
 

@@ -621,17 +621,60 @@
         width: 90%;
     }
 
+    /* Composizione centrata e simmetrica: foto, titolo, sottotitolo, prezzo
+       e azioni condividono lo stesso asse verticale. Su mobile si scorre una
+       sezione alla volta, quindi una colonna centrata è più equilibrata e
+       pulita del testo allineato a sinistra ereditato dal desktop. */
+    .infoCol {
+        align-items: center;
+        text-align: center;
+    }
+
+    .step {
+        align-items: center;
+        max-width: none;
+    }
+
     .title {
         font-size: clamp(2.5rem, 8vw, 4rem);
     }
 
     .lead {
         font-size: clamp(0.95rem, 1rem + 0.2vw, 1.05rem);
+        max-width: 40ch;
     }
 
-    .details {
-        grid-template-columns: 1fr;
+    /* Blocco acquisto centrato entro una larghezza contenuta: prezzo in cima,
+       i due pulsanti secondari affiancati a larghezza pari, la CTA principale
+       a piena larghezza sotto. Tutto ancorato allo stesso asse centrale. */
+    .buyRow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-4);
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+    }
+
+    .priceBlock {
+        align-items: center;
         gap: var(--space-2);
+    }
+
+    .ghostGroup {
+        width: 100%;
+        flex-direction: row;
+        gap: var(--space-3);
+    }
+
+    .ghostGroup .ctaGhost {
+        flex: 1 1 0;
+    }
+
+    .cta {
+        width: 100%;
+        justify-content: center;
     }
 
     .watermark {
@@ -688,26 +731,21 @@
         gap: var(--space-4);
     }
 
+    /* Composizione centrata (ereditata da ≤768): qui solo il fine-tuning di
+       dimensioni per il telefono in verticale. */
     .buyRow {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-                "priceblock"
-                "ghosts"
-                "cart";
-        justify-items: stretch;
-        row-gap: var(--space-3);
+        max-width: 340px;
+        gap: var(--space-4);
     }
 
     .cta {
-        padding: 16px 24px;
-    }
-
-    .ghostGroup .ctaGhost {
-        flex: 1;
+        padding: 17px 24px;
     }
 
     .ctaGhost {
-        padding: 7px 24px;
+        padding: 10px 14px;
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
     }
 
     .price {
@@ -717,18 +755,42 @@
     .priceLabel {
         font-size: 0.7rem;
     }
+}
 
-    .details {
-        gap: var(--space-2);
-        padding: var(--space-3) 0;
+/* === Mobile & landscape: UI pulita, focus sul prodotto ===
+   Le stesse micro-etichette editoriali si ripetono identiche su tutte e sei
+   le sezioni: su schermo piccolo, dove si scorre una sezione alla volta,
+   diventano rumore che "sporca" lo scroll. Le nascondiamo lasciando che a
+   guidare l'occhio siano la foto della polo e il titolo della nazione:
+     · .mediaMeta   → "Drop 02 / World Cup" (già in nav, hero e sezione finale)
+     · .mediaName   → nome nazione sotto la foto = duplicato del titolo h2
+     · .stepLabel   → "Polo NN" (numerazione decorativa dell'intro)
+   La condizione copre sia i telefoni in verticale (larghezza ≤ 768px) sia
+   quelli in orizzontale (poca altezza), così la pulizia vale in entrambi gli
+   orientamenti. */
+@media (max-width: 768px), (max-height: 600px) and (orientation: landscape) {
+    /* Su desktop il blocco resta ricco (specifiche + descrizione estesa);
+       su mobile teniamo solo l'essenziale — foto, nazione, sottotitolo,
+       prezzo, azioni — nascondendo qui ciò che sporca lo scroll:
+         · .stepLabel  → "Polo NN" e "Specifiche"
+         · .details    → tabella caratteristiche prodotto
+         · seconda .lead → paragrafo descrittivo lungo (resta il sottotitolo) */
+    .mediaMeta,
+    .mediaName,
+    .stepLabel,
+    .details,
+    .stepIntro .lead:not(:first-of-type) {
+        display: none;
     }
 
-    .detail {
-        font-size: 0.85rem;
+    /* Sfondi decorativi più discreti: meno texture/coriandoli dietro al
+       testo mantengono lo sfondo pulito e il prodotto in primo piano. */
+    .confetti {
+        opacity: 0.3;
     }
 
-    .detailLabel {
-        font-size: 0.64rem;
+    .texture {
+        opacity: 0.55;
     }
 }
 
@@ -771,22 +833,25 @@
         font-size: 2rem;
     }
 
-    .lead,
-    .detail {
+    .lead {
         font-size: 0.9rem;
     }
 
-    .cta {
-        padding: 14px 20px;
-        font-size: 0.78rem;
+    .buyRow {
+        max-width: 100%;
     }
 
-    .ctaGhost {
-        padding: 8px 20px;
-        font-size: 0.68rem;
+    .cta {
+        padding: 16px 20px;
     }
 
     .ghostGroup {
-        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .ctaGhost {
+        padding: 9px 10px;
+        font-size: 0.63rem;
+        letter-spacing: 0.1em;
     }
 }
